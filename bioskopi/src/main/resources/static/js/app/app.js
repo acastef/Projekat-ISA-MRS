@@ -1,0 +1,18 @@
+
+var app = angular.module('utopia',['ngRoute','angularCSS']);
+
+app.config(function($routeProvider) {
+	$routeProvider.when('/',
+	{
+		templateUrl: 'partials/home.html',
+		//css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
+    }).when('/props',
+    {   
+        templateUrl: 'partials/props.html',
+    })});
+    
+    
+
+app.config(function($logProvider){
+    $logProvider.debugEnabled(true);
+});

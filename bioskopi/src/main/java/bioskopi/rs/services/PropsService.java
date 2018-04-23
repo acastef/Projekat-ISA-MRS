@@ -4,14 +4,19 @@ import bioskopi.rs.domain.Props;
 
 import java.util.List;
 
+/**
+ * Interface that offers service for props
+ */
 public interface PropsService {
 
-    /*
-    * Interface that offers service for props
-    **/
+    /**
+     * @param description of targeted props
+     * @return props with gi description
+     */
+    Props findByDescription(String description);
 
-    // select props by given description
-    Props findByDescription(String name);
-    // select all props
+    /**
+     * @return collection of all available props in database
+     */
     List<Props> findAllProps();
 }

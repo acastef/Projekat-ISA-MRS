@@ -3,12 +3,11 @@ package bioskopi.rs.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Represent the thematic props which can be reserved
+ */
 @Entity
 public class Props implements Serializable {
-    /*
-     * Represent the thematic props which can be reserved
-     */
-
 
     private static final long serialVersionUID = 1L;
 

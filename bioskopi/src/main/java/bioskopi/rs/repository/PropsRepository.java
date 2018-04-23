@@ -2,17 +2,16 @@ package bioskopi.rs.repository;
 
 
 import bioskopi.rs.domain.Props;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.Repository;
 
+/**
+ * Interface that communicate with database for props props data
+ */
 public interface PropsRepository extends JpaRepository<Props,Long> {
 
-    /*
-    * Interface that communicate with database
-    */
-
-    //gets props by description value
+    /**
+     * @param description of targeted props
+     * @return props with given description value
+     */
     Props findByDescription(String description);
 }

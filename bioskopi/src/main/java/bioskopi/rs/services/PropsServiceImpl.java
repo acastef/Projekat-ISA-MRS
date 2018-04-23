@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of PropsService
+ */
 @Service("propsService")
 public class PropsServiceImpl implements PropsService {
-
-    /*
-    * Implementation of PropsService
-    */
 
     @Autowired
     private PropsRepository propsRepository;

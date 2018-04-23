@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Communicates wiht props REST calls from frontend
+ */
 @RestController
 @RequestMapping("/props")
 public class PropsController {
@@ -19,17 +22,25 @@ public class PropsController {
     @Autowired
     private PropsService propsService;
 
+    /**
+     * @return collection of all available props in database
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Props> getAll() {
         logger.info("Fetching all props");
         return propsService.findAllProps();
     }
 
+    /**
+     * @param description of targeted props
+     * @return props that cointain given description
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/{description}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Props getByName(@PathVariable String description) {
+    public Props getByDescription(@PathVariable String description) {
         logger.info("Fetching props with description {}", description);
         return propsService.findByDescription(description);
     }
 
 }
+

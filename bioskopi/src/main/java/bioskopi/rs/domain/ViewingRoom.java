@@ -6,7 +6,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "viewing_room")
+@Table(name = "viewing_rooms")
 public class ViewingRoom implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,13 +18,13 @@ public class ViewingRoom implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany( fetch = FetchType.LAZY /*mappedBy = "viewing_room"*/)
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "viewingRoom")
     private Set<Seat> seats;
 
     public ViewingRoom() {
     }
 
-    public ViewingRoom(long id, String name, Set<Seat> seats) {
+    public ViewingRoom(long id, String name ,Set<Seat> seats) {
         this.id = id;
         this.name = name;
         this.seats = seats;

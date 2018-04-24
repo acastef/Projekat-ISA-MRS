@@ -1,7 +1,5 @@
 package bioskopi.rs.domain;
-//
-////import com.sun.javafx.beans.IDProperty;
-//
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -25,7 +23,7 @@ public class Seat implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private SegmentEnum segment;
 
-//    @Column(nullable = false)
+
     @ManyToOne(optional = false)
     private ViewingRoom viewingRoom;
 

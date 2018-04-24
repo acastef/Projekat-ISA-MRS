@@ -49,14 +49,18 @@ public class UserCategoryControllerTest {
                 .andExpect(jsonPath("$", hasSize(DB_COUNT)))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(DB_ID.intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DB_NAME)))
-                .andExpect(jsonPath("$.[*].points").value(hasItem(DB_PTS.intValue())));
-                //.andExpect(jsonPath("$.[*].discount").value(hasItem(DB_DSC)));
+                .andExpect(jsonPath("$.[*].points").value(hasItem(DB_PTS.intValue())))
+                .andExpect(jsonPath("$.[*].discount").value(hasItem(DB_DSC.doubleValue())));
     }
 
     @Test
     public void getByName() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/" + DB_NAME))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType));
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.id").value((DB_ID.intValue())))
+                .andExpect(jsonPath("$.name").value((DB_NAME)))
+                .andExpect(jsonPath("$.points").value((DB_PTS.intValue())))
+                .andExpect(jsonPath("$.discount").value((DB_DSC.doubleValue())));
     }
 }

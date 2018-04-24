@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.UserCategory;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,6 @@ public class UserCategoryServiceImplTest {
         assertThat(category.getId()).isEqualTo(DB_ID);
         assertThat(category.getName()).isEqualTo(DB_NAME);
         assertThat(category.getPoints()).isEqualTo(DB_PTS);
-        assertEquals(category.getDiscount(),DB_DSC);
+        assertTrue(category.getDiscount().compareTo(DB_DSC) == 0);
     }
 }

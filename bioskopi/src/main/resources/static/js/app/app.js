@@ -10,7 +10,12 @@ app.config(function($routeProvider) {
     {   
         templateUrl: 'partials/props.html',
         css: ['css/table.css', 'css/props.css']
-    })});
+    }).when('/sys',
+    {
+        templateUrl: 'partials/sys.html',
+        css: ['css/table.css']
+    })
+});
     
     
 

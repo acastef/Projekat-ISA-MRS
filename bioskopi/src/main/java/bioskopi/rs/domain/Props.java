@@ -19,7 +19,7 @@ public class Props implements Serializable {
     private String description;
 
     @Column(nullable = false)
-    private long quantity = 0;
+    private long quantity;
 
     @Column(nullable = true)
     private String image;
@@ -28,6 +28,7 @@ public class Props implements Serializable {
     private String location;
 
     public Props() {
+        this.quantity = 0;
     }
 
     public Props(long id, String description, long quantity, String image, String location) {

@@ -24,9 +24,10 @@ public class UserCategory {
     @Column(nullable = false)
     @DecimalMin("0")
     @DecimalMax("100")
-    private BigDecimal discount = BigDecimal.ZERO;
+    private BigDecimal discount;
 
     public UserCategory() {
+        this.discount = BigDecimal.ZERO;
     }
 
     public UserCategory(long id, String name, long points, BigDecimal discount) {

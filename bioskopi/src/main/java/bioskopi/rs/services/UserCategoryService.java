@@ -19,4 +19,6 @@ public interface UserCategoryService {
      * @return user category that given name
      */
     UserCategory findByName(String name);
+
+    void save();
 }

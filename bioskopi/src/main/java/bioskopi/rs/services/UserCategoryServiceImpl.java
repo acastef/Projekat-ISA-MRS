@@ -4,6 +4,7 @@ import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.repository.UserCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,5 +25,11 @@ public class UserCategoryServiceImpl implements UserCategoryService {
     @Override
     public UserCategory findByName(String name) {
         return userCategoryRepository.findByName(name);
+    }
+
+    @Transactional
+    @Override
+    public void save() {
+
     }
 }

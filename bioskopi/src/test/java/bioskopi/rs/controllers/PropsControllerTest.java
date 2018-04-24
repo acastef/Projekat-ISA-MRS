@@ -60,12 +60,11 @@ public class PropsControllerTest {
 
         mockMvc.perform(get(URL_PREFIX + "/" + DB_DESCRIPTION))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType));
-                //.andExpect(jsonPath("$", hasSize(1)));
-                //.andExpect(jsonPath("$.id").value(hasItem(DB_ID.intValue())))
-                //.andExpect(jsonPath("$.description").value(hasItem(DB_DESCRIPTION)))
-                //.andExpect(jsonPath("$.image").value(hasItem(DB_IMG)))
-                //.andExpect(jsonPath("$.location").value(hasItem(DB_LOC)))
-                //.andExpect(jsonPath("$.quantity").value(hasItem(DB_QUAN.intValue())));
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.id").value((DB_ID.intValue())))
+                .andExpect(jsonPath("$.description").value((DB_DESCRIPTION)))
+                .andExpect(jsonPath("$.image").value((DB_IMG)))
+                .andExpect(jsonPath("$.location").value((DB_LOC)))
+                .andExpect(jsonPath("$.quantity").value((DB_QUAN.intValue())));
     }
 }

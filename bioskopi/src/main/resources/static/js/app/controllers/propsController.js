@@ -18,8 +18,7 @@
         function activate() {
             propsService.getAll().success(function(data,status){
                 $scope.props = data;
-                console.log("Success!!!!");
-                console.log(data.length);
+                
             }).error(function(data,status){
                 console.log("Error while getting data");
             });

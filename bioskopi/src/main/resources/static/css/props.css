@@ -1,0 +1,18 @@
+.imgCell{
+	width: 130px;
+    height: 120px;
+}
+
+.imgContainer{
+	width: 15%;
+}
+
+.cellButton{
+	background-color: rgb(167, 26, 26);
+    color: black;
+    font-weight: bold;
+    padding: 14px 20px;
+    border-radius: 10px;
+    width : 100%;
+    height: 100%;
+}

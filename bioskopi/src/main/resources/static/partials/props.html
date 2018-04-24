@@ -1,1 +1,39 @@
 <h1>Props</h1>
+
+<div ng-controller="propsController">
+    <label>Search:</label>
+    <input class="search" type="text" ng-model="search">
+    <br/> <br/> <br/>
+    <h2 ng-show="props.length ==0">There are no active emergency situation
+        records</h2>
+    <table class="redTable" ng-show="props.length >0">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            <tr ng-repeat="prop in props | filter:{description:search}" 
+            class="cellInputs">
+                <td class="imgContainer">
+                    <img class="imgCell" ng-src="{{prop.image}}" 
+                    alt="Image"/></td>
+                    <!--<img class="imgCell" ng-src="{{e.image}}" 
+                    alt="Image"/></td> -->
+                <td>{{prop.description }}</td>
+                <td>{{prop.location}}</td>
+                <td><button class="cellButton">Make reservation</button></td>
+            </tr>
+    
+        </tbody>
+    </table>
+    
+    <table class=""
+
+    <br/><br/>
+</div>

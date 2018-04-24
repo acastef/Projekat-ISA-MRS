@@ -5,7 +5,7 @@ import bioskopi.rs.domain.Props;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Interface that communicate with database for props props data
+ * Interface that communicate with database for props data
  */
 public interface PropsRepository extends JpaRepository<Props,Long> {
 

@@ -1,6 +1,5 @@
 package bioskopi.rs.controllers;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +13,20 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
 
-import static bioskopi.rs.constants.PropsConstants.*;
+import static bioskopi.rs.constants.UserCategoryConstants.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PropsControllerTest {
+public class UserCategoryControllerTest {
 
-    private static final String URL_PREFIX = "/props";
+    private static final String URL_PREFIX = "/user_category";
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
@@ -39,33 +41,22 @@ public class PropsControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-
-
     @Test
     public void getAll() throws Exception {
-
         mockMvc.perform(get(URL_PREFIX + "/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(DB_COUNT)))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(DB_ID.intValue())))
-                .andExpect(jsonPath("$.[*].description").value(hasItem(DB_DESCRIPTION)))
-                .andExpect(jsonPath("$.[*].image").value(hasItem(DB_IMG)))
-                .andExpect(jsonPath("$.[*].location").value(hasItem(DB_LOC)))
-                .andExpect(jsonPath("$.[*].quantity").value(hasItem(DB_QUAN.intValue())));
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DB_NAME)))
+                .andExpect(jsonPath("$.[*].points").value(hasItem(DB_PTS.intValue())));
+                //.andExpect(jsonPath("$.[*].discount").value(hasItem(DB_DSC)));
     }
 
     @Test
-    public void getByDescription() throws Exception {
-
-        mockMvc.perform(get(URL_PREFIX + "/" + DB_DESCRIPTION))
+    public void getByName() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/" + DB_NAME))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType));
-                //.andExpect(jsonPath("$", hasSize(1)));
-                //.andExpect(jsonPath("$.id").value(hasItem(DB_ID.intValue())))
-                //.andExpect(jsonPath("$.description").value(hasItem(DB_DESCRIPTION)))
-                //.andExpect(jsonPath("$.image").value(hasItem(DB_IMG)))
-                //.andExpect(jsonPath("$.location").value(hasItem(DB_LOC)))
-                //.andExpect(jsonPath("$.quantity").value(hasItem(DB_QUAN.intValue())));
     }
 }

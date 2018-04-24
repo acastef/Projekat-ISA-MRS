@@ -5,7 +5,7 @@ import bioskopi.rs.domain.Props;
 import java.util.List;
 
 /**
- * Interface that offers service for props
+ * Interface that provides service for props
  */
 public interface PropsService {
 

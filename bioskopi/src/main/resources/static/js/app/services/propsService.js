@@ -5,8 +5,8 @@
         .module('utopia')
         .factory('propsService', propsService);
 
-    propsService.$inject = ['$scope', '$http'];
-    function propsService($scope, $http) {
+    propsService.$inject = ['$http'];
+    function propsService($http) {
         var service = {};
         service.getAll = function(){
             return $http.get('/props/all');

@@ -9,6 +9,7 @@ app.config(function($routeProvider) {
     }).when('/props',
     {   
         templateUrl: 'partials/props.html',
+        css: ['css/table.css', 'css/props.css']
     })});
     
     

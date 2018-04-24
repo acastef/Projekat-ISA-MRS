@@ -14,10 +14,10 @@ public class Seat implements Serializable {
     private long id;
 
     @Column(nullable = false)
-    private String row;
+    private String seatRow;
 
     @Column(nullable = false)
-    private String col;
+    private String seatColumn;
 
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -30,10 +30,10 @@ public class Seat implements Serializable {
     public Seat() {
     }
 
-    public Seat(long id, String row, String column , SegmentEnum segment, ViewingRoom viewingRoom) {
+    public Seat(long id, String seatRow, String column , SegmentEnum segment, ViewingRoom viewingRoom) {
         this.id = id;
-        this.row = row;
-        this.col = column;
+        this.seatRow = seatRow;
+        this.seatColumn = column;
         this.segment = segment;
         this.viewingRoom = viewingRoom;
     }
@@ -46,20 +46,20 @@ public class Seat implements Serializable {
         this.id = id;
     }
 
-    public String getRow() {
-        return row;
+    public String getSeatRow() {
+        return seatRow;
     }
 
-    public void setRow(String row) {
-        this.row = row;
+    public void setSeatRow(String seatRow) {
+        this.seatRow = seatRow;
     }
 
-    public String getCol() {
-        return col;
+    public String getSeatColumn() {
+        return seatColumn;
     }
 
-    public void setCol(String column) {
-        this.col = column;
+    public void setSeatColumn(String column) {
+        this.seatColumn = column;
     }
 
     public static long getSerialVersionUID() {

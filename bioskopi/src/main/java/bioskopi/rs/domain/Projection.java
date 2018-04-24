@@ -2,12 +2,9 @@ package bioskopi.rs.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
-
 
 @Entity
-@Table(name = "viewing_rooms")
-public class ViewingRoom implements Serializable {
+public class Projection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,20 +15,24 @@ public class ViewingRoom implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany( fetch = FetchType.LAZY, mappedBy = "viewingRoom")
-    private Set<Seat> seats;
-
     @ManyToOne(optional = false)
     private Facility facility;
 
-    public ViewingRoom() {
+
+
+    public Projection() {
     }
 
-    public ViewingRoom(long id, String name ,Set<Seat> seats, Facility facility) {
+
+    public Projection(long id, String name, Facility facility) {
         this.id = id;
         this.name = name;
-        this.seats = seats;
         this.facility = facility;
+    }
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getId() {
@@ -48,18 +49,6 @@ public class ViewingRoom implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Seat> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public Facility getFacility() {

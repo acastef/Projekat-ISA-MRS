@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -16,6 +18,7 @@ public class PointsScale implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pointsScale")
     private Set<UserCategory> userCategories;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 

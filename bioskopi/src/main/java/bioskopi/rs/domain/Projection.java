@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ public class Projection implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 

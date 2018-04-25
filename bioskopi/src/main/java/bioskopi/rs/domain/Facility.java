@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -22,15 +24,19 @@ public class Facility implements Serializable {
     @Column(nullable = false)
     private String description;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
     private Set<ViewingRoom> viewingRooms;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
     private Set<Projection> projections;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
     private Set<PointsScale> pointsScales;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
     private Set<Ticket> tickets;
 

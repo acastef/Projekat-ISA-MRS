@@ -1,0 +1,17 @@
+<h1>Facilities</h1>
+
+<div ng-controller = "facilitiesController">
+    <h2 ng-show="props.length ==0">There are no thematic props records</h2>
+
+    <p>Facilities</p>
+    <div ng-repeat="fac in facilities">
+
+        <p>    Id: {{fac.id}}</p>
+        <p>    Name: {{fac.name}}</p>
+        <p>    Address: {{fac.address}}</p>
+        <p>Description: {{fac.description}}</p>
+        <p>Number of viewing rooms: "{{fac.viewingRooms.length}}</p><br>
+
+    </div>
+
+</div>

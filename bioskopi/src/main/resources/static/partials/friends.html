@@ -1,0 +1,9 @@
+<div ng-controller="friendsController">
+    <p>Friends</p>
+    <span>Search: </span><input type="text">
+    <table border="1">
+        <tr ng-repeat='friend in friends'>
+            <td>{{friend.name}} {{friend.surname}}</td>
+        </tr>
+    </table>
+</div>

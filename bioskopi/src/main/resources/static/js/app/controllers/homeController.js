@@ -13,7 +13,11 @@
 
         ////////////////
 
-        function activate() { 
+        function activate() {
+            $scope.visits = [
+                {'facility': 'Sprsko Narodno Pozoriste', 'city': 'Novi Sad'},
+                {'facility': 'Arena Cineplex', "city": "Novi Sad"}
+            ];
             //console.log("pozvan home contoller");
         }
         

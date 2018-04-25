@@ -1,0 +1,17 @@
+<div ng-controller="theatresController">
+
+    <p>Theatres</p>
+    <span>Search:</span><input type="text">
+    <table border="1">
+        <tbody>
+        <tr>
+            <td>Theatre name</td>
+            <td>City</td>
+        </tr>
+        <tr ng-repeat="theatre in theatres">
+            <td>{{theatre.name}}</td>
+            <td>{{theatre.city}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

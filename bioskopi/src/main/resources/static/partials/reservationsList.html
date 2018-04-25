@@ -1,0 +1,21 @@
+<div ng-controller="reservationsListController">
+    <p>Reservations</p>
+    <br/>
+    <span>Search: </span><input class="search" type="text">
+    <table border="1">
+        <tbody>
+        <tr>
+            <td>Facility name</td>
+            <td>Projection</td>
+            <td>Date</td>
+            <td>Time</td>
+        </tr>
+        <tr ng-repeat="reservation in reservations">
+            <td>{{reservation.facility}}</td>
+            <td>{{reservation.projection}}</td>
+            <td>{{reservation.date}}</td>
+            <td>{{reservation.time}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

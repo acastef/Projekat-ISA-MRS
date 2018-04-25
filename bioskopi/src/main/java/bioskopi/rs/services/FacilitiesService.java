@@ -4,6 +4,9 @@ import bioskopi.rs.domain.Facility;
 
 import java.util.List;
 
+/**
+ * Interface that provides service for facilities
+ */
 public interface FacilitiesService {
 
     /**

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation for points scale service
+ */
 @Service
 public class PointsScaleServiceImpl implements PointsScaleService {
 

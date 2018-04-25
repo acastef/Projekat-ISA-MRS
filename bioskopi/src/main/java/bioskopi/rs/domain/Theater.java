@@ -4,6 +4,9 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+/**
+ * Represents theater entity
+ */
 @Entity
 @DiscriminatorValue("theater")
 public class Theater extends Facility {

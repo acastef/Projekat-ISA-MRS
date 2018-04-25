@@ -13,6 +13,16 @@
         $scope.error = false;
         $scope.errorMessage = "";
         $scope.selectedFacility = {};
+
+        $scope.selectedFacType;
+        $scope.facName;
+        $scope.facAdd;
+        $scope.facDes;
+
+        $scope.rooms = new Array();
+        $scope.roomName;
+        $scope.roomRows;
+        $scope.roomColumns;
         activate();
 
         ////////////////
@@ -43,6 +53,17 @@
             }).error(function(data,status){
                 console.log("Error while getting data");
             });
+        }
+
+        $scope.addRoom = function(){
+            $scope.rooms.push({
+                name:$scope.roomName, 
+                rows:$scope.roomRows,
+                columns:$scope.roomColumns});
+        }
+
+        $scope.addFacility = function(){
+            
         }
 
         $scope.changePoints = function(id){

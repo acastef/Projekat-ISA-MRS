@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
+/**
+ * Represents ticket entity
+ */
 @Entity
 public class Ticket {
     private static final long serialVersionUID = 1L;

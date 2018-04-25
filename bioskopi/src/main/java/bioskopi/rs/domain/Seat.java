@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Represents seat entity
+ */
 @Entity
 @Table(name = "seat")
 public class Seat implements Serializable {

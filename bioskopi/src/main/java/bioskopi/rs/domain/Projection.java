@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Represents projection entity
+ */
 @Entity
 public class Projection implements Serializable {
 

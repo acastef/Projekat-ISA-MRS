@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * Represents Facility entity
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)

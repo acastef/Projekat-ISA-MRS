@@ -31,4 +31,59 @@
                 <input type="button" value="Save" ng-click="save">
             </form>
             <span ng-show="error">{{errorMessage}} </span>
+
+<br/> <br/>
+
+<h2>Facilities manager</h2>
+
+<form>
+    <label>Name: </label>
+    <input type="text" ng-model="facName" required> <br/>
+    
+    <label>Address: </label>
+    <input type="text" ng-model="facAdd" required> <br/>
+
+    <label>Description: </label>
+    <input type="text" ng-model="facDes" required> <br/>
+
+    <label>Type: </label>
+    <select ng-model="selectedFacType">
+        <option value="cinema">Cinema</option>
+        <option value="theater">Theater</option>
+    </select>
+
+
+<h2>Viewing Room manager</h2>
+<label>Name: </label>    
+<input type="text" ng-model="roomName" required> <br/>
+
+<label>Rows: </label>
+<input type="number" min="1" ng-model="roomRows" required> <br/>
+<label>Columns</label>
+<input type="number" min="1" ng-model="roomColumns" required> <br/>
+<!-- dodat i seats counter-->
+<button ng-click="addRoom()">Add</button>
+
+<table class="redTable" ng-show="rooms.length >0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rows</th>
+                <th>Columns</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+                    <tr ng-repeat="room in rooms" 
+                    class="cellInputs">
+                        <td>{{room.name}}</td>
+                        <td>{{room.rows}}</td>
+                        <td>{{room.columns}}</td>
+                    </tr>
+            
+        </tbody>
+    </table>
+<button ng-click="addFacility()">Add Facility</button>
+</form>
 </div>

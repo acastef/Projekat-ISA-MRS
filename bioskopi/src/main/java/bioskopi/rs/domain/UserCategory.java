@@ -6,7 +6,7 @@ import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 /**
- * Represents user category
+ * Represents user category entity
  */
 @Entity
 public class UserCategory {
@@ -15,10 +15,10 @@ public class UserCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private long points;
 
     @Column(nullable = false)

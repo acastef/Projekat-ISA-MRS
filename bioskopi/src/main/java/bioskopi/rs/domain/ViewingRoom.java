@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 
+/**
+ * Represents viewing rooms entity
+ */
 @Entity
 @Table(name = "viewing_rooms")
 public class ViewingRoom implements Serializable {

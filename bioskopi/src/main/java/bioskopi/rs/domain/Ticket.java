@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Ticket {
     @Column(nullable = false)
     private String name;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 

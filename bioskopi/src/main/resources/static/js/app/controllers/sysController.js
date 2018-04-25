@@ -8,18 +8,38 @@
     sysController.$inject = ['$scope','$location','sysService'];
     function sysController($scope,$location,sysService) {
         var vm = this;
-        
+        $scope.facilities = {};
         $scope.categories = {}
         $scope.error = false;
         $scope.errorMessage = "";
+        $scope.selectedFacility = {};
         activate();
 
         ////////////////
 
         function activate() {
-            sysService.getOne(1).success(function(data,status){
-                $scope.categories = data;
+            sysService.getAllFacilities().success(function(data,status){
+                $scope.facilities = data;
+                /*if ($scope.facilities.length > 0) {
+                    $scope.selectedFacility = $scope.facilities[0];
+                }*/
                 
+            }).error(function(data,status){
+                console.log("Error while getting data");
+            });
+        }
+
+        $scope.getScale = function(){
+            var id;
+            for (let index = 0; index < $scope.facilities.length; index++) {
+                const element = $scope.facilities[index];
+                if (element.name == $scope.selectedFacility.name) {
+                    id = element.pointsScales[0].id;
+                    break;
+                }
+            }
+            sysService.getOne(id).success(function(data,status){
+                $scope.categories = data;
             }).error(function(data,status){
                 console.log("Error while getting data");
             });

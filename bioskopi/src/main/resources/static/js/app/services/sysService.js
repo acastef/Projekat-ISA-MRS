@@ -10,8 +10,8 @@
         
         var service = {};
         
-        service.getAll = function(){
-            return $http.get("/points_scale/all");
+        service.getAllFacilities = function(){
+            return $http.get("/facilities/all");
         }
 
         service.getOne = function(id){

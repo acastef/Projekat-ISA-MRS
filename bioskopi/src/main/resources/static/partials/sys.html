@@ -1,4 +1,7 @@
 <div ng-controller="sysController">
+        <label>Select Facility: </label>
+        <select ng-model="selectedFacility" ng-options="f.name for f in facilities"
+            ng-change="getScale()"></select>
         <h2 ng-show="categories.userCategories.length ==0">Error no user categories available</h2>
             <form name="userCategory">
             <label>{{categories.length}}</label>

@@ -1,43 +1,29 @@
-package bioskopi.rs.domain;
+package bioskopi.rs.domain.DTO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import bioskopi.rs.domain.SegmentEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "seat")
-public class Seat implements Serializable {
+public class SeatDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    private static long serialVersionUID = 1L;
     private long id;
 
-    @Column(nullable = false)
     private String seatRow;
 
-    @Column(nullable = false)
     private String seatColumn;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
     private SegmentEnum segment;
 
-    @JsonBackReference
-    @ManyToOne(optional = false)
-    private ViewingRoom viewingRoom;
-
-    public Seat() {
+    public SeatDTO() {
     }
 
-    public Seat(long id, String seatRow, String column , SegmentEnum segment, ViewingRoom viewingRoom) {
+    public SeatDTO(long id, String seatRow, String column , SegmentEnum segment) {
         this.id = id;
         this.seatRow = seatRow;
         this.seatColumn = column;
         this.segment = segment;
-        this.viewingRoom = viewingRoom;
     }
 
     public long getId() {
@@ -68,19 +54,11 @@ public class Seat implements Serializable {
         return serialVersionUID;
     }
 
-        public SegmentEnum getSegment() {
+    public SegmentEnum getSegment() {
         return segment;
     }
 
     public void setSegment(SegmentEnum segment) {
         this.segment = segment;
-    }
-
-    public ViewingRoom getViewingRoom() {
-        return viewingRoom;
-    }
-
-    public void setViewingRoom(ViewingRoom viewingRoom) {
-        this.viewingRoom = viewingRoom;
     }
 }

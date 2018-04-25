@@ -11,11 +11,15 @@
         var service = {};
         
         service.getAll = function(){
-            return $http.get("/user_category/all");
+            return $http.get("/points_scale/all");
+        }
+
+        service.getOne = function(id){
+            return $http.get("/points_scale/" + id)
         }
 
         service.save = function(data){
-            return $http.put("/user_category/save");
+            return $http.put("/points_scale/save");
         }
 
         return service;

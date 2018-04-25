@@ -1,7 +1,8 @@
 <div ng-controller="sysController">
-        <h2 ng-show="categories.length ==0">Error no user categories available</h2>
+        <h2 ng-show="categories.userCategories.length ==0">Error no user categories available</h2>
             <form name="userCategory">
-            <table class="redTable" ng-show="categories.length >0">
+            <label>{{categories.length}}</label>
+            <table class="redTable" ng-show="categories.userCategories.length >0">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -12,7 +13,7 @@
         
                 <tbody>
                     
-                            <tr ng-repeat="category in categories" 
+                            <tr ng-repeat="category in categories.userCategories" 
                             class="cellInputs">
                                 <td>{{category.name}}</td>
                                 <td><input id="category.id" type="number" name="points" min="0"  placeholder="Integer" 

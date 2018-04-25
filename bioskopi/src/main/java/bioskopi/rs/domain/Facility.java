@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Facility implements Serializable {
 
     private static final long serialVersionUID = 1L;

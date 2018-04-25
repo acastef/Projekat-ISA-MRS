@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -26,6 +28,7 @@ public class UserCategory {
     @DecimalMax("100")
     private BigDecimal discount;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private PointsScale pointsScale;
 

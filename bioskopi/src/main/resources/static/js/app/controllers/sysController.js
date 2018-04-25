@@ -17,8 +17,9 @@
         ////////////////
 
         function activate() {
-            sysService.getAll().success(function(data,status){
+            sysService.getOne(1).success(function(data,status){
                 $scope.categories = data;
+                
             }).error(function(data,status){
                 console.log("Error while getting data");
             });

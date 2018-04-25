@@ -1,10 +1,15 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PointsScale implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -13,9 +18,11 @@ public class PointsScale implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pointsScale")
     private Set<UserCategory> userCategories;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 

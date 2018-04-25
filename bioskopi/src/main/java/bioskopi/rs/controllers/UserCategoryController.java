@@ -20,7 +20,7 @@ import java.util.List;
 public class UserCategoryController {
 
 
-    public static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
 
     @Autowired
     private UserCategoryServiceImpl userCategoryService;

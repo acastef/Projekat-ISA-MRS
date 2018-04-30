@@ -30,26 +30,27 @@ public class Facility implements Serializable {
     private String description;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<ViewingRoom> viewingRooms;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Projection> projections;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
-    private Set<PointsScale> pointsScales;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
+    private PointsScale pointsScales;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
+
 
     public Facility() {
     }
 
     public Facility(long id, String name, String address, String description, Set<ViewingRoom> viewingRooms,
-                    Set<Projection> projections, Set<PointsScale> pointsScales, Set<Ticket> tickets) {
+                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -113,11 +114,11 @@ public class Facility implements Serializable {
         this.projections = projections;
     }
 
-    public Set<PointsScale> getPointsScales() {
+    public PointsScale getPointsScales() {
         return pointsScales;
     }
 
-    public void setPointsScales(Set<PointsScale> pointsScales) {
+    public void setPointsScales(PointsScale pointsScales) {
         this.pointsScales = pointsScales;
     }
 
@@ -128,5 +129,6 @@ public class Facility implements Serializable {
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
     }
+
 }
 

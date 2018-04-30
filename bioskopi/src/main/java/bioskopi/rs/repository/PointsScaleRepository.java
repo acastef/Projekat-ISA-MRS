@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Interface that communicate with database for points scale
  */
+
 public interface PointsScaleRepository extends JpaRepository<PointsScale,Long> {
 
 

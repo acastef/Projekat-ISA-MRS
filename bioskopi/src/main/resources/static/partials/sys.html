@@ -28,40 +28,68 @@
                     
                 </tbody>
             </table>
-                <input type="button" value="Save" ng-click="save">
+                <input type="button" value="Save" ng-click="save()">
             </form>
             <span ng-show="error">{{errorMessage}} </span>
 
 <br/> <br/>
 
+<button ng-click="testiranje()">testiranje</button>
+
 <h2>Facilities manager</h2>
 
-<form>
+<form name="facForm" id="facForm" novalidate>
     <label>Name: </label>
-    <input type="text" ng-model="facName" required> <br/>
+    <input type="text" name="name" ng-model="facName" required>
+    <span ng-show="facForm.name.$dirty && facForm.name.$error.required">
+        Name is required
+    </span> 
+    <br/>
     
     <label>Address: </label>
-    <input type="text" ng-model="facAdd" required> <br/>
+    <input type="text" name="address" ng-model="facAdd" required>
+    <span ng-show="facForm.address.$dirty && facForm.address.$error.required">
+        Address is required
+    </span>
+    <br/>
 
     <label>Description: </label>
-    <input type="text" ng-model="facDes" required> <br/>
+    <input type="text" name="description" ng-model="facDes" required>
+    <span ng-show="facForm.description.$dirty && facForm.description.$error.required">
+        Description is required
+    </span>
+    <br/>
+    
 
     <label>Type: </label>
-    <select ng-model="selectedFacType">
-        <option value="cinema">Cinema</option>
-        <option value="theater">Theater</option>
+    <select ng-model="selectedFacType" ng-options="t for t in facTypes" required>
     </select>
 
 
 <h2>Viewing Room manager</h2>
 <label>Name: </label>    
-<input type="text" ng-model="roomName" required> <br/>
+<input type="text" name="roomName" ng-model="roomName" required> 
+<span ng-show="facForm.roomName.$dirty && facForm.roomName.$error.required">
+    Room name is required
+</span>
+<br/>
 
 <label>Rows: </label>
-<input type="number" min="1" ng-model="roomRows" required> <br/>
+<input type="number" name="roomRows" ng-model="roomRows" 
+    ng-change="calculate()" ng-init="roomRows = 1" required> 
+<span ng-show="facForm.roomRows.$dirty && facForm.roomRows.$error.required">
+    Rows are required
+</span>
+<br/>
 <label>Columns</label>
-<input type="number" min="1" ng-model="roomColumns" required> <br/>
-<!-- dodat i seats counter-->
+<input type="number" name="roomColumns" ng-model="roomColumns"
+    ng-change="calculate()" ng-init="roomColumns = 1" required> 
+<span ng-show="facForm.roomColumns.$dirty && facForm.roomColumns.$error.required">
+    Columns are required
+</span>
+<br/>
+<label>Number of seats</label>
+<input type="number" ng-readonly="true" min="1" ng-model="seatsCounter"> <br/>
 <button ng-click="addRoom()">Add</button>
 
 <table class="redTable" ng-show="rooms.length >0">
@@ -74,12 +102,11 @@
         </thead>
 
         <tbody>
-            
-                    <tr ng-repeat="room in rooms" 
+                    <tr ng-repeat="room in roomsTemp" 
                     class="cellInputs">
                         <td>{{room.name}}</td>
-                        <td>{{room.rows}}</td>
-                        <td>{{room.columns}}</td>
+                        <td>{{room.seatRow}}</td>
+                        <td>{{room.seatColumn}}</td>
                     </tr>
             
         </tbody>

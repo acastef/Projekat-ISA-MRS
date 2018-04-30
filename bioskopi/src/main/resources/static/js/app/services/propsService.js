@@ -11,6 +11,10 @@
         service.getAll = function(){
             return $http.get('/props/all');
         }
+
+        service.makeReservation = function(data){
+            return $http.post("/props/reserve/",data)
+        }
         
         return service;
 

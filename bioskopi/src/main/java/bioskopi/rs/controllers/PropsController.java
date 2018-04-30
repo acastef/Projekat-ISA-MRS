@@ -1,5 +1,6 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Props;
 import bioskopi.rs.services.PropsService;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
@@ -30,9 +31,9 @@ public class PropsController {
      * @return collection of all available props in database
      */
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Props>> getAll() {
+    public ResponseEntity<List<PropsDTO>> getAll() {
         logger.info("Fetching all props");
-        return new ResponseEntity<List<Props>>(propsService.findAllProps(), HttpStatus.OK) ;
+        return new ResponseEntity<List<PropsDTO>>(propsService.findAllProps(), HttpStatus.OK) ;
     }
 
     /**
@@ -41,10 +42,12 @@ public class PropsController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/{description}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Props> getByDescription(@PathVariable String description) {
+    public ResponseEntity<PropsDTO> getByDescription(@PathVariable String description) {
         logger.info("Fetching props with description {}", description);
-        return new ResponseEntity<Props>(propsService.findByDescription(description), HttpStatus.OK);
+        return new ResponseEntity<PropsDTO>(propsService.findByDescription(description), HttpStatus.OK);
     }
+
+
 
 }
 

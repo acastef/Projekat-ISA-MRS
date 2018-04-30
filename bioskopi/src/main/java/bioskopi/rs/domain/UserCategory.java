@@ -1,4 +1,5 @@
 package bioskopi.rs.domain;
+import bioskopi.rs.validators.PointsConstraints;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -16,14 +17,16 @@ public class UserCategory {
     private long id;
 
     @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.ORDINAL)
+    private Privilege name;
 
     @Column(nullable = false)
+    //@PointsConstraints
     private long points;
 
     @Column(nullable = false)
-    @DecimalMin("0")
-    @DecimalMax("100")
+    @DecimalMin(value = "0",message = "Discount has to be decimal number with to digits in range of 0 - 100")
+    @DecimalMax(value = "100",message = "Discount has to be decimal number with to digits in range of 0 - 100")
     private BigDecimal discount;
 
     @JsonBackReference
@@ -34,7 +37,7 @@ public class UserCategory {
         this.discount = BigDecimal.ZERO;
     }
 
-    public UserCategory(long id, String name, long points, BigDecimal discount, PointsScale pointsScale) {
+    public UserCategory(long id, Privilege name, long points, BigDecimal discount, PointsScale pointsScale) {
         this.id = id;
         this.name = name;
         this.points = points;
@@ -50,11 +53,11 @@ public class UserCategory {
         this.id = id;
     }
 
-    public String getName() {
+    public Privilege getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Privilege name) {
         this.name = name;
     }
 

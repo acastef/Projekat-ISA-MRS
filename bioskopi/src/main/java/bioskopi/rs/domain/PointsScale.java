@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,11 +22,11 @@ public class PointsScale implements Serializable {
     private long id;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pointsScale")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pointsScale", cascade = CascadeType.ALL)
     private Set<UserCategory> userCategories;
 
     @JsonBackReference
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Facility facility;
 
     public PointsScale() {
@@ -37,6 +38,7 @@ public class PointsScale implements Serializable {
         this.userCategories = userCategories;
         this.facility = facility;
     }
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

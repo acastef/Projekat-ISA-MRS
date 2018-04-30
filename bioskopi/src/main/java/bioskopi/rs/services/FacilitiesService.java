@@ -13,4 +13,10 @@ public interface FacilitiesService {
      * @return collection of all available facilities in database
      */
     List<Facility> findAllFacilities();
+
+    /**
+     * @param facility that needs to be added to database
+     * @return facility that is added to database
+     */
+    Facility add(Facility facility);
 }

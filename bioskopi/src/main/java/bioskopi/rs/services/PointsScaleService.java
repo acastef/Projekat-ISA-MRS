@@ -19,4 +19,11 @@ public interface PointsScaleService {
      * @return points scale with given id
      */
     PointsScale getById(long id);
+
+
+    /**
+     * @param scale that need to be saved
+     * @return saved points scale
+     */
+    PointsScale save(PointsScale scale);
 }

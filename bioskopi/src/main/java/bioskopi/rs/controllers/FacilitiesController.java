@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,6 +36,7 @@ public class FacilitiesController {
      * @return collection of all available facilities in database
      */
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<List<Facility>> getAll() {
         logger.info("Fetching all facilities");
         return new ResponseEntity<List<Facility>>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
@@ -46,6 +48,7 @@ public class FacilitiesController {
      * @return message of action result
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addCinema", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<Object> addCinema(@Valid @RequestBody Cinema facility, BindingResult bindingResult){
         logger.info("Inserting facility with name {}", facility.getName());
         try {
@@ -61,6 +64,7 @@ public class FacilitiesController {
      * @return message of action result
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addTheater", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<Object> addTheater(@Valid @RequestBody Theater facility, BindingResult bindingResult){
         logger.info("Inserting facility with name {}", facility.getName());
         try {

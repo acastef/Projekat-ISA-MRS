@@ -13,7 +13,6 @@ public class PropsReservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @JsonManagedReference
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Props props;
@@ -23,11 +22,11 @@ public class PropsReservation {
     private RegisteredUser registeredUser;
 
     @Column(nullable = false)
-    @Min(value = 0, message = "Minimum quantity is 0")
+    @Min(value = 1, message = "Minimum quantity is 1")
     private long quantity;
 
     public PropsReservation() {
-        this.quantity = 0;
+        this.quantity = 1;
     }
 
     public PropsReservation(long id, Props props, RegisteredUser registeredUser, long quantity) {

@@ -25,11 +25,36 @@
         }
 
         $scope.makeReservation = function(id){
-            propsService.makeReservation(id).success(function(data,status){
-                toastr.success("Successfully made reservation","Ok")
+            var props;
+            for (let index = 0; index < $scope.props.length; index++) {
+                const element = $scope.props[index];
+                if(id == element.id){
+                    props = element;
+                    break;
+                }
+            }
+            var user = {
+                id: 1,
+                propsReservations: [],
+                avatar: "avatar.jpg",
+                password: "nesto",
+                username: "nesto",
+                person: {
+                    id: 1,
+                    email: "milan@gmail.com",
+                    name: "milan",
+                    surname: "petrovic"    
+                }
+            }
+            propsService.makeReservation({
+                props: props,
+                registeredUser: user,
+                quantity: 1
+            }).success(function(data,status){
+                toastr.success("Reservation successfully made","Ok")
                 
             }).error(function(data,status){
-                console.log("Error while getting data");
+                toastr.error("Reservation failed. " + data, "Error");
             });
         }
 

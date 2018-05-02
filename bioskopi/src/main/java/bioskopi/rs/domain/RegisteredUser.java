@@ -1,5 +1,6 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Set;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RegisteredUser extends User {
 
     @Id
@@ -20,7 +22,6 @@ public class RegisteredUser extends User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "registeredUser", cascade = CascadeType.ALL)
     private Set<PropsReservation> propsReservations;
 
-    @JsonManagedReference
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Person person;

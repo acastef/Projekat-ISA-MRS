@@ -2,6 +2,7 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Props;
+import bioskopi.rs.domain.PropsReservation;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface PropsService {
      * @return collection of all available props in database
      */
     List<PropsDTO> findAllProps();
+
+    /**
+     * @param id of targeted props
+     * @return props with given id
+     */
+    PropsDTO findById(long id);
 }

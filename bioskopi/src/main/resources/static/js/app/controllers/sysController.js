@@ -57,7 +57,7 @@
                 toastr.error("Error while getting data", "Error");
             });
         }
-        //DODATI PROVERU AKO NEMA SALA 
+
         $scope.addRoom = function(){
             if ($scope.roomColumns <= 0 || $scope.roomRows <= 0) {
                 toastr.error("Rows and columns must be positive integer", "Error");
@@ -132,7 +132,7 @@
                     toastr.success("Successfully created facility","Ok")
                     $scope.facilities.push(data);
                 }).error(function(data,status){
-                    toastr.error("Adding facility failed." + data, "Error");
+                    toastr.error("Adding facility failed. " + data, "Error");
                 });
             }
         }

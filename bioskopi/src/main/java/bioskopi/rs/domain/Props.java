@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -24,19 +26,28 @@ public class Props implements Serializable {
     @Column(nullable = true)
     private String image;
 
-    @Column(nullable = false)
-    private String location;
+    @JsonBackReference
+    @ManyToOne(optional = false)
+    private Facility facility;
+
 
     public Props() {
         this.quantity = 0;
     }
 
-    public Props(long id, String description, long quantity, String image, String location) {
+    public Props(long id, String description, long quantity, String image, Facility facility) {
         this.id = id;
         this.description = description;
         this.quantity = quantity;
         this.image = image;
-        this.location = location;
+        this.facility = facility;
+    }
+
+    public Props( String description, long quantity, String image, Facility facility) {
+        this.description = description;
+        this.quantity = quantity;
+        this.image = image;
+        this.facility = facility;
     }
 
     public static long getSerialVersionUID() {
@@ -75,12 +86,12 @@ public class Props implements Serializable {
         this.image = image;
     }
 
-    public String getLocation() {
-        return location;
+    public Facility getFacility() {
+        return facility;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 
     @Override
@@ -90,6 +101,7 @@ public class Props implements Serializable {
                 ", description='" + description + '\'' +
                 ", quantity=" + quantity +
                 ", image='" + image + '\'' +
+                ", facility=" + facility +
                 '}';
     }
 }

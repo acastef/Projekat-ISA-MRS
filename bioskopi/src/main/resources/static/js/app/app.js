@@ -18,9 +18,9 @@ app.config(function($routeProvider) {
     {
         templateUrl: 'partials/facilities.html',
       //css: ['css/table.css']
-    }).when('/facilityID',
+    }).when('/repertoire',
     {
-        templateUrl: 'partials/reservationsList.html',
+        templateUrl: 'partials/repertoire.html',
     }).when('/reservationsList',
     {
         templateUrl: 'partials/reservationsList.html',

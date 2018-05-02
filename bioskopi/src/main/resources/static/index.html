@@ -2,9 +2,12 @@
 <html lang="en" ng-app="utopia">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="js/lib/toastr.min.css">
     <script src="js/lib/angular.js"></script>
     <script src="js/lib/angular-route.js"></script>
     <script src="js/lib/angular-css.min.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/toastr.min.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/app/controllers/homeController.js"></script>
     <script src="js/app/services/propsService.js"></script>
@@ -17,6 +20,27 @@
     <script src="js/app/controllers/cinemasController.js"></script>
     <script src="js/app/controllers/theatresController.js"></script>
     <script src="js/app/controllers/reservationsListController.js"></script>
+    <script src="js/app/services/repertoireService.js"></script>
+    <script src="js/app/controllers/repertoireController.js"></script>
+    <script>
+        toastr.options = {
+			"closeButton" : true,
+			"debug" : false,
+			"newestOnTop" : false,
+			"progressBar" : false,
+			"positionClass" : "toast-top-right",
+			"preventDuplicates" : false,
+			"onclick" : null,
+			"showDuration" : "300",
+			"hideDuration" : "1000",
+			"timeOut" : "6000",
+			"extendedTimeOut" : "1000",
+			"showEasing" : "swing",
+			"hideEasing" : "linear",
+			"showMethod" : "fadeIn",
+			"hideMethod" : "fadeOut"
+		}
+    </script>
     <title>Utopia</title>
 </head>
 <body>

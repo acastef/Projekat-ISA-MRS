@@ -12,9 +12,6 @@
         $scope.facilities = {};
         activate();
 
-
-        ////////////////
-
         function activate() {
             facilitiesService.getAll().success(function(data,status){
                 $scope.facilities = data;

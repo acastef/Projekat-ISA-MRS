@@ -2,8 +2,10 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.repository.PointsScaleRepository;
+import bioskopi.rs.repository.UserCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,5 +28,10 @@ public class PointsScaleServiceImpl implements PointsScaleService {
         return pointsScaleRepository.getOne(id);
     }
 
+    @Override
+    @Transactional
+    public PointsScale save(PointsScale scale) {
 
+        return pointsScaleRepository.saveAndFlush(scale);
+    }
 }

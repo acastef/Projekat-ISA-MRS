@@ -26,7 +26,8 @@
                     alt="Image"/></td> -->
                 <td>{{prop.description }}</td>
                 <td>{{prop.location}}</td>
-                <td><button class="cellButton">Make reservation</button></td>
+                <td><button class="cellButton" ng-click="makeReservation(prop.id)">
+                    Make reservation</button></td>
             </tr>
     
         </tbody>

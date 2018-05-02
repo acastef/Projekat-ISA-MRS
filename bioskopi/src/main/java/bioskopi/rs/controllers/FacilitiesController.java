@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -30,6 +32,14 @@ public class FacilitiesController {
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Facility>> getAll() {
         logger.info("Fetching all facilities");
+        List<Facility> newList =facilitiesService.findAllFacilities();
         return new ResponseEntity<List<Facility>>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Facility> getById(@PathVariable String id) {
+        logger.info("Fetching one facility");
+        return new ResponseEntity<Facility>(facilitiesService.getFacilityById(Long.parseLong(id)), HttpStatus.OK) ;
     }
 }

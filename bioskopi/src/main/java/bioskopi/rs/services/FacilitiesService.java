@@ -10,7 +10,13 @@ import java.util.List;
 public interface FacilitiesService {
 
     /**
-     * @return collection of all available facilities in database
+     * @return Collection of all available facilities in database
      */
     List<Facility> findAllFacilities();
+
+    /***
+     *
+     * @return A facility with given id
+     */
+    Facility getFacilityById(long id);
 }

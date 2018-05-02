@@ -6,11 +6,13 @@
     <p>Facilities</p>
     <div ng-repeat="fac in facilities">
 
+        <h1></h1>
         <p>    Id: {{fac.id}}</p>
         <p>    Name: {{fac.name}}</p>
         <p>    Address: {{fac.address}}</p>
-        <p>Description: {{fac.description}}</p>
-        <p>Number of viewing rooms: "{{fac.viewingRooms.length}}</p><br>
+        <p>    Description: {{fac.description}}</p>
+        <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p><br>
+        <a ng-href = "#facilityID">    Repertoar</a>
 
     </div>
 

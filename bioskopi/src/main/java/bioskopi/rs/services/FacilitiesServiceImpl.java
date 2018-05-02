@@ -1,11 +1,14 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Facility;
+import bioskopi.rs.domain.Projection;
 import bioskopi.rs.repository.FacilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Console;
 import java.util.List;
 
 /**
@@ -23,8 +26,18 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     }
 
     @Override
+    public Facility getFacilityById(long id) {
+        Facility f = facilityRepository.getOne(id);
+        System.out.print("Opis: " + f.getDescription());
+        return facilityRepository.getOne(id);
+    }
     @Transactional
     public Facility add(Facility facility) {
         return facilityRepository.saveAndFlush(facility);
+    }
+
+    @Override
+    public List<Projection> getRepertoireById(long id) {
+        return facilityRepository.findRepertoireById(id);
     }
 }

@@ -1,0 +1,17 @@
+<h1>Repertoire</h1>
+
+<div ng-controller = "repertoireController">
+    <h2 ng-show="props.length ==0">There are no repertoire records</h2>
+
+    <p>Facilities</p>
+    <div ng-repeat="projection in repertoire">
+
+
+        <h1></h1>
+        <p>    Id: {{projection.id}}</p>
+        <p>    Name: {{projection.name}}</p>
+
+
+    </div>
+
+</div>

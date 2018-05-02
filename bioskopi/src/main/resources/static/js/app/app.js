@@ -15,24 +15,27 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/sys.html',
         css: ['css/table.css']
     }).when('/facilities',
-      {
-          templateUrl: 'partials/facilities.html',
-          //css: ['css/table.css']
-      }).when('/reservationsList',
-            {
-                templateUrl: 'partials/reservationsList.html',
-            }).when('/theatres',
-            {
-                templateUrl: 'partials/theatres.html',
-            }).when('/cinemas',
-            {
-                templateUrl: 'partials/cinemas.html',
-            }).when('/friends',
-            {
-                templateUrl: 'partials/friends.html',
-            }).when('/profile',
-            {
-                templateUrl: 'partials/profile.html'
+    {
+        templateUrl: 'partials/facilities.html',
+      //css: ['css/table.css']
+    }).when('/repertoire',
+    {
+        templateUrl: 'partials/repertoire.html',
+    }).when('/reservationsList',
+    {
+        templateUrl: 'partials/reservationsList.html',
+    }).when('/theatres',
+    {
+        templateUrl: 'partials/theatres.html',
+    }).when('/cinemas',
+    {
+        templateUrl: 'partials/cinemas.html',
+    }).when('/friends',
+    {
+        templateUrl: 'partials/friends.html',
+    }).when('/profile',
+    {
+        templateUrl: 'partials/profile.html'
 })});
     
     

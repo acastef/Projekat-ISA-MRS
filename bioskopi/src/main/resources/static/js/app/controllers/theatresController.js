@@ -3,13 +3,19 @@
 
         angular
         .module('utopia')
-        .controller('theatresController',theatresController);
+        .controller('theatersController',theatersController);
 
-        theatresController.$inject = ['$scope', '$location'];
-        function theatresController($scope){
-            $scope.theatres = [
-                {'name': 'Srpsko Narodno Pozoriste', "city": 'Novi Sad'},
-                {'name': 'Atelje 212', "city": 'Beograd'}
-              ];
+        theatersController.$inject = ['$scope', '$location', 'theatersService'];
+        function theatersController($scope, $location, theatersService){
+
+            $scope.theaters = {};
+            activate();
+            function activate(){
+                theatersService.findTheaters().success(function(data, status){
+                    $scope.theaters = data;
+                }).error(function(data, status){
+                    console.log("Error while getting data!");
+                });
+            };
         }
 })();

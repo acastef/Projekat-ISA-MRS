@@ -1,10 +1,8 @@
 package bioskopi.rs.controllers;
 
-import bioskopi.rs.domain.Cinema;
-import bioskopi.rs.domain.Facility;
-import bioskopi.rs.domain.PointsScale;
-import bioskopi.rs.domain.Theater;
+import bioskopi.rs.domain.*;
 import bioskopi.rs.repository.FacilityRepository;
+import bioskopi.rs.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,16 +15,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import static bioskopi.rs.constants.FacilitiesConstants.*;
 import static bioskopi.rs.constants.FacilitiesConstants.DB_INIT;
+import static bioskopi.rs.domain.Privilege.BRONZE;
+import static bioskopi.rs.domain.Privilege.GOLD;
+import static bioskopi.rs.domain.Privilege.SILVER;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -106,7 +110,28 @@ public class FacilitiesControllerTest {
     }
 
     @Test
-    public void addCinema() {
+    public void addCinema() throws Exception {
+        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), cinema.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        String json = TestUtil.json(cinema);
+        mockMvc.perform(post(URL_PREFIX + "/addCinema")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
     }
 
     @Test

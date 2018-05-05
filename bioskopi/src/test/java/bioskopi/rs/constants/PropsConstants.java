@@ -26,6 +26,6 @@ public class PropsConstants {
 
     public static final int DB_COUNT = 3;
 
-    public static boolean DB_INIT = false;
+    public static boolean DB_INIT_P = false;
 
 }

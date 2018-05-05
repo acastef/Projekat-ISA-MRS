@@ -37,31 +37,29 @@ public class FacilitiesController {
     @ResponseBody
     public ResponseEntity<List<Facility>> getAll() {
         logger.info("Fetching all facilities");
-        List<Facility> newList =facilitiesService.findAllFacilities();
-        return new ResponseEntity<List<Facility>>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
+        return new ResponseEntity<>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRepertoire{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Projection>> getRepertoireById(@PathVariable String id) {
         logger.info("Fetching one repertoire with facility id: {}", id);
-        return new ResponseEntity<List<Projection>>(facilitiesService.getRepertoireById(Long.parseLong(id)), HttpStatus.OK) ;
+        return new ResponseEntity<>(facilitiesService.getRepertoireById(Long.parseLong(id)), HttpStatus.OK) ;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Facility> getById(@PathVariable String id) {
         logger.info("Fetching one facility with id: {}", id);
-        return new ResponseEntity<Facility>(facilitiesService.getFacilityById(Long.parseLong(id)), HttpStatus.OK) ;
+        return new ResponseEntity<>(facilitiesService.getFacilityById(Long.parseLong(id)), HttpStatus.OK) ;
     }
 
     /**
      * @param facility that needs to be added to database
-     * @param bindingResult result of validation
      * @return message of action result
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addCinema", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addCinema(@Valid @RequestBody Cinema facility, BindingResult bindingResult){
+    public ResponseEntity<Object> addCinema(@Valid @RequestBody Cinema facility){
         logger.info("Inserting facility with name {}", facility.getName());
         try {
             return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
@@ -72,12 +70,11 @@ public class FacilitiesController {
 
     /**
      * @param facility that needs to be added to database
-     * @param bindingResult result of validation
      * @return message of action result
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addTheater", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addTheater(@Valid @RequestBody Theater facility, BindingResult bindingResult){
+    public ResponseEntity<Object> addTheater(@Valid @RequestBody Theater facility){
         logger.info("Inserting facility with name {}", facility.getName());
         try {
             return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);

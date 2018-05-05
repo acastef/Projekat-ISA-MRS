@@ -43,7 +43,7 @@ public class PropsServiceImplTest {
     @Transactional
     public void setUp() throws Exception {
 
-        if (!DB_INIT) {
+        if (!DB_INIT_P) {
             Cinema cin1 = new Cinema( DB_LOC, "addr1", "cinema",
                     new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
@@ -69,7 +69,7 @@ public class PropsServiceImplTest {
             }});
 
 
-            DB_INIT = true;
+            DB_INIT_P = true;
         }
     }
 
@@ -92,10 +92,10 @@ public class PropsServiceImplTest {
     @After
     @Transactional
     public void tearDown() throws Exception {
-        if(DB_INIT) {
+        if(DB_INIT_P) {
             propsRepository.deleteAll();
             facilityRepository.deleteAll();
-            DB_INIT = false;
+            DB_INIT_P = false;
         }
     }
 }

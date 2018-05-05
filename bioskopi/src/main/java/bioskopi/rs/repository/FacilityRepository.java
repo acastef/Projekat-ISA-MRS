@@ -12,13 +12,6 @@ import java.util.List;
  */
 public interface FacilityRepository extends JpaRepository<Facility,Long> {
 
-//    /**
-//     *
-//     * @param id of targeted facility
-//     * @return facility with given id
-//     */
-//    //@Query("SELECT f.id FROM Facility f where f.id = :id")
-//    Facility findById(int id);
 
     @Query("SELECT p FROM Projection p WHERE p.facility.id = ?1")
     List<Projection> findRepertoireById(long id);

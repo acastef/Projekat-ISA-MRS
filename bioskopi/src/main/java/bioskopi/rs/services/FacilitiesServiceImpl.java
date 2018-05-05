@@ -27,8 +27,6 @@ public class FacilitiesServiceImpl implements FacilitiesService {
 
     @Override
     public Facility getFacilityById(long id) {
-        Facility f = facilityRepository.getOne(id);
-        System.out.print("Opis: " + f.getDescription());
         return facilityRepository.getOne(id);
     }
     @Transactional

@@ -43,7 +43,7 @@ public class PointsScaleServiceImplTest {
     public void setUp() throws Exception {
 
         if (!DB_INIT) {
-
+            facilityRepository.deleteAll();
             Cinema cin1 = new Cinema(DB_FAC_NAME, "addr1", "cinema",
                     new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 

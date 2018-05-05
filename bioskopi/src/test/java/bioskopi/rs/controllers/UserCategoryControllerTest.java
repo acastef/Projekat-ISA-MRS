@@ -55,6 +55,7 @@ public class UserCategoryControllerTest {
     public void setUp() throws Exception {
 
         if (!DB_INIT) {
+            facilityRepository.deleteAll();
             Cinema cin1 = new Cinema( "KMP", "addr3", "cinema",
                     new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 

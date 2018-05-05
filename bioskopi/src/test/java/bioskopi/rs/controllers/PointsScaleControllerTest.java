@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static bioskopi.rs.constants.PointsScaleConstants.*;
-import static bioskopi.rs.constants.PropsConstants.DB_INIT;
+import static bioskopi.rs.constants.PropsConstants.DB_INIT_P;
 import static bioskopi.rs.domain.Privilege.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;

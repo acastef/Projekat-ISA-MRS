@@ -2,6 +2,7 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.util.ValidationException;
+
 import bioskopi.rs.repository.FacilityRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +46,11 @@ public class FacilitiesServiceImplTest {
 
             cinema.getPointsScales().setFacility(cinema);
             theater.getPointsScales().setFacility(theater);
+
+
+            Projection projection1 = new Projection("Proj1", cinema);
+            Projection projection2 = new Projection("Proj2", cinema);
+            Projection projection3 = new Projection("Proj3", theater);
 
             List<Facility> temp = facilityRepository.saveAll(new ArrayList<Facility>() {{
                 add(cinema);
@@ -257,6 +263,13 @@ public class FacilitiesServiceImplTest {
 
     @Test
     public void getRepertoireById() {
+        List<Projection> projections = facilitiesService.getRepertoireById(DB_FAC_ID);
+        assertThat(!projections.isEmpty());
+
+        for (Projection p: projections) {
+            assertThat(p.getFacility().getId() == DB_FAC_ID);
+        }
+
     }
 
     @Test

@@ -29,6 +29,10 @@ public class Projection implements Serializable {
     public Projection() {
     }
 
+    public Projection(String name, Facility facility) {
+        this.name = name;
+        this.facility = facility;
+    }
 
     public Projection(long id, String name, Facility facility) {
         this.id = id;

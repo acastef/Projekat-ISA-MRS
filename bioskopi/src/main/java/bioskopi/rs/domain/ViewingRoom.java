@@ -43,6 +43,12 @@ public class ViewingRoom implements Serializable {
         this.facility = facility;
     }
 
+    public ViewingRoom( String name ,Set<Seat> seats, Facility facility) {
+        this.name = name;
+        this.seats = seats;
+        this.facility = facility;
+    }
+
     public long getId() {
         return id;
     }

@@ -8,5 +8,10 @@ public class FacilitiesConstants {
 
     public static final int DB_COUNT = 2;
 
+    public static final String NEW_FAC_NAME = "TEMP";
+    public static final String NEW_FAC_ADR = "TEMP_ADR";
+    public static final String NEW_VM_NAME = "VM_TEMP";
+
+
     public static boolean DB_INIT = false;
 }

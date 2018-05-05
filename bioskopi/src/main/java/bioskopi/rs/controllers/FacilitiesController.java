@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Repository
@@ -61,11 +62,7 @@ public class FacilitiesController {
     @ResponseBody
     public ResponseEntity<Object> addCinema(@Valid @RequestBody Cinema facility){
         logger.info("Inserting facility with name {}", facility.getName());
-        try {
-            return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
-        }catch (DataIntegrityViolationException e){
-            return new ResponseEntity<>("Facility name is already taken", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
 
     /**
@@ -74,13 +71,9 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addTheater", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addTheater(@Valid @RequestBody Theater facility){
+    public ResponseEntity<Object> addTheater(@Valid @RequestBody Theater facility) {
         logger.info("Inserting facility with name {}", facility.getName());
-        try {
-            return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
-        }catch (DataIntegrityViolationException e){
-            return new ResponseEntity<>("Facility name is already taken", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
 
 }

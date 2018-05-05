@@ -2,13 +2,12 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
+import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Console;
+import bioskopi.rs.validators.FacilitiesValidator;
 import java.util.List;
 
 /**
@@ -30,7 +29,15 @@ public class FacilitiesServiceImpl implements FacilitiesService {
         return facilityRepository.getOne(id);
     }
     @Transactional
-    public Facility add(Facility facility) {
+    public Facility add(Facility facility) throws ValidationException {
+        FacilitiesValidator.checkFacility(facility);
+        List<Facility> facilities = facilityRepository.findAll();
+        for (Facility fac :
+                facilities) {
+            if(fac.getName().compareTo(facility.getName()) == 0){
+              throw new ValidationException("Facility with given name already exists");
+            }
+        }
         return facilityRepository.saveAndFlush(facility);
     }
 

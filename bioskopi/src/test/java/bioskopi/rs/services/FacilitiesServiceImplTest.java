@@ -1,9 +1,7 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.Cinema;
-import bioskopi.rs.domain.Facility;
-import bioskopi.rs.domain.PointsScale;
-import bioskopi.rs.domain.Theater;
+import bioskopi.rs.domain.*;
+import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,13 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import static bioskopi.rs.constants.FacilitiesConstants.*;
+import static bioskopi.rs.domain.Privilege.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +34,7 @@ public class FacilitiesServiceImplTest {
     @Before
     @Transactional
     public void setUp() throws Exception {
+        facilityRepository.deleteAll();
         if (!DB_INIT) {
 
             Cinema cinema = new Cinema(DB_FAC_NAME,DB_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
@@ -78,7 +79,180 @@ public class FacilitiesServiceImplTest {
     }
 
     @Test
+    @Transactional
     public void add() {
+        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), cinema.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        int count = facilitiesService.findAllFacilities().size();
+
+        Facility dbFacility  = facilitiesService.add(cinema);
+        assertThat(dbFacility).isNotNull();
+
+        List<Facility> facilities = facilitiesService.findAllFacilities();
+        assertThat(facilities).hasSize(count + 1);
+
+        /*dbFacility = facilities.get(facilities.size()-1);
+        assertThat(dbFacility.getName()).isEqualTo(NEW_FAC_NAME);
+        assertThat(dbFacility.getAddress()).isEqualTo(NEW_FAC_ADR);*/
+
+
+    }
+
+    /**
+     * Adding facility with name that already exists in database
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void notUniqueNameAdd(){
+        Cinema cinema = new Cinema(DB_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), cinema.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        int count = facilitiesService.findAllFacilities().size();
+
+        DB_INIT = false;
+
+        Facility dbFacility  = facilitiesService.add(cinema);
+        assertThat(dbFacility).isNotNull();
+
+        List<Facility> facilities = facilitiesService.findAllFacilities();
+        assertThat(facilities).hasSize(count + 1);
+
+        /*dbFacility = facilities.get(facilities.size()-1);
+        assertThat(dbFacility.getName()).isEqualTo(NEW_FAC_NAME);
+        assertThat(dbFacility.getAddress()).isEqualTo(NEW_FAC_ADR);*/
+    }
+
+
+    /**
+     * Facility does not contain any viewing room
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void noViewingRoomsAdd(){
+        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), cinema.getPointsScales()))));
+
+
+        int count = facilitiesService.findAllFacilities().size();
+
+        DB_INIT = false;
+
+        Facility dbFacility  = facilitiesService.add(cinema);
+        assertThat(dbFacility).isNotNull();
+
+        List<Facility> facilities = facilitiesService.findAllFacilities();
+        assertThat(facilities).hasSize(count + 1);
+
+        /*dbFacility = facilities.get(facilities.size()-1);
+        assertThat(dbFacility.getName()).isEqualTo(NEW_FAC_NAME);
+        assertThat(dbFacility.getAddress()).isEqualTo(NEW_FAC_ADR);*/
+    }
+
+    /**
+     * Facility does not contain points scale
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void noPointsScaleAdd(){
+        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        int count = facilitiesService.findAllFacilities().size();
+
+        DB_INIT = false;
+
+        Facility dbFacility  = facilitiesService.add(cinema);
+        assertThat(dbFacility).isNotNull();
+
+        List<Facility> facilities = facilitiesService.findAllFacilities();
+        assertThat(facilities).hasSize(count + 1);
+
+        /*dbFacility = facilities.get(facilities.size()-1);
+        assertThat(dbFacility.getName()).isEqualTo(NEW_FAC_NAME);
+        assertThat(dbFacility.getAddress()).isEqualTo(NEW_FAC_ADR);*/
+    }
+
+    /**
+     * Not all tree user categories were added
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void noAllUserCategoryAdd(){
+        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()))));
+
+
+        int count = facilitiesService.findAllFacilities().size();
+
+        DB_INIT = false;
+
+        Facility dbFacility  = facilitiesService.add(cinema);
+        assertThat(dbFacility).isNotNull();
+
+        List<Facility> facilities = facilitiesService.findAllFacilities();
+        assertThat(facilities).hasSize(count + 1);
+
+        /*dbFacility = facilities.get(facilities.size()-1);
+        assertThat(dbFacility.getName()).isEqualTo(NEW_FAC_NAME);
+        assertThat(dbFacility.getAddress()).isEqualTo(NEW_FAC_ADR);*/
     }
 
     @Test

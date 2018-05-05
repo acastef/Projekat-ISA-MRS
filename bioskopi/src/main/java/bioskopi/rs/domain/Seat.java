@@ -43,6 +43,13 @@ public class Seat implements Serializable {
         this.viewingRoom = viewingRoom;
     }
 
+    public Seat( String seatRow, String column , SegmentEnum segment, ViewingRoom viewingRoom) {
+        this.seatRow = seatRow;
+        this.seatColumn = column;
+        this.segment = segment;
+        this.viewingRoom = viewingRoom;
+    }
+
     public long getId() {
         return id;
     }

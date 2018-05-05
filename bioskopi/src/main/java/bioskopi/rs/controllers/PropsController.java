@@ -82,7 +82,6 @@ public class PropsController {
     @RequestMapping(method = RequestMethod.GET, value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<RegisteredUser> user(@PathVariable String id){
-        logger.info("nestooooooooooooooo");
         RegisteredUser temp = registeredUserService.findById(Long.parseLong(id));
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }

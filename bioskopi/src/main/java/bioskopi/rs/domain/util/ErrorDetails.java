@@ -1,4 +1,4 @@
-package bioskopi.rs.domain;
+package bioskopi.rs.domain.util;
 
 import java.util.Date;
 

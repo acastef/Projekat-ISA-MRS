@@ -5,6 +5,7 @@ import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.repository.FacilityRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,5 +100,14 @@ public class UserCategoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(DB_COUNT)));
+    }
+
+    @After
+    @Transactional
+    public void tearDown() throws Exception {
+        if(DB_INIT){
+            facilityRepository.deleteAll();
+            DB_INIT = false;
+        }
     }
 }

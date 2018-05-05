@@ -5,6 +5,7 @@ import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.repository.FacilityRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,5 +75,14 @@ public class UserCategoryServiceImplTest {
     public void findAll() {
         List<UserCategory> categories = userCategoryService.findAll();
         assertThat(categories).hasSize(DB_COUNT);
+    }
+
+    @After
+    @Transactional
+    public void tearDown() throws Exception {
+        if(DB_INIT){
+            facilityRepository.deleteAll();
+            DB_INIT = false;
+        }
     }
 }

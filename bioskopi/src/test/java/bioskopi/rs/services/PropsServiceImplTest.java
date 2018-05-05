@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.constants.PropsConstants;
 import bioskopi.rs.domain.Cinema;
 import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Facility;
@@ -7,6 +8,7 @@ import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.Props;
 import bioskopi.rs.repository.FacilityRepository;
 import bioskopi.rs.repository.PropsRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,12 +80,22 @@ public class PropsServiceImplTest {
         assertThat(props).isNotNull();
         assertThat(props.getDescription()).isEqualTo(DB_DESCRIPTION);
         assertThat(props.getImage()).isEqualTo(DB_IMG);
-        assertThat(props.getLocation()).isEqualTo(DB_LOC);
+        assertThat(props.getLocation()).isEqualTo(DB_PLACE );
     }
 
     @Test
     public void findAllProps() throws Exception {
         List<PropsDTO> allProps = propsService.findAllProps();
         assertThat(allProps).hasSize(DB_COUNT);
+    }
+
+    @After
+    @Transactional
+    public void tearDown() throws Exception {
+        if(DB_INIT) {
+            propsRepository.deleteAll();
+            facilityRepository.deleteAll();
+            DB_INIT = false;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.PointsScale;
+import bioskopi.rs.domain.util.ValidationException;
 
 import java.util.List;
 
@@ -25,5 +26,5 @@ public interface PointsScaleService {
      * @param scale that need to be saved
      * @return saved points scale
      */
-    PointsScale save(PointsScale scale);
+    PointsScale save(PointsScale scale) throws ValidationException;
 }

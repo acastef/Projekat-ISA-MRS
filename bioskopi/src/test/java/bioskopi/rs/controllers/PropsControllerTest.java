@@ -5,6 +5,7 @@ import bioskopi.rs.domain.*;
 import bioskopi.rs.repository.FacilityRepository;
 import bioskopi.rs.repository.PropsRepository;
 import bioskopi.rs.services.PropsServiceImpl;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -103,7 +104,7 @@ public class PropsControllerTest {
                 .andExpect(jsonPath("$", hasSize(DB_COUNT)))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DB_DESCRIPTION)))
                 .andExpect(jsonPath("$.[*].image").value(hasItem(DB_IMG)))
-                .andExpect(jsonPath("$.[*].location").value(hasItem(DB_LOC)));
+                .andExpect(jsonPath("$.[*].location").value(hasItem(DB_PLACE)));
     }
 
     @Test
@@ -114,6 +115,16 @@ public class PropsControllerTest {
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.description").value((DB_DESCRIPTION)))
                 .andExpect(jsonPath("$.image").value((DB_IMG)))
-                .andExpect(jsonPath("$.location").value((DB_LOC)));
+                .andExpect(jsonPath("$.location").value((DB_PLACE)));
+    }
+
+    @After
+    @Transactional
+    public void tearDown() throws Exception {
+        if(DB_INIT) {
+            propsRepository.deleteAll();
+            facilityRepository.deleteAll();
+            DB_INIT = false;
+        }
     }
 }

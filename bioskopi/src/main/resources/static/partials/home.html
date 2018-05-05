@@ -13,15 +13,16 @@
     <p class="city">Novi Sad</p>
     <table border="1">
         <tbody>
-        <tr>
-        <td>Facility</td>
-        <td>City</td>
-        </tr>
-        <tr ng-repeat="visit in visits">
-            <td>{{visit.facility}}</td>
-            <td>{{visit.city}}</td>
-        </tr>
+            <tr>
+                <td>Facility</td>
+                <td>City</td>
+            </tr>
+            <tr ng-repeat="visit in visits">
+                <td>{{visit.facility}}</td>
+                <td>{{visit.city}}</td>
+            </tr>
         </tbody>
     </table>
-    <a ng-href = "#facilities">Show facilities</a>
+    <a ng-href="#facilities">Show facilities</a>
+    <button ng-click="redirect('/')">Log Out</button>
 </div>

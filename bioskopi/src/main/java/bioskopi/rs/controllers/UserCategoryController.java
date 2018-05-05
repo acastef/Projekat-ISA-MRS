@@ -33,15 +33,4 @@ public class UserCategoryController {
         logger.info("Fetching all user categories");
         return new ResponseEntity<List<UserCategory>> (userCategoryService.findAll(), HttpStatus.OK) ;
     }
-
-    /**
-     * @param name of user category
-     * @return user category with given name
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<UserCategory> getByName(@PathVariable String name){
-        logger.info("Fetching user category with name {}", name);
-        return new ResponseEntity<UserCategory>(userCategoryService.findByName(name),HttpStatus.OK) ;
-    }
 }

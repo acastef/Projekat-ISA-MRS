@@ -42,26 +42,29 @@ public class PropsServiceImplTest {
     public void setUp() throws Exception {
 
         if (!DB_INIT) {
-            /*Cinema cin1 = new Cinema(1L, DB_LOC, "addr1", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(), new HashSet<>());
+            Cinema cin1 = new Cinema( DB_LOC, "addr1", "cinema",
+                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            Cinema cin2 = new Cinema(2L, "Arena", "addr2", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(), new HashSet<>());
+            Cinema cin2 = new Cinema( "Arena", "addr2", "cinema",
+                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
             cin1.getPointsScales().setFacility(cin1);
             cin2.getPointsScales().setFacility(cin2);
 
-            Props props1 = new Props(DB_DESCRIPTION, DB_QUAN, DB_IMG1, cin1);
-            Props props2 = new Props("mask", 7, DB_IMG2, cin2);
-            Props props3 = new Props("sticker", 6, DB_IMG3, cin1);
-
-            //cin1.getProps().add(props1); cin1.getProps().add(props3); cin2.getProps().add(props2);
+            Props props1 = new Props(DB_DESCRIPTION, DB_IMG1, cin1);
+            Props props2 = new Props("mask" , DB_IMG2, cin2);
+            Props props3 = new Props("sticker", DB_IMG3, cin1);
 
             facilityRepository.saveAll(new ArrayList<Facility>() {{
                 add(cin1);
                 add(cin2);
             }});
-            */
+
+            propsRepository.saveAll(new ArrayList<Props>() {{
+                add(props1);
+                add(props2);
+                add(props3);
+            }});
 
 
             DB_INIT = true;
@@ -76,7 +79,6 @@ public class PropsServiceImplTest {
         assertThat(props.getDescription()).isEqualTo(DB_DESCRIPTION);
         assertThat(props.getImage()).isEqualTo(DB_IMG);
         assertThat(props.getLocation()).isEqualTo(DB_LOC);
-        assertThat(props.getQuantity()).isEqualTo(DB_QUAN);
     }
 
     @Test

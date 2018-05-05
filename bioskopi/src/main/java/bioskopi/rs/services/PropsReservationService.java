@@ -15,4 +15,5 @@ public interface PropsReservationService {
      */
     PropsReservation add(PropsReservation propsReservation);
 
+    PropsReservation getByUserIdAndPropsId(long userId, long propsId);
 }

@@ -1,6 +1,7 @@
 package bioskopi.rs.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * Represent the thematic props which can be reserved
  */
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Props implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,8 +22,6 @@ public class Props implements Serializable {
     @Column(nullable = false, unique = true)
     private String description;
 
-    @Column(nullable = false)
-    private long quantity;
 
     @Column(nullable = true)
     private String image;
@@ -32,20 +32,18 @@ public class Props implements Serializable {
 
 
     public Props() {
-        this.quantity = 0;
+
     }
 
-    public Props(long id, String description, long quantity, String image, Facility facility) {
+    public Props(long id, String description, String image, Facility facility) {
         this.id = id;
         this.description = description;
-        this.quantity = quantity;
         this.image = image;
         this.facility = facility;
     }
 
-    public Props( String description, long quantity, String image, Facility facility) {
+    public Props( String description, String image, Facility facility) {
         this.description = description;
-        this.quantity = quantity;
         this.image = image;
         this.facility = facility;
     }
@@ -70,14 +68,6 @@ public class Props implements Serializable {
         this.description = description;
     }
 
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
-
     public String getImage() {
         return image;
     }
@@ -99,7 +89,6 @@ public class Props implements Serializable {
         return "Props{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", quantity=" + quantity +
                 ", image='" + image + '\'' +
                 ", facility=" + facility +
                 '}';

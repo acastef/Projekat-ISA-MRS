@@ -3,6 +3,7 @@ package bioskopi.rs.controllers;
 import bioskopi.rs.domain.ErrorDetails;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.services.PointsScaleServiceImpl;
+import bioskopi.rs.validators.UserCategoryValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
+import static bioskopi.rs.validators.UserCategoryValidator.checkDiscoints;
+import static bioskopi.rs.validators.UserCategoryValidator.checkPoints;
+
 /**
  * Communicates with points scale REST calls
  */
@@ -28,8 +32,6 @@ public class PointsScaleController {
 
     @Autowired
     private PointsScaleServiceImpl pointsScaleService;
-
-
 
 
     /**
@@ -59,19 +61,26 @@ public class PointsScaleController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> save(@Valid @RequestBody PointsScale scale, BindingResult bindingResult){
+    public ResponseEntity<Object> save(@RequestBody PointsScale scale, BindingResult bindingResult){
         logger.info("Saving points scale with id {}", scale.getId());
-        if (bindingResult.hasErrors()){
+
+        if(!checkPoints(scale.getUserCategories())){
+            logger.info("Wrong points value");
+
+            return new ResponseEntity<>("Points value has to be positive integer", HttpStatus.BAD_REQUEST);
+        }
+        else if(!checkDiscoints(scale.getUserCategories())){
+            logger.info("Wrong discount value");
+            return new ResponseEntity<>(" Discount value have to be decimal number with to digits in range of 0 - 100",
+                    HttpStatus.BAD_REQUEST);
+        }
+        /*if (bindingResult.hasErrors()){
             logger.info(bindingResult.getFieldErrors().toString());
             return new ResponseEntity<>(new ErrorDetails(new Date(),"Validation failed","error"),
                     HttpStatus.BAD_REQUEST);
-        }
+        }*/
         PointsScale temp = pointsScaleService.getById(scale.getId());
         temp.setUserCategories(scale.getUserCategories());
-        //temp.setUserCategories(scale.getUserCategories());
-        //scale.setFacility(temp.getFacility());
-        //temp.getFacility().setPointsScales(scale);
-
         return new ResponseEntity<>( pointsScaleService.save(temp), HttpStatus.CREATED);
     }
 

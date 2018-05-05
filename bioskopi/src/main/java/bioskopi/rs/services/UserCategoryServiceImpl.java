@@ -21,15 +21,4 @@ public class UserCategoryServiceImpl implements UserCategoryService {
     public List<UserCategory> findAll() {
         return userCategoryRepository.findAll();
     }
-
-    @Override
-    public UserCategory findByName(String name) {
-        return userCategoryRepository.findByName(name);
-    }
-
-    @Transactional
-    @Override
-    public void save() {
-
-    }
 }

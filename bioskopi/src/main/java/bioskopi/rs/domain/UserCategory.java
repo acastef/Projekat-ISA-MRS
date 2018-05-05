@@ -45,6 +45,13 @@ public class UserCategory {
         this.pointsScale = pointsScale;
     }
 
+    public UserCategory( Privilege name, long points, BigDecimal discount, PointsScale pointsScale) {
+        this.name = name;
+        this.points = points;
+        this.discount = discount;
+        this.pointsScale = pointsScale;
+    }
+
     public long getId() {
         return id;
     }

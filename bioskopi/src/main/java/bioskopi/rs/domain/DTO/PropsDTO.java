@@ -12,8 +12,6 @@ public class PropsDTO implements Serializable {
 
     private String description;
 
-    private long quantity;
-
     private String image;
 
     private String location;
@@ -21,10 +19,9 @@ public class PropsDTO implements Serializable {
     public PropsDTO() {
     }
 
-    public PropsDTO(long id, String description, long quantity, String image, String location) {
+    public PropsDTO(long id, String description, String image, String location) {
         this.id = id;
         this.description = description;
-        this.quantity = quantity;
         this.image = image;
         this.location = location;
     }
@@ -32,7 +29,6 @@ public class PropsDTO implements Serializable {
     public PropsDTO(Props props){
         this.id = props.getId();
         this.description = props.getDescription();
-        this.quantity = props.getQuantity();
         this.image = props.getImage();
         this.location = props.getFacility().getName();
     }
@@ -55,14 +51,6 @@ public class PropsDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
     }
 
     public String getImage() {

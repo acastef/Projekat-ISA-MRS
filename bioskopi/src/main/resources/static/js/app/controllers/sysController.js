@@ -244,7 +244,7 @@
                     toastr.success("Successfully saved changes", "OK");
                     self.categories = data;
                 }).error(function(data,status){
-                    toastr.error("Error while saving data", "Error");
+                    toastr.error("Error while saving data. " + data, "Error");
                 });
             }
         }
@@ -260,15 +260,15 @@
             sysService.save({
                 id:1,
                 userCategories:[
-                    {id: 2, name: "SILVER", points: -75, discount: 56.74, $$hashKey: "005"},
-                    {id: 1, name: "GOLD", points: 859, discount: 96.36, $$hashKey: "006"},
+                    {id: 2, name: "SILVER", points: 75, discount: 56.74, $$hashKey: "005"},
+                    {id: 1, name: "GOLD", points: 859, discount: 130.36, $$hashKey: "006"},
                     {id: 3, name: "BRONZE", points: 50, discount: 26.57, $$hashKey: "007"}
                 ]
             }).success(function(data,status){
                 console.log("SUCCESS SAVE");
                 self.categories = data;
             }).error(function(data,status){
-                console.log("Error while saving data");
+                toastr.error("Error while saving data. " + data, "Error");
             });
         }
 

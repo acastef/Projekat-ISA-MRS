@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of props reservation service
@@ -22,5 +23,15 @@ public class PropsReservationServiceImpl implements PropsReservationService {
     public PropsReservation add(PropsReservation propsReservation) {
         return propsReservationRepository.save(propsReservation);
 
+    }
+
+    @Override
+    public PropsReservation getByUserIdAndPropsId(long userId, long propsId) {
+        Optional<PropsReservation> temp = propsReservationRepository.findByUserAndProps(userId, propsId);
+        if (temp.isPresent()) {
+            System.out.print("postojiiiiiiiiiiiiiiiiiiiiiiiii");
+        }
+        return propsReservationRepository.findByUserAndProps(userId, propsId).orElse(
+                new PropsReservation(-1, null, null, -1));
     }
 }

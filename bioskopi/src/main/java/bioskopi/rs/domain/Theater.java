@@ -16,7 +16,12 @@ public class Theater extends Facility {
     }
 
     public Theater(long id, String name, String address, String description, Set<ViewingRoom> viewingRooms,
-                   Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets/*, Set<Props> props*/) {
+                   Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
         super(id, name, address, description, viewingRooms, projections, pointsScales, tickets);
+    }
+
+    public Theater(String name, String address, String description, Set<ViewingRoom> viewingRooms,
+                   Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
+        super(name, address, description, viewingRooms, projections, pointsScales, tickets);
     }
 }

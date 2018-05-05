@@ -60,13 +60,20 @@ public class PropsController {
     @ResponseBody
     public ResponseEntity<Object> addReservation(@RequestBody PropsReservation propsReservation) {
         logger.info("Adding reservation");
+
         try {
             PropsDTO temp = propsService.findById(propsReservation.getProps().getId());
         }catch (EntityNotFoundException e){
             return new ResponseEntity<>("Props do not exist",HttpStatus.BAD_REQUEST);
         }
+        PropsReservation props = propsReservationService.getByUserIdAndPropsId(propsReservation.getRegisteredUser().getId(),
+                propsReservation.getProps().getId());
+        if(props.getId() == -1){
+            return new ResponseEntity<>(propsReservationService.add(propsReservation), HttpStatus.CREATED);
+        }
+        props.setQuantity(props.getQuantity() + propsReservation.getQuantity());
+        return new ResponseEntity<>(propsReservationService.add(props), HttpStatus.CREATED);
 
-        return new ResponseEntity<>(propsReservationService.add(propsReservation), HttpStatus.CREATED);
     }
 
     @Autowired

@@ -15,7 +15,12 @@ public class Cinema extends Facility {
     }
 
     public Cinema(long id, String name, String address, String description, Set<ViewingRoom> viewingRooms,
-                  Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets/*, Set<Props> props*/) {
+                  Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
         super(id, name, address, description, viewingRooms, projections, pointsScales, tickets);
+    }
+
+    public Cinema(String name, String address, String description, Set<ViewingRoom> viewingRooms,
+                  Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
+        super(name, address, description, viewingRooms, projections, pointsScales, tickets);
     }
 }

@@ -61,6 +61,17 @@ public class Facility implements Serializable {
         this.tickets = tickets;
     }
 
+    public Facility( String name, String address, String description, Set<ViewingRoom> viewingRooms,
+                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.viewingRooms = viewingRooms;
+        this.projections = projections;
+        this.pointsScales = pointsScales;
+        this.tickets = tickets;
+    }
+
     public long getId() {
         return id;
     }

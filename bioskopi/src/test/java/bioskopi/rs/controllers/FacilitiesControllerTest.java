@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -110,6 +111,7 @@ public class FacilitiesControllerTest {
     }
 
     @Test
+    @Transactional
     public void addCinema() throws Exception {
         Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
                 new PointsScale(),new HashSet<>());
@@ -134,7 +136,85 @@ public class FacilitiesControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    /**
+     * Adding facility with name that already exists in database
+     */
     @Test
-    public void addTheater() {
+    @Transactional
+    public void notUniqueNameAddCinema() throws Exception{
+        Cinema cinema = new Cinema(DB_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        cinema.getPointsScales().setFacility(cinema);
+        cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), cinema.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), cinema.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        cinema.getViewingRooms().add(viewingRoom);
+
+        String json = TestUtil.json(cinema);
+        mockMvc.perform(post(URL_PREFIX + "/addCinema")
+                .contentType(contentType).content(json))
+                .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @Transactional
+    public void addTheater() throws Exception {
+        Theater theater = new Theater(NEW_THA_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        theater.getPointsScales().setFacility(theater);
+        theater.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), theater.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), theater.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), theater.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(theater);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        theater.getViewingRooms().add(viewingRoom);
+
+        String json = TestUtil.json(theater);
+        mockMvc.perform(post(URL_PREFIX + "/addCinema")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @Transactional
+    public void notUniqueNameAddTheater() throws Exception {
+        Theater theater = new Theater(DB_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
+                new PointsScale(),new HashSet<>());
+        theater.getPointsScales().setFacility(theater);
+        theater.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70L, new BigDecimal("36.11"), theater.getPointsScales()),
+                new UserCategory(SILVER, 50L, new BigDecimal("29.16"), theater.getPointsScales()),
+                new UserCategory(BRONZE, 30L, new BigDecimal("15.83"), theater.getPointsScales()))));
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(theater);
+        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        HashSet<Seat> seats = new HashSet<>();
+        seats.add(seat);
+        viewingRoom.setSeats(seats);
+        theater.getViewingRooms().add(viewingRoom);
+
+        String json = TestUtil.json(theater);
+        mockMvc.perform(post(URL_PREFIX + "/addCinema")
+                .contentType(contentType).content(json))
+                .andExpect(status().isBadRequest());
+    }
+
 }

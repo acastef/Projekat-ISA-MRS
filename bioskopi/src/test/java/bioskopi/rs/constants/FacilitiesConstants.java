@@ -12,6 +12,7 @@ public class FacilitiesConstants {
     public static final String NEW_FAC_ADR = "TEMP_ADR";
     public static final String NEW_VM_NAME = "VM_TEMP";
 
+    public static final String NEW_THA_NAME = "THA_TEMP";
 
     public static boolean DB_INIT = false;
 }

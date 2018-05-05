@@ -24,9 +24,9 @@ app.config(function($routeProvider) {
     }).when('/reservationsList',
     {
         templateUrl: 'partials/reservationsList.html',
-    }).when('/theatres',
+    }).when('/theaters',
     {
-        templateUrl: 'partials/theatres.html',
+        templateUrl: 'partials/theaters.html',
     }).when('/cinemas',
     {
         templateUrl: 'partials/cinemas.html',

@@ -2,7 +2,7 @@
     <h1>Home page</h1>
     <button ng-click="redirect('/props')">Props</button>
     <button ng-click="redirect('/reservationsList')">Reservation</button>
-    <button ng-click="redirect('/theatres')">Theatres</button>
+    <button ng-click="redirect('/theaters')">Theatres</button>
     <button ng-click="redirect('/cinemas')">Cinemas</button>
     <button ng-click="redirect('/friends')">Friends</button>
     <br/>
@@ -13,10 +13,10 @@
     <p class="city">Novi Sad</p>
     <table border="1">
         <tbody>
-        <th>
+        <tr>
         <td>Facility</td>
         <td>City</td>
-        </th>
+        </tr>
         <tr ng-repeat="visit in visits">
             <td>{{visit.facility}}</td>
             <td>{{visit.city}}</td>

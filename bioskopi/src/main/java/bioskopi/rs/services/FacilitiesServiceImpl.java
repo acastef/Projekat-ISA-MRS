@@ -40,4 +40,11 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     public List<Projection> getRepertoireById(long id) {
         return facilityRepository.findRepertoireById(id);
     }
+
+    @Override
+    public List<Facility> findFacilityByType(String type){
+        return facilityRepository.findFacilityByType(type);
+    }
+
+
 }

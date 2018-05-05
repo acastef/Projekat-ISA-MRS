@@ -33,4 +33,13 @@ public interface FacilitiesService {
      * @return list of projections of given facility
      */
     List<Projection>getRepertoireById(long id);
+
+    /***
+     *
+     * @param type of facility
+     * @return list of all facilities by type
+     */
+
+    List<Facility>findFacilityByType(String type);
+
 }

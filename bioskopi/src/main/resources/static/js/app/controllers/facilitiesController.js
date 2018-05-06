@@ -22,7 +22,7 @@
                 console.log("Error while getting data");
             });
 
-            getById();
+            //getById();
         };
 
         function getById()

@@ -1,6 +1,6 @@
 <h1>Props</h1>
 
-<div ng-controller="propsController">
+<div ng-controller="fanZoneAdminController">
     <label>Search:</label>
     <input class="search" type="search" ng-model="search">
     <br/> <br/> <br/>
@@ -11,7 +11,7 @@
                 <th>Image</th>
                 <th>Description</th>
                 <th>Location</th>
-                <th>Options</th>
+                <th colspan="2">Options</th>
             </tr>
         </thead>
 
@@ -23,12 +23,12 @@
                     <img class="imgCell" ng-src="{{prop.image}}" alt="Image"/></td>
                 <td>{{prop.description }}</td>
                 <td>{{prop.location}}</td>
-                <td><button class="cellButton" ng-click="makeReservation(prop.id)">
-                    Make reservation</button></td>
+                <td><button class="cellButton" ng-click="">Edit</button></td>
+                <td><button class="cellButton" ng-click="">Delete</button></td>
             </tr>
     
         </tbody>
     </table>
-    
-    
+    <br/><br/>
+
 </div>

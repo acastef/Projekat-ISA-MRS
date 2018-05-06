@@ -1,5 +1,6 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+//@JsonIgnoreProperties("inspection")
 public class Facility implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +35,7 @@ public class Facility implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<ViewingRoom> viewingRooms;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Projection> projections;
 
@@ -40,6 +43,7 @@ public class Facility implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private PointsScale pointsScales;
 
+    @JsonManagedReference(value = "facility")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 
@@ -149,5 +153,6 @@ public class Facility implements Serializable {
     public void setFeedbacks(Set<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
 }
 

@@ -53,8 +53,8 @@ public class Projection implements Serializable {
     @Column(nullable = false)
     private ViewingRoom viewingRoom;
 
+    @JsonManagedReference(value = "projection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projection", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Set<Ticket> tickets;
 
     @JsonBackReference

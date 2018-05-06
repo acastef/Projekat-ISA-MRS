@@ -33,12 +33,8 @@
         function activate() {
             sysService.getAllFacilities().success(function(data,status){
                 $scope.facilities = data;
-                /*if ($scope.facilities.length > 0) {
-                    $scope.selectedFacility = $scope.facilities[0];
-                }*/
-                
             }).error(function(data,status){
-                console.log("Error while getting data");
+                toastr.error("Error while getting data", "Error");
             });
         }
 
@@ -103,6 +99,7 @@
                     viewingRooms: $scope.rooms, 
                     projections: [],
                     tickets: [],
+                    feedbacks: [],
                     pointsScales:{
                         userCategories:[
                             {

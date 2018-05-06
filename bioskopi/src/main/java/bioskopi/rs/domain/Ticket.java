@@ -23,18 +23,18 @@ public class Ticket {
     @Column(nullable = false)
     private boolean taken;
 
-    @JsonBackReference
+    @JsonBackReference(value = "registerUser")
     @ManyToOne(optional = false)
     private RegisteredUser owner;
 
     @Column(nullable = false)
     private Seat seat;
 
-    @JsonBackReference
+    @JsonBackReference(value = "projection")
     @ManyToOne(optional = false)
     private Projection projection;
 
-    @JsonBackReference
+    @JsonBackReference(value = "facility")
     @ManyToOne(optional = false)
     private Facility facility;
 

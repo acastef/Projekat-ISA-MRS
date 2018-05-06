@@ -28,6 +28,8 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     public Facility getFacilityById(long id) {
         return facilityRepository.getOne(id);
     }
+
+    @Override
     @Transactional
     public Facility add(Facility facility) throws ValidationException {
         FacilitiesValidator.checkFacility(facility);

@@ -61,7 +61,7 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addCinema", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Facility> addCinema(@Valid @RequestBody Cinema facility){
+    public ResponseEntity<Facility> addCinema(@RequestBody Cinema facility){
         logger.info("Inserting facility with name {}", facility.getName());
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
@@ -72,7 +72,7 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addTheater", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Facility> addTheater(@Valid @RequestBody Theater facility) {
+    public ResponseEntity<Facility> addTheater(@RequestBody Theater facility) {
         logger.info("Inserting facility with name {}", facility.getName());
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }

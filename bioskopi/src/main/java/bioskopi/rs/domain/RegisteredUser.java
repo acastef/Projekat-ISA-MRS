@@ -29,9 +29,8 @@ public class RegisteredUser extends User implements Serializable {
     @JoinColumn(nullable = false)
     private Person person;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "registerUser")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
-    @Column(nullable = false)
     private Set<Ticket> tickets;
 
     public RegisteredUser() {

@@ -2,13 +2,13 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.util.ValidationException;
-
 import bioskopi.rs.repository.FacilityRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class FacilitiesServiceImplTest {
 
     @Autowired
@@ -35,37 +36,33 @@ public class FacilitiesServiceImplTest {
     @Before
     @Transactional
     public void setUp() throws Exception {
-        facilityRepository.deleteAll();
-        if (!DB_INIT) {
-
-            Cinema cinema = new Cinema(DB_FAC_NAME,DB_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                    new PointsScale(),new HashSet<>());
-
-            Theater theater = new Theater("FAC_FAC2","FAC_ADDR2","theater",
-                    new HashSet<>(),new HashSet<>(), new PointsScale(),new HashSet<>());
-
-            cinema.getPointsScales().setFacility(cinema);
-            theater.getPointsScales().setFacility(theater);
 
 
-            Projection projection1 = new Projection("Proj1", cinema);
-            Projection projection2 = new Projection("Proj2", cinema);
-            Projection projection3 = new Projection("Proj3", theater);
+        Cinema cinema = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
 
-            List<Facility> temp = facilityRepository.saveAll(new ArrayList<Facility>() {{
-                add(cinema);
-                add(theater);
-            }});
-            if(!temp.isEmpty()){
-                for (Facility fac :
-                        temp) {
-                    if (fac.getName().compareTo(DB_FAC_NAME) == 0) {
-                        DB_FAC_ID = fac.getId();
-                    }
+        Theater theater = new Theater("FAC_FAC2", "FAC_ADDR2", "theater",
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+
+        cinema.getPointsScales().setFacility(cinema);
+        theater.getPointsScales().setFacility(theater);
+
+
+//        Projection projection1 = new Projection("Proj1");
+//        Projection projection2 = new Projection("Proj2");
+//        Projection projection3 = new Projection("Proj3");
+
+        List<Facility> temp = facilityRepository.saveAll(new ArrayList<Facility>() {{
+            add(cinema);
+            add(theater);
+        }});
+        if (!temp.isEmpty()) {
+            for (Facility fac :
+                    temp) {
+                if (fac.getName().compareTo(DB_FAC_NAME) == 0) {
+                    DB_FAC_ID = fac.getId();
                 }
             }
-
-            DB_INIT = true;
         }
     }
 
@@ -87,8 +84,8 @@ public class FacilitiesServiceImplTest {
     @Test
     @Transactional
     public void add() {
-        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                new PointsScale(),new HashSet<>());
+        Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -98,7 +95,7 @@ public class FacilitiesServiceImplTest {
         ViewingRoom viewingRoom = new ViewingRoom();
         viewingRoom.setName(NEW_VM_NAME);
         viewingRoom.setFacility(cinema);
-        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
         HashSet<Seat> seats = new HashSet<>();
         seats.add(seat);
         viewingRoom.setSeats(seats);
@@ -106,7 +103,7 @@ public class FacilitiesServiceImplTest {
 
         int count = facilitiesService.findAllFacilities().size();
 
-        Facility dbFacility  = facilitiesService.add(cinema);
+        Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
         List<Facility> facilities = facilitiesService.findAllFacilities();
@@ -124,9 +121,9 @@ public class FacilitiesServiceImplTest {
      */
     @Test(expected = ValidationException.class)
     @Transactional
-    public void notUniqueNameAdd(){
-        Cinema cinema = new Cinema(DB_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                new PointsScale(),new HashSet<>());
+    public void notUniqueNameAdd() {
+        Cinema cinema = new Cinema(DB_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -136,7 +133,7 @@ public class FacilitiesServiceImplTest {
         ViewingRoom viewingRoom = new ViewingRoom();
         viewingRoom.setName(NEW_VM_NAME);
         viewingRoom.setFacility(cinema);
-        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
         HashSet<Seat> seats = new HashSet<>();
         seats.add(seat);
         viewingRoom.setSeats(seats);
@@ -146,7 +143,7 @@ public class FacilitiesServiceImplTest {
 
         DB_INIT = false;
 
-        Facility dbFacility  = facilitiesService.add(cinema);
+        Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
         List<Facility> facilities = facilitiesService.findAllFacilities();
@@ -163,9 +160,9 @@ public class FacilitiesServiceImplTest {
      */
     @Test(expected = ValidationException.class)
     @Transactional
-    public void noViewingRoomsAdd(){
-        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                new PointsScale(),new HashSet<>());
+    public void noViewingRoomsAdd() {
+        Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -177,7 +174,7 @@ public class FacilitiesServiceImplTest {
 
         DB_INIT = false;
 
-        Facility dbFacility  = facilitiesService.add(cinema);
+        Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
         List<Facility> facilities = facilitiesService.findAllFacilities();
@@ -193,15 +190,15 @@ public class FacilitiesServiceImplTest {
      */
     @Test(expected = ValidationException.class)
     @Transactional
-    public void noPointsScaleAdd(){
-        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                new PointsScale(),new HashSet<>());
+    public void noPointsScaleAdd() {
+        Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
 
         ViewingRoom viewingRoom = new ViewingRoom();
         viewingRoom.setName(NEW_VM_NAME);
         viewingRoom.setFacility(cinema);
-        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
         HashSet<Seat> seats = new HashSet<>();
         seats.add(seat);
         viewingRoom.setSeats(seats);
@@ -211,7 +208,7 @@ public class FacilitiesServiceImplTest {
 
         DB_INIT = false;
 
-        Facility dbFacility  = facilitiesService.add(cinema);
+        Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
         List<Facility> facilities = facilitiesService.findAllFacilities();
@@ -227,15 +224,15 @@ public class FacilitiesServiceImplTest {
      */
     @Test(expected = ValidationException.class)
     @Transactional
-    public void noAllUserCategoryAdd(){
-        Cinema cinema = new Cinema(NEW_FAC_NAME,NEW_FAC_ADR,"cinema",new HashSet<>(),new HashSet<>(),
-                new PointsScale(),new HashSet<>());
+    public void noAllUserCategoryAdd() {
+        Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+                new PointsScale(), new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
 
         ViewingRoom viewingRoom = new ViewingRoom();
         viewingRoom.setName(NEW_VM_NAME);
         viewingRoom.setFacility(cinema);
-        Seat seat = new Seat("1","1",SegmentEnum.NORMAL,viewingRoom);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
         HashSet<Seat> seats = new HashSet<>();
         seats.add(seat);
         viewingRoom.setSeats(seats);
@@ -250,7 +247,7 @@ public class FacilitiesServiceImplTest {
 
         DB_INIT = false;
 
-        Facility dbFacility  = facilitiesService.add(cinema);
+        Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
         List<Facility> facilities = facilitiesService.findAllFacilities();
@@ -266,8 +263,8 @@ public class FacilitiesServiceImplTest {
         List<Projection> projections = facilitiesService.getRepertoireById(DB_FAC_ID);
         assertThat(!projections.isEmpty());
 
-        for (Projection p: projections) {
-            assertThat(p.getFacility().getId() == DB_FAC_ID);
+        for (Projection p : projections) {
+            //assertThat(p.getFacility().getId() == DB_FAC_ID);
         }
 
     }

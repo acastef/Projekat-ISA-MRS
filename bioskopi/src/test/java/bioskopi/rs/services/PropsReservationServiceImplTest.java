@@ -1,12 +1,9 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.Cinema;
-import bioskopi.rs.domain.DTO.PropsDTO;
-import bioskopi.rs.domain.Facility;
-import bioskopi.rs.domain.PointsScale;
-import bioskopi.rs.domain.Props;
+import bioskopi.rs.domain.*;
 import bioskopi.rs.repository.FacilityRepository;
 import bioskopi.rs.repository.PropsRepository;
+import bioskopi.rs.repository.RegisteredUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,18 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import static bioskopi.rs.constants.PropsConstants.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class PropsServiceImplTest {
+public class PropsReservationServiceImplTest {
 
     @Autowired
-    PropsService propsService;
+    private PropsReservationService propsReservationService;
 
     @Autowired
     private PropsRepository propsRepository;
@@ -37,50 +32,58 @@ public class PropsServiceImplTest {
     @Autowired
     private FacilityRepository facilityRepository;
 
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
+
     @Before
     @Transactional
     public void setUp() throws Exception {
 
-        Cinema cin1 = new Cinema(DB_LOC2, "addr1", "cinema",
+
+        registeredUserRepository.deleteAll();
+
+        Cinema cin1 = new Cinema(DB_LOC3, "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-        Cinema cin2 = new Cinema("PROPS2", "addr2", "cinema",
+        Cinema cin2 = new Cinema("PRESERVATION", "addr2", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
         cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);
 
-        Props props1 = new Props(DB_DESCRIPTION2, DB_IMG1, cin1);
-        Props props2 = new Props("mask2", DB_IMG2, cin2);
-        Props props3 = new Props("sticker2", DB_IMG3, cin1);
+        Props props1 = new Props(DB_DESCRIPTION3, DB_IMG1, cin1);
+        Props props2 = new Props("mask3", DB_IMG2, cin2);
+        Props props3 = new Props("sticker3", DB_IMG3, cin1);
+
+        RegisteredUser user = new RegisteredUser("user3", "user", "user", new HashSet<>(),
+                new Person("test", "test", "test3"));
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(cin1);
             add(cin2);
         }});
 
-        propsRepository.saveAll(new ArrayList<Props>() {{
+        propsList = propsRepository.saveAll(new ArrayList<Props>() {{
             add(props1);
             add(props2);
             add(props3);
         }});
-    }
+
+        registeredUser = registeredUserRepository.save(user);
 
 
-    @Test
-    public void findByDescription() throws Exception {
-        PropsDTO props = propsService.findByDescription(DB_DESCRIPTION2);
-        assertThat(props).isNotNull();
-        assertThat(props.getDescription()).isEqualTo(DB_DESCRIPTION2);
-        assertThat(props.getImage()).isEqualTo(DB_IMG);
-        assertThat(props.getLocation()).isEqualTo(DB_PLACE2);
     }
 
     @Test
-    public void findAllProps() throws Exception {
-        List<PropsDTO> allProps = propsService.findAllProps();
-        assertThat(allProps).hasSize(DB_COUNT);
+    @Transactional
+    public void add() {
+        PropsReservation propsReservation = new PropsReservation(propsList.get(0), registeredUser, 1);
+        propsReservationService.add(propsReservation);
     }
 
+    @Test
+    public void getByUserIdAndPropsId() {
+        propsReservationService.getByUserIdAndPropsId(registeredUser.getId(), propsList.get(0).getId());
 
+    }
 }

@@ -36,6 +36,12 @@ public class PropsReservation {
         this.quantity = quantity;
     }
 
+    public PropsReservation( Props props, RegisteredUser registeredUser, long quantity) {
+        this.props = props;
+        this.registeredUser = registeredUser;
+        this.quantity = quantity;
+    }
+
     public long getId() {
         return id;
     }

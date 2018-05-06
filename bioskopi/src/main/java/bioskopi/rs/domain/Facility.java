@@ -33,7 +33,6 @@ public class Facility implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<ViewingRoom> viewingRooms;
 
-    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Projection> projections;
 
@@ -41,9 +40,11 @@ public class Facility implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private PointsScale pointsScales;
 
-    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
+    private Set<Feedback> feedbacks;
 
 
     public Facility() {
@@ -141,5 +142,12 @@ public class Facility implements Serializable {
         this.tickets = tickets;
     }
 
+    public Set<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(Set<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
 }
 

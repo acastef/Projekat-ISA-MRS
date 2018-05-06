@@ -56,6 +56,10 @@ public class PropsController {
         return new ResponseEntity<PropsDTO>(propsService.findByDescription(description), HttpStatus.OK);
     }
 
+    /**
+     * @param propsReservation that needs to be added to database
+     * @return reservation of given props
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/reserve", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> addReservation(@RequestBody PropsReservation propsReservation) {

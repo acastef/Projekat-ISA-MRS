@@ -33,6 +33,12 @@ public class Person {
         this.email = email;
     }
 
+    public Person( String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
     public long getId() {
         return id;
     }

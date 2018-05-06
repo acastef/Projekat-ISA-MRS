@@ -38,6 +38,13 @@ public class RegisteredUser extends User {
         this.person = person;
     }
 
+    public RegisteredUser(String username, String password, String avatar,
+                          Set<PropsReservation> propsReservations, Person person) {
+        super(username, password, avatar);
+        this.propsReservations = propsReservations;
+        this.person = person;
+    }
+
     public long getId() {
         return id;
     }

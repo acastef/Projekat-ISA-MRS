@@ -3,6 +3,7 @@ package bioskopi.rs.constants;
 import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Props;
+import bioskopi.rs.domain.RegisteredUser;
 
 import javax.swing.*;
 import java.io.File;
@@ -27,5 +28,18 @@ public class PropsConstants {
     public static final int DB_COUNT = 3;
 
     public static boolean DB_INIT_P = false;
+
+    public static RegisteredUser registeredUser = new RegisteredUser();
+    public static List<Props> propsList = new ArrayList<>();
+
+    public static boolean DB_INIT_P2 = false;
+    public static final String DB_DESCRIPTION2 = "DESCRIPTION2";
+    public static final String DB_LOC2 = "DB_LOC2";
+    public static final String DB_PLACE2 = DB_LOC2 +"\naddr1";
+
+    public static boolean DB_INIT_P3 = false;
+    public static final String DB_DESCRIPTION3 = "DESCRIPTION3";
+    public static final String DB_LOC3 = "DB_LOC3";
+    public static final String DB_PLACE3 = DB_LOC3 +"\naddr1";
 
 }

@@ -5,12 +5,12 @@ import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.repository.FacilityRepository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +21,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import static bioskopi.rs.constants.UserCategoryConstants.DB_COUNT;
-import static bioskopi.rs.constants.UserCategoryConstants.DB_INIT;
 import static bioskopi.rs.domain.Privilege.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserCategoryServiceImplTest {
 
 
@@ -40,35 +40,30 @@ public class UserCategoryServiceImplTest {
     @Transactional
     public void setUp() throws Exception {
 
-        if (!DB_INIT) {
-            facilityRepository.deleteAll();
-            Cinema cin1 = new Cinema( "KMP", "addr3", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            Cinema cin2 = new Cinema( "PMK", "addr4", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+        Cinema cin1 = new Cinema("KMP", "addr3", "cinema",
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            cin1.getPointsScales().setFacility(cin1);
-            cin2.getPointsScales().setFacility(cin2);
+        Cinema cin2 = new Cinema("PMK", "addr4", "cinema",
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            cin1.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
-                    new UserCategory(GOLD,80,new BigDecimal("0.0"),cin1.getPointsScales()),
-                    new UserCategory(SILVER, 60, new BigDecimal("0.0"),cin1.getPointsScales()),
-                    new UserCategory(BRONZE, 40, new BigDecimal("0.0"),cin1.getPointsScales()))));
+        cin1.getPointsScales().setFacility(cin1);
+        cin2.getPointsScales().setFacility(cin2);
 
-            cin2.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
-                    new UserCategory(GOLD,70,new BigDecimal("0.0"),cin2.getPointsScales()),
-                    new UserCategory(SILVER, 50, new BigDecimal("0.0"),cin2.getPointsScales()),
-                    new UserCategory(BRONZE, 30, new BigDecimal("0.0"),cin2.getPointsScales()))));
+        cin1.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 80, new BigDecimal("0.0"), cin1.getPointsScales()),
+                new UserCategory(SILVER, 60, new BigDecimal("0.0"), cin1.getPointsScales()),
+                new UserCategory(BRONZE, 40, new BigDecimal("0.0"), cin1.getPointsScales()))));
 
-            facilityRepository.saveAll(new ArrayList<Facility>() {{
-                add(cin1);
-                add(cin2);
-            }});
+        cin2.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
+                new UserCategory(GOLD, 70, new BigDecimal("0.0"), cin2.getPointsScales()),
+                new UserCategory(SILVER, 50, new BigDecimal("0.0"), cin2.getPointsScales()),
+                new UserCategory(BRONZE, 30, new BigDecimal("0.0"), cin2.getPointsScales()))));
 
-
-            DB_INIT = true;
-        }
+        facilityRepository.saveAll(new ArrayList<Facility>() {{
+            add(cin1);
+            add(cin2);
+        }});
     }
 
 
@@ -76,14 +71,5 @@ public class UserCategoryServiceImplTest {
     public void findAll() {
         List<UserCategory> categories = userCategoryService.findAll();
         assertThat(categories).hasSize(DB_COUNT);
-    }
-
-    @After
-    @Transactional
-    public void tearDown() throws Exception {
-        if(DB_INIT){
-            facilityRepository.deleteAll();
-            DB_INIT = false;
-        }
     }
 }

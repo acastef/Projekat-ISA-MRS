@@ -4,15 +4,15 @@ package bioskopi.rs.controllers;
 import bioskopi.rs.domain.*;
 import bioskopi.rs.repository.FacilityRepository;
 import bioskopi.rs.repository.PropsRepository;
-import bioskopi.rs.services.PropsServiceImpl;
-import org.junit.After;
+import bioskopi.rs.repository.RegisteredUserRepository;
+import bioskopi.rs.util.TestUtil;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -20,20 +20,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 import static bioskopi.rs.constants.PropsConstants.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PropsControllerTest {
 
     private static final String URL_PREFIX = "/props";
@@ -48,40 +48,41 @@ public class PropsControllerTest {
     @Autowired
     private FacilityRepository facilityRepository;
 
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
     @Before
     @Transactional
     public void setUp() throws Exception {
 
-        if (!DB_INIT_P) {
-            Cinema cin1 = new Cinema( DB_LOC, "addr1", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+        Cinema cin1 = new Cinema(DB_LOC, "addr1", "cinema",
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            Cinema cin2 = new Cinema( "Arena", "addr2", "cinema",
-                    new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+        Cinema cin2 = new Cinema("Arena", "addr2", "cinema",
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-            cin1.getPointsScales().setFacility(cin1);
-            cin2.getPointsScales().setFacility(cin2);
+        cin1.getPointsScales().setFacility(cin1);
+        cin2.getPointsScales().setFacility(cin2);
 
-            Props props1 = new Props(DB_DESCRIPTION, DB_IMG1, cin1);
-            Props props2 = new Props("mask", DB_IMG2, cin2);
-            Props props3 = new Props("sticker", DB_IMG3, cin1);
+        Props props1 = new Props(DB_DESCRIPTION, DB_IMG1, cin1);
+        Props props2 = new Props("mask", DB_IMG2, cin2);
+        Props props3 = new Props("sticker", DB_IMG3, cin1);
 
+        RegisteredUser user = new RegisteredUser("user", "user", "user", new HashSet<>(),
+                new Person("test", "test", "test"));
 
-            facilityRepository.saveAll(new ArrayList<Facility>() {{
-                add(cin1);
-                add(cin2);
-            }});
+        facilityRepository.saveAll(new ArrayList<Facility>() {{
+            add(cin1);
+            add(cin2);
+        }});
 
-            propsRepository.saveAll(new ArrayList<Props>() {{
-                add(props1);
-                add(props2);
-                add(props3);
-            }});
+        propsList = propsRepository.saveAll(new ArrayList<Props>() {{
+            add(props1);
+            add(props2);
+            add(props3);
+        }});
 
-            DB_INIT_P = true;
-        }
-
+        registeredUser = registeredUserRepository.save(user);
 
     }
 
@@ -118,13 +119,18 @@ public class PropsControllerTest {
                 .andExpect(jsonPath("$.location").value((DB_PLACE)));
     }
 
-    @After
+    @Test
     @Transactional
-    public void tearDown() throws Exception {
-        if(DB_INIT_P) {
-            propsRepository.deleteAll();
-            facilityRepository.deleteAll();
-            DB_INIT_P = false;
-        }
+    public void addReservation() throws Exception {
+        PropsReservation propsReservation = new PropsReservation(propsList.get(0), registeredUser, 1);
+        String json = TestUtil.json(propsReservation);
+        int index = json.lastIndexOf("}");
+        json = json.substring(0, index);
+
+        json += ",\"registeredUser\":{\"username\":\"\",\"password\":\"\",\"avatar\":\"\",\"id\":" + registeredUser.getId() +
+                ",\"propsReservations\":[],\"person\":{}}}";
+        mockMvc.perform(post(URL_PREFIX + "/reserve")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
     }
 }

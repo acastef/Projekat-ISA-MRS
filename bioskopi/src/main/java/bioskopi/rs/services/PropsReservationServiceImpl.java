@@ -27,10 +27,6 @@ public class PropsReservationServiceImpl implements PropsReservationService {
 
     @Override
     public PropsReservation getByUserIdAndPropsId(long userId, long propsId) {
-        Optional<PropsReservation> temp = propsReservationRepository.findByUserAndProps(userId, propsId);
-        if (temp.isPresent()) {
-            System.out.print("postojiiiiiiiiiiiiiiiiiiiiiiiii");
-        }
         return propsReservationRepository.findByUserAndProps(userId, propsId).orElse(
                 new PropsReservation(-1, null, null, -1));
     }

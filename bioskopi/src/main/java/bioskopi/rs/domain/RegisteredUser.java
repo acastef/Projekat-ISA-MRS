@@ -5,13 +5,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class RegisteredUser extends User {
+public class RegisteredUser extends User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy=IDENTITY)
@@ -25,6 +28,11 @@ public class RegisteredUser extends User {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Person person;
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    private Set<Ticket> tickets;
 
     public RegisteredUser() {
 
@@ -67,5 +75,13 @@ public class RegisteredUser extends User {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

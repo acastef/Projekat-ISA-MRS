@@ -15,20 +15,31 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+
     @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.ORDINAL)
+    private SeatStatus seatStatus;
+
+    @Column(nullable = false)
+    private boolean taken;
+
+    @JsonBackReference
+    @ManyToOne(optional = false)
+    private RegisteredUser owner;
+
+    @Column(nullable = false)
+    private Seat seat;
+
+    @JsonBackReference
+    @ManyToOne(optional = false)
+    private Projection projection;
 
     @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 
-    public Ticket() {
-    }
 
-    public Ticket(long id, String name, Facility facility) {
-        this.id = id;
-        this.name = name;
-        this.facility = facility;
+    public Ticket() {
     }
 
     public static long getSerialVersionUID() {
@@ -41,21 +52,5 @@ public class Ticket {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Facility getFacility() {
-        return facility;
-    }
-
-    public void setFacility(Facility facility) {
-        this.facility = facility;
     }
 }

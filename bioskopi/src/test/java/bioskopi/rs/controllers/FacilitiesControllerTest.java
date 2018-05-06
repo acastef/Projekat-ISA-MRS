@@ -27,6 +27,7 @@ import java.util.List;
 import static bioskopi.rs.constants.FacilitiesConstants.*;
 import static bioskopi.rs.domain.Privilege.*;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -56,6 +57,8 @@ public class FacilitiesControllerTest {
 
         cinema.getPointsScales().setFacility(cinema);
         theater.getPointsScales().setFacility(theater);
+
+        //Projection projection1
 
         List<Facility> temp = facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(cinema);
@@ -89,7 +92,11 @@ public class FacilitiesControllerTest {
     }
 
     @Test
-    public void getRepertoireById() {
+    public void getRepertoireById() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/getRepertoire" + DB_FAC_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test

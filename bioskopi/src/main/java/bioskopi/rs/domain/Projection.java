@@ -1,9 +1,13 @@
 package bioskopi.rs.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents projection entity
@@ -20,26 +24,151 @@ public class Projection implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private int price;
+
+    @ElementCollection
+    @CollectionTable(name = "actors" )
+    @Column(name = "actor")
+    private Set<String> listOfActors;
+
+    @Column(nullable = false)
+    private String genre;
+
+    @Column(nullable = false)
+    private String director;
+
+    @Column(nullable = false)
+    private int duration;
+
+    @Column(nullable = false)
+    private String picture;
+
+    @Column
+    private String description;
+
+    @Column(nullable = false)
+    private ViewingRoom viewingRoom;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projection", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Ticket> tickets;
+
     @JsonBackReference
     @ManyToOne(optional = false)
     private Facility facility;
 
 
-
     public Projection() {
     }
 
-    public Projection(String name, Facility facility) {
+    public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+                      String director, int duration, String picture, String description,
+                      ViewingRoom viewingRoom, Set<Ticket> tickets) {
         this.name = name;
-        this.facility = facility;
+        this.date = date;
+        this.price = price;
+        this.listOfActors = listOfActors;
+        this.genre = genre;
+        this.director = director;
+        this.duration = duration;
+        this.picture = picture;
+        this.description = description;
+        this.viewingRoom = viewingRoom;
+        this.tickets = tickets;
     }
 
-    public Projection(long id, String name, Facility facility) {
+    public Projection(long id, String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+                      String director, int duration, String picture, String description,
+                      ViewingRoom viewingRoom, Set<Ticket> tickets) {
         this.id = id;
         this.name = name;
-        this.facility = facility;
+        this.date = date;
+        this.price = price;
+        this.listOfActors = listOfActors;
+        this.genre = genre;
+        this.director = director;
+        this.duration = duration;
+        this.picture = picture;
+        this.description = description;
+        this.viewingRoom = viewingRoom;
+        this.tickets = tickets;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Set<String> getListOfActors() {
+        return listOfActors;
+    }
+
+    public void setListOfActors(Set<String> listOfActors) {
+        this.listOfActors = listOfActors;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ViewingRoom getViewingRoom() {
+        return viewingRoom;
+    }
+
+    public void setViewingRoom(ViewingRoom viewingRoom) {
+        this.viewingRoom = viewingRoom;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -59,6 +188,14 @@ public class Projection implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     public Facility getFacility() {

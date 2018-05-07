@@ -50,7 +50,8 @@ public class Projection implements Serializable {
     @Column
     private String description;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private ViewingRoom viewingRoom;
 
     @JsonManagedReference(value = "projection")

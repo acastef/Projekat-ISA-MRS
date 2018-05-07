@@ -27,4 +27,11 @@ public interface PropsService {
      * @return props with given id
      */
     PropsDTO findById(long id);
+
+    /**
+     * @return next Id from props data
+     */
+    //Long getNextId();
+
+    Props add(Props props);
 }

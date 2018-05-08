@@ -9,29 +9,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
-
-
 @Repository
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/signup")
+public class SignUpController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SignUpController.class);
 
     @Autowired
     private UserService userService;
 
     /***
-     * @return all registered users
+     * @return message with action result
      */
-
-    @RequestMapping(method = RequestMethod.GET, value = "/allUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RegisteredUser>> getUsers(){
-        logger.info("Fetching all registered users");
-        List<RegisteredUser> newList = userService.findAllUsers();
-        return new ResponseEntity<List<RegisteredUser>> (userService.findAllUsers(), HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.POST, value = "/addUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisteredUser> add(@RequestBody RegisteredUser regUser){
+        logger.info("Adding new registered user to database...");
+        return new ResponseEntity<RegisteredUser>(userService.add(regUser), HttpStatus.CREATED);
     }
 }

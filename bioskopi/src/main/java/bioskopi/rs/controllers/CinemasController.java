@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/cinemas")
 public class CinemasController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CinemasController.class);
 
     @Autowired
     private FacilitiesService facilitiesService;

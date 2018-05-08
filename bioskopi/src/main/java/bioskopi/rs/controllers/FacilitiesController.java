@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/facilities")
 public class FacilitiesController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacilitiesController.class);
 
     @Autowired
     private FacilitiesService facilitiesService;

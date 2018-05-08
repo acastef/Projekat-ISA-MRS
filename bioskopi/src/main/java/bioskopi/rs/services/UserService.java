@@ -20,6 +20,12 @@ public interface UserService{
 
     RegisteredUser findByUsername(String username);
 
+    /***
+     * @params New User
+     * @return User added to Database
+     */
+
+    RegisteredUser add(RegisteredUser registeredUser);
 
 
 }

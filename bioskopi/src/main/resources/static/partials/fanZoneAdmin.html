@@ -23,23 +23,53 @@
                     <img class="imgCell" ng-src="{{prop.image}}" alt="Image"/></td>
                 <td>{{prop.description }}</td>
                 <td>{{prop.location}}</td>
-                <td><button class="cellButton" ng-click="">Edit</button></td>
-                <td><button class="cellButton" ng-click="">Delete</button></td>
+                <td><button class="cellButton" ng-click="enable(prop.id)">Edit</button></td>
+                <td><button class="cellButton" ng-click="delete(prop.id)">Delete</button></td>
             </tr>
     
         </tbody>
     </table>
     <br/><br/>
 
-    <form addProps novalidate="novalidate">
-        <label>Avatar: </label>
-        <input type="image" required="required"> <br/>
+    <form ng-show="enableEdit" name="changeForm" id="changeFomr" novalidate="novalidate" 
+            accept-charset="UTF-8">
+        <div class="imageContainer">
+            <p><h2>Edit props</h2></p>
+            <img class="avatar" id="imageChange" src="img/props/no-image-found.jpg" alt="Image"><br/>
+		    <input type="file" id="imageChangeFile" name="imageChangeFile" filechange="imageFile" required><br/>
+            
+            <label>Description: </label>
+            <input ng-model="descriptionChange" type="text" name="description" required="required"> <br/>
 
-        <label>Description: </label>
-        <input type="text" required="required"> <br/>
+            <label>Box office location: </label>
+            <select ng-model="selectedFacilityChange" ng-options="f.name for f in facilities" required>
+            </select>
+            <br/>
+            <button ng-click="editProps()">Accept</button>
+            <button ng-click="cancel()">Cancel</button>
+        </div>
+    
+    </form>
 
-        <label>Location: </label>
+    <form name="propsForm" id="propsForm" ng-submit="addProps()"  method="POST" enctype="multipart/form-data" 
+            accept-charset="UTF-8" novalidate="novalidate">
+        <div class="imageContainer">
+            <p><h2>Add props</h2></p>
+            <img class="avatar" id="image" src="img/props/no-image-found.jpg" alt="Image"><br/>
+		    <input type="file" id="imageFile" name="imageFile" fileread="imageFile" required><br/>
+            
+            <label>Description: </label>
+            <input ng-model="description" type="text" name="description" required="required"> <br/>
+
+            <label>Box office location: </label>
+            <select ng-model="selectedFacility" ng-options="f.name for f in facilities" required>
+            </select>
+            <br/>
+            <button type="submit">Add</button>
+        </div>
         
+        
+
     </form>
 
 </div>

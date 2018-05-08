@@ -22,7 +22,7 @@
 
         service.getSeatsStatuses = function(data)
         {
-            return $http.get("/projection/getSeatsStatuses/" + data)
+            return $http.get("/projections/getSeatsStatuses/" + data)
         }
 
 

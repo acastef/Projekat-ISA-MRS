@@ -30,7 +30,7 @@ public class PropsDTO implements Serializable {
         this.id = props.getId();
         this.description = props.getDescription();
         this.image = props.getImage();
-        this.location = props.getFacility().getName() + "\n" + props.getFacility().getAddress();
+        this.location = props.getFacility().getName() + ": " + props.getFacility().getAddress();
     }
 
     public static long getSerialVersionUID() {

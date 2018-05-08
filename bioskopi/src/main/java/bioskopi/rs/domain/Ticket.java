@@ -16,7 +16,6 @@ public class Ticket implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private SeatStatus seatStatus;

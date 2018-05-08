@@ -1,26 +1,26 @@
 (function() {
-    'use strict';
+        'use strict';
 
-    angular
-        .module('utopia')
-        .controller('singleFacilityController', singleFacilityController);
+        angular
+            .module('utopia')
+            .controller('singleFacilityController', singleFacilityController);
 
-    singleFacilityController.$inject = ['$scope','$location', 'facilitiesService'];
-    function singleFacilityController($scope,$location,facilitiesService) {
-        var vm = this;
+        singleFacilityController.$inject = ['$scope', '$location', 'facilitiesService'];
+
+        function singleFacilityController($scope, $location, facilitiesService) {
+            var vm = this;
 
 
-        activate();
+            activate();
 
-        ////////////////
+            ////////////////
 
-        function activate() {
+            function activate() {
 
-        }
+            }
 
-        function getById()
-        {
+            function getById() {
 
-        }
+            }
 
-})();
+        })();

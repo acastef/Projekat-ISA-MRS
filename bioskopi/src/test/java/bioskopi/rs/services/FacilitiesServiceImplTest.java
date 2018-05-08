@@ -271,5 +271,9 @@ public class FacilitiesServiceImplTest {
 
     @Test
     public void findFacilityByType() {
+        List<Facility> theaters = facilitiesService.findFacilityByType("theater");
+        List<Facility> cinemas = facilitiesService.findFacilityByType("cinema");
+        assertThat(!theaters.isEmpty());
+        assertThat(!cinemas.isEmpty());
     }
 }

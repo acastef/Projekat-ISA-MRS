@@ -1,7 +1,6 @@
 <h1>Repertoire</h1>
 
 <div ng-controller = "repertoireController">
-    <h2 ng-show="props.length ==0">There are no repertoire records</h2>
 
     <p>Facilities</p>
     <div ng-repeat="projection in repertoire">
@@ -10,6 +9,19 @@
         <h1></h1>
         <p>    Id: {{projection.id}}</p>
         <p>    Name: {{projection.name}}</p>
+        <p>    Price: {{projection.price}}</p>
+
+        <button ng-click = "showForm(projection.id)">Set new price</button><br>
+
+        <form ng-hide = forms[{{projection.id}}]  ng-submit = "save(projection)">
+            <span>Enter new ticket price</span>
+            <input id = newPrice type = text name = newPriceText value = {{projection.price}} ng-model = "projection.price"><br>
+            <input type = submit value = Save>
+        </form><br>
+
+        <a ng-href = "#ticketReservations">    Make a reservation</a><br><br>
+
+
 
 
     </div>

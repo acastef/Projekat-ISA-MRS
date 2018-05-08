@@ -41,7 +41,7 @@ public class FacilitiesController {
         return new ResponseEntity<>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getRepertoire{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "getRepertoire/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Projection>> getRepertoireById(@PathVariable String id) {
         logger.info("Fetching one repertoire with facility id: {}", id);

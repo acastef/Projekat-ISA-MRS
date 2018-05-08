@@ -6,6 +6,12 @@
     <h1></h1>
     <p>    Number of seats: {{numberOfSeats}}</p>
 
+    <div ng-repeat = "seat in seats">
+
+        <input type="radio" checked = "seat.status != free">    
+
+    </div>
+
     <!--<button ng-click = "showForm(projection.id)">Set new price</button><br>-->
 
 

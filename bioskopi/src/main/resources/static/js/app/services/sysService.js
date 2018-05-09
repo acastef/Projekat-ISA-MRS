@@ -28,8 +28,22 @@
             }else{
                 return $http.post("/facilities/addTheater",data);
             }
+        }
 
-            
+        service.addAdmin = function(data, type){
+            if(type == "Fan-Zone"){
+                return $http.post("/admins/fan_zone/add",data);
+            }else{
+                return $http.post("/admins/ct/add",data);
+            }
+        }
+
+        service.changeAdmin = function(data,type){
+            if(type == "Fan-Zone"){
+                return $http.put("/admins/fan_zone/change",data);
+            }else{
+                return $http.put("/admins/ct/change",data);
+            }
         }
 
         return service;

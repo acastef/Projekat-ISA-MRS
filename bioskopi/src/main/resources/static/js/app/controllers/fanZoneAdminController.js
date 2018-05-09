@@ -22,8 +22,7 @@
         $scope.descriptionChange;
         $scope.imageFileChange = undefined;
         $scope.selectedPropsChange;
-        //var idChange;
-        //var unchangedImage;
+
         activate();
 
         ////////////////
@@ -37,9 +36,6 @@
             
             fanZoneAdminService.getAllFacilities().success(function(data,status){
                 $scope.facilities = data;
-                /*if($scope.facilities.length > 0){
-                    $scope.selectedFacility = $scope.facilities[0].name;
-                }*/
             }).error(function(data,status){
                 toastr.error("Failed to fetch facilities data.", "Error");
             });
@@ -80,7 +76,9 @@
             fanZoneAdminService.addProps({
                 image: "no-image-found.jpg",
                 description: $scope.description,
-                facility: $scope.selectedFacility
+                facility: $scope.selectedFacility,
+                reserved: false,
+                active: true
             }).success(function(propsData){
                 $.ajax({
                     url : '/props/upload',
@@ -99,7 +97,12 @@
                             propsData.location = propsData.facility.name + ": "
                             + propsData.facility.address;
                             delete propsData.facilities;
+                            var millisecondsToWait = 1000;
                             $scope.props.push(propsData);
+                            /*setTimeout(function() {
+                                
+                            }, millisecondsToWait);*/
+                            
                         }).error(function(data,status){
                             toastr.error("Failed to add props. " + data, "Error");            
                         });
@@ -130,13 +133,19 @@
             for (let index = 0; index < $scope.props.length; index++) {
                 const element = $scope.props[index];
                 if (id == element.id) {
-                    $scope.selectedPropsChange = element;
-                    $scope.descriptionChange = element.description;
-                    var tokensName = element.location.split(": ");
-                    $scope.selectedFacilityChange =  findFacility(tokensName[0]);
-                    $('#imageChange').attr('src', element.image)
-                    .width(250).height(250);
-                    $scope.enableEdit = true;
+                    if(element.reserved){
+                        toastr.error("Selected props can not be editable because is reserved by another user."
+                         + "Please add new props with changed values","Error");
+                    }else{
+                        $scope.selectedPropsChange = element;
+                        $scope.descriptionChange = element.description;
+                        var tokensName = element.location.split(": ");
+                        $scope.selectedFacilityChange =  findFacility(tokensName[0]);
+                        $('#imageChange').attr('src', element.image)
+                        .width(250).height(250);
+                        $scope.enableEdit = true;
+                    }
+                    
                 }
             }
          }
@@ -144,17 +153,18 @@
          $scope.editProps = function(){
             if(!$scope.changeForm.$valid){
                 toastr.error("All props fields are requared", "Error");
-            }else{
-                //files.length == 0 
+            }
+            else{
                 if (document.getElementById("imageChangeFile").files.length == 0) {
                     fanZoneAdminService.changeProps({
                         id: $scope.selectedPropsChange.id,
                         image: $scope.selectedPropsChange.image,
                         description: $scope.descriptionChange,
-                        facility: $scope.selectedFacilityChange
+                        facility: $scope.selectedFacilityChange,
+                        reserved: $scope.selectedPropsChange.reserved,
+                        active: $scope.selectedPropsChange.active
                     }).success(function(data){
                         toastr.success("Successfully updated props","Ok");
-                        //$scope.selectedPropsChange = data;
                         update(data);
                     }).error(function(data,status){
                         toastr.error("Failed to update props. " + data, "Error");
@@ -166,7 +176,9 @@
                         id: $scope.selectedPropsChange.id,
                         image: $scope.selectedPropsChange.image,
                         description: $scope.descriptionChange,
-                        facility: $scope.selectedFacilityChange
+                        facility: $scope.selectedFacilityChange,
+                        reserved: $scope.selectedPropsChange.reserved,
+                        active: $scope.selectedPropsChange.active
                     }).success(function(propsData){
                         $.ajax({
                             url : '/props/upload',
@@ -212,7 +224,25 @@
          }
 
          $scope.delete = function(id){
-
+            for (let index = 0; index < $scope.props.length; index++) {
+                const element = $scope.props[index];
+                if (element.id == id) {
+                    var tokensName = element.location.split(": ");
+                    fanZoneAdminService.deleteProps({
+                        id: element.id,
+                        image: element.image,
+                        description: element.description,
+                        facility: findFacility(tokensName[0]),
+                        reserved: element.reserved,
+                        active: element.active
+                    }).success(function(data){
+                        toastr.success("Successfully deleted props","Ok");
+                        $scope.props.splice(index,1);
+                    }).error(function(data,status){
+                        toastr.error("Failed to delete props. " + data, "Error");
+                    });
+                }
+            }
          }
     }
 })();

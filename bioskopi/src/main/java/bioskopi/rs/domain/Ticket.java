@@ -3,12 +3,14 @@ package bioskopi.rs.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Represents ticket entity
  */
 @Entity
-public class Ticket {
+public class Ticket implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -20,6 +22,7 @@ public class Ticket {
     @Enumerated(EnumType.ORDINAL)
     private SeatStatus seatStatus;
 
+
     @Column(nullable = false)
     private boolean taken;
 
@@ -27,7 +30,8 @@ public class Ticket {
     @ManyToOne(optional = false)
     private RegisteredUser owner;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private Seat seat;
 
     @JsonBackReference(value = "projection")
@@ -52,5 +56,54 @@ public class Ticket {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public SeatStatus getSeatStatus() {
+        return seatStatus;
+    }
+
+    public void setSeatStatus(SeatStatus seatStatus) {
+        this.seatStatus = seatStatus;
+    }
+
+
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
+
+    public RegisteredUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(RegisteredUser owner) {
+        this.owner = owner;
+    }
+
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
+
+    public Projection getProjection() {
+        return projection;
+    }
+
+    public void setProjection(Projection projection) {
+        this.projection = projection;
+    }
+
+    public Facility getFacility() {
+        return facility;
+    }
+
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 }

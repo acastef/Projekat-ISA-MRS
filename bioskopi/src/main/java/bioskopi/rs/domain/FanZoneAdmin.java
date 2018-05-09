@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Entity
 public class FanZoneAdmin extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +22,13 @@ public class FanZoneAdmin extends User implements Serializable {
     private Person person;
 
     public FanZoneAdmin() {
+    }
+
+    public FanZoneAdmin(long id, String username, String password, String avatar, boolean firstLogIn, Person person) {
+        super(username, password, avatar);
+        this.id = id;
+        this.firstLogIn = firstLogIn;
+        this.person = person;
     }
 
     public FanZoneAdmin(String username, String password, String avatar, boolean firstLogIn, Person person) {

@@ -31,9 +31,15 @@ public class Props implements Serializable {
     @ManyToOne(optional = false)
     private Facility facility;
 
+    @Column(nullable = false)
+    private boolean reserved;
+
+    @Column(nullable = false)
+    private boolean active;
 
     public Props() {
-
+        this.reserved = false;
+        this.active = true;
     }
 
     public Props(long id, String description, String image, Facility facility) {
@@ -41,12 +47,16 @@ public class Props implements Serializable {
         this.description = description;
         this.image = image;
         this.facility = facility;
+        this.reserved = false;
+        this.active = true;
     }
 
     public Props( String description, String image, Facility facility) {
         this.description = description;
         this.image = image;
         this.facility = facility;
+        this.reserved = false;
+        this.active = true;
     }
 
     public static long getSerialVersionUID() {
@@ -83,6 +93,22 @@ public class Props implements Serializable {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

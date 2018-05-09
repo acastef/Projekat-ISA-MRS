@@ -54,7 +54,25 @@ public class ImageValidator {
             return new UploadResponse("img-" + ++count + "-1." + tokens[tokens.length - 1],
                     path + File.separator + "img-" + count + "-1." + tokens[tokens.length - 1]);
         }
+    }
 
-
+    public static UploadResponse generateAvatarName(String imageFile) throws IOException{
+        String[] tokens = imageFile.split("\\.");
+        String current = new File(".").getCanonicalPath();
+        String path = current + File.separator + "src" + File.separator + "main" + File.separator +
+                "resources" + File.separator + "static" + File.separator + "img" + File.separator + "avatars";
+        File directory = new File(path);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return new UploadResponse("img-1-2." + tokens[tokens.length - 1],
+                    path + File.separator + "img-1-2." + tokens[tokens.length - 1]);
+        } else {
+            int count = files.length;
+            return new UploadResponse("img-" + ++count + "-2." + tokens[tokens.length - 1],
+                    path + File.separator + "img-" + count + "-2." + tokens[tokens.length - 1]);
+        }
     }
 }

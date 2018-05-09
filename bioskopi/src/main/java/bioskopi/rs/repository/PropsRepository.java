@@ -5,6 +5,8 @@ import bioskopi.rs.domain.Props;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * Interface that communicate with database for props data
  */
@@ -16,9 +18,7 @@ public interface PropsRepository extends JpaRepository<Props,Long> {
      */
     Props findByDescription(String description);
 
-    /**
-     * @return next Id for props data
-     */
-    //@Query(value = "SELECT props.nextval FROM dual", nativeQuery = true)
-    //Long getNextId();
+    @Query(value = "SELECT p FROM Props p WHERE p.active = true")
+    List<Props> getAllActive();
+
 }

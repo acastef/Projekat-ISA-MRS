@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/facilities")
 public class FacilitiesController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CinemasController.class);
 
     @Autowired
     private FacilitiesService facilitiesService;
@@ -48,6 +48,10 @@ public class FacilitiesController {
         return new ResponseEntity<>(facilitiesService.getRepertoireById(Long.parseLong(id)), HttpStatus.OK) ;
     }
 
+    /**
+     * @param id of target facility
+     * @return facility with given id
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Facility> getById(@PathVariable String id) {

@@ -30,6 +30,13 @@ public class CaTAdmin extends User implements Serializable {
         this.person = person;
     }
 
+    public CaTAdmin(long id, String username, String password, String avatar, boolean fLogIn, Person person) {
+        super(username, password, avatar);
+        this.id = id;
+        this.firstLogIn = fLogIn;
+        this.person = person;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

@@ -24,6 +24,10 @@
             return $http.put("/props/change",data);
         }
 
+        service.deleteProps = function(data){
+            return $http.put("/props/delete",data);
+        }
+
         return service;
 
         ////////////////

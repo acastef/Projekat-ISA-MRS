@@ -15,7 +15,6 @@
                 </thead>
         
                 <tbody>
-                    
                             <tr ng-repeat="category in categories.userCategories" 
                             class="cellInputs">
                                 <td>{{category.name}}</td>
@@ -35,6 +34,36 @@
 <br/> <br/>
 
 <button ng-click="testiranje()">testiranje</button>
+
+<p style="text-align: center"><h2>Admin manager</h2></p>
+
+<form name="adminForm" id="adminForm" accept-charset="UTF-8" novalidate="novalidate">
+        <div class="imageContainer">
+            <img class="avatar" id="image" src="img/avatars/default-avatar.jpg" alt="Avatar"
+                width="250" height="250"><br/>
+            <input type="file" id="imageFile" name="imageFile" fileread="imageFile"><br/>
+                
+            <label>Name: </label>
+            <input ng-model="name" type="text" name="name" required="required"> <br/>
+    
+            <label>Surname: </label>
+            <input ng-model="surname" type="text" name="surname" required="required"> <br/>
+
+            <label>Email: </label>
+            <input ng-model="email" type="email" name="email" required="required"> <br/>
+
+            <label>Username: </label>
+            <input ng-model="username" type="text" name="username" required="required"> <br/>
+
+            <label>Password: </label>
+            <input ng-model="password" type="password" name="password" required="required"> <br/>
+
+            <select ng-model="selectedAdminType" ng-options="a for a in adminTypes"></select>
+            <br/>
+            <button ng-click="addAdmin()">Add</button>
+            </div>
+</form>
+
 
 <h2>Facilities manager</h2>
 

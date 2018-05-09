@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/points_scale")
 public class PointsScaleController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PointsScaleController.class);
 
     @Autowired
     private PointsScaleServiceImpl pointsScaleService;

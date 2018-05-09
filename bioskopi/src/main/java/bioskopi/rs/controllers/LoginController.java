@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/login")
 public class LoginController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;

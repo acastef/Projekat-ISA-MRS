@@ -4,8 +4,10 @@ import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Props;
 import bioskopi.rs.domain.PropsReservation;
 import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.UploadResponse;
 import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.repository.TicketRepository;
 import bioskopi.rs.services.PropsReservationService;
 import bioskopi.rs.services.PropsService;
 import bioskopi.rs.services.RegisteredUserServiceImpl;
@@ -32,7 +34,7 @@ import java.util.List;
 import bioskopi.rs.validators.ImageValidator;
 
 /**
- * Communicates wiht props REST calls from frontend
+ * Communicates with props REST calls from frontend
  */
 @RestController
 @RequestMapping("/props")
@@ -49,6 +51,7 @@ public class PropsController {
     @Autowired
     private PropsReservationService propsReservationService;
 
+
     /**
      * @return collection of all available props in database
      */
@@ -56,7 +59,7 @@ public class PropsController {
     @ResponseBody
     public ResponseEntity<List<PropsDTO>> getAll() {
         logger.info("Fetching all props");
-        return new ResponseEntity<List<PropsDTO>>(propsService.findAllProps(), HttpStatus.OK) ;
+        return new ResponseEntity<>(propsService.findAllProps(), HttpStatus.OK) ;
     }
 
     /**
@@ -67,7 +70,7 @@ public class PropsController {
     @ResponseBody
     public ResponseEntity<PropsDTO> getByDescription(@PathVariable String description) {
         logger.info("Fetching props with description {}", description);
-        return new ResponseEntity<PropsDTO>(propsService.findByDescription(description), HttpStatus.OK);
+        return new ResponseEntity<>(propsService.findByDescription(description), HttpStatus.OK);
     }
 
     /**
@@ -94,6 +97,10 @@ public class PropsController {
 
     }
 
+    /**
+     * @param image thats needs to be uploaded
+     * @return full image path
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @ResponseBody
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image){
@@ -117,34 +124,48 @@ public class PropsController {
 
     }
 
+    /**
+     * @param props that needs to be added
+     * @return added props to database
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> addProps(@RequestBody Props props){
-        //AKO FEJLUJE OBRISI SLIKU
         try{
+            props.setActive(true);
+            props.setReserved(false);
             Props temp = propsService.add(props);
             return new ResponseEntity<>(temp,HttpStatus.CREATED);
         }catch (ValidationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        //temp.setImage(IMAGE_PATH + temp.getImage());
-
     }
 
+    /**
+     * @param props that needs to update
+     * @return updated props
+     */
     @RequestMapping(method = RequestMethod.PUT, value = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> changeProps(@RequestBody Props props){
+        PropsDTO temp = propsService.findById(props.getId());
+        if(temp.isReserved()){
+            return new ResponseEntity<>("Selected props can not be editable because is reserved by another user."
+                    + "Please add new props with changed values",HttpStatus.BAD_REQUEST);
+        }
         String[] tokens = props.getImage().split("/");
         props.setImage(tokens[tokens.length-1]);
         return new ResponseEntity<>(propsService.add(props),HttpStatus.CREATED);
     }
 
-   /* @RequestMapping(method = RequestMethod.GET, value = "/upload")
+    @RequestMapping(method = RequestMethod.PUT, value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> uploadImage(){
-        return new ResponseEntity<>("trigger upload", HttpStatus.CREATED);
-    }*/
+    public ResponseEntity<Object> deleteProps(@RequestBody Props props){
+        String[] tokens = props.getImage().split("/");
+        props.setImage(tokens[tokens.length-1]);
+        propsService.delete(props);
+        return new ResponseEntity<>("Props successfully removed", HttpStatus.OK);
+    }
 
     @Autowired
     private RegisteredUserServiceImpl registeredUserService;
@@ -155,5 +176,6 @@ public class PropsController {
         RegisteredUser temp = registeredUserService.findById(Long.parseLong(id));
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }
+
 }
 

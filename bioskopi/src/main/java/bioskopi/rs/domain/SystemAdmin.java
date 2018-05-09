@@ -22,4 +22,16 @@ public class SystemAdmin extends User implements Serializable {
     public SystemAdmin(String username, String password, String avatar) {
         super(username, password, avatar);
     }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

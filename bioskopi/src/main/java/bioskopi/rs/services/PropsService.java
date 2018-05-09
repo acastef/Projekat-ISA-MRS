@@ -28,10 +28,16 @@ public interface PropsService {
      */
     PropsDTO findById(long id);
 
-    /**
-     * @return next Id from props data
-     */
-    //Long getNextId();
 
+    /**
+     * @param props that needs to be added
+     * @return added props in database
+     */
     Props add(Props props);
+
+
+    /**
+     * @param props that needs to be deleted from database
+     */
+    void delete(Props props);
 }

@@ -47,22 +47,19 @@ public class PropsServiceImpl implements PropsService {
     public List<PropsDTO> findAllProps() {
 
         List<PropsDTO> temp = new ArrayList<>();
-        for (Props prop : propsRepository.findAll()) {
+        for (Props prop : propsRepository.getAllActive()) {
             prop.setImage(IMAGE_PATH + prop.getImage());
             temp.add(new PropsDTO(prop));
         }
         return temp;
     }
 
+
     @Override
     public PropsDTO findById(long id) {
         return new PropsDTO(propsRepository.getOne(id));
     }
 
-    /*@Override
-    public Long getNextId() {
-        return propsRepository.getNextId();
-    }*/
 
     @Override
     @Transactional
@@ -70,12 +67,24 @@ public class PropsServiceImpl implements PropsService {
         try{
             Optional<Facility> temp = facilityRepository.findById(props.getFacility().getId());
             if(!temp.isPresent()){
-                throw new ValidationException("Wrong facility");
+                throw new ValidationException("Facility does not exist");
             }
         }catch (NullPointerException e){
-            throw new ValidationException("Wrong facility");
+            throw new ValidationException("Facility does not exist");
         }
 
         return propsRepository.save(props);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Props props) {
+        Optional<Props> temp = propsRepository.findById(props.getId());
+        if(temp.isPresent()){
+            props.setActive(false);
+            propsRepository.save(props);
+        }else {
+            throw new ValidationException("Props does not exist");
+        }
     }
 }

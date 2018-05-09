@@ -43,7 +43,7 @@ public class Facility implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private PointsScale pointsScales;
 
-    @JsonManagedReference(value = "facility")
+    //@JsonManagedReference(value = "facility")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 

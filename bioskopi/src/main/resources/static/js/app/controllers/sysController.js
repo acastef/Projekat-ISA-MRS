@@ -26,6 +26,15 @@
         $scope.roomRows = 1;
         $scope.roomColumns = 1;
         $scope.seatsCounter = 1;
+
+        const extenxions = ["GIF", "JPG", "PNG", "BMP", "TIFF"];
+        $scope.adminTypes = ["Fan-Zone","CT"];
+        $scope.selectedAdminType = $scope.adminTypes[0];
+        $scope.username;
+        $scope.password;
+        $scope.name;
+        $scope.surname;
+        $scope.email;
         activate();
 
         ////////////////
@@ -251,6 +260,90 @@
                 $scope.seatsCounter = 0;
             }
             $scope.seatsCounter = $scope.roomColumns * $scope.roomRows;
+        }
+
+        function checkExtension(image){
+            var tokens = image.split(".");
+            for (let index = 0; index < extenxions.length; index++) {
+                const element = extenxions[index];
+                if (element == tokens[tokens.length - 1].toUpperCase()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        $scope.addAdmin = function(){
+            if(!$scope.adminForm.$valid){
+                toastr.error("All admin fields are requared", "Error");
+            }else{
+                var fileName = $("#imageFile").val();
+                if((fileName == "") || (checkExtension(fileName))){
+                    add();
+                }
+                else{
+                    toastr.error("Wrong image format. Acceptable formats are:\nGIF, JPG, PNG, BMP, TIFF",
+                    "Error");
+                }
+            }
+        }
+
+        function add(){
+            var formData = new FormData();
+            formData.append("image", $('#imageFile')[0].files[0]);
+            sysService.addAdmin({
+                avatar: "default-avatar.jpg",
+                username: $scope.username,
+                password: $scope.password,
+                person:{
+                    name: $scope.username,
+                    surname: $scope.surname,
+                    email: $scope.email
+                }
+            },$scope.selectedAdminType).success(function(adminData){
+                var fileName = $("#imageFile").val();
+                if(fileName == ""){
+                    toastr.success("Successfully added admin","Ok");
+                    document.getElementById("adminForm").reset();
+                }else{
+                    $.ajax({
+                        url : '/admins/upload',
+                        type : 'POST',
+                        data : formData,
+                        processData : false, // tell jQuery not to process the data
+                        contentType : false, // tell jQuery not to set contentType
+                        success : function(data) {
+                            console.log(data);
+                            adminData.avatar = data;
+                            //propsData.facility = $scope.selectedFacility
+                            sysService.changeAdmin(adminData,$scope.selectedAdminType)
+                            .success(function(changedData){
+                                document.getElementById("adminForm").reset();
+                                $('#image').attr('src', 'img/avatars/default-avatar.jpg');
+                                toastr.success("Successfully added admin","Ok");
+                            }).error(function(data,status){
+                                toastr.error("Failed to add admin. " + data, "Error");
+                            });
+                            
+                            /*fanZoneAdminService.changeProps(propsData).success(function(data){
+                                toastr.success("Successfully added props","Ok");
+                                propsData.location = propsData.facility.name + ": "
+                                + propsData.facility.address;
+                                delete propsData.facilities;
+                                $scope.props.push(propsData);
+                            }).error(function(data,status){
+                                toastr.error("Failed to add props. " + data, "Error");            
+                            });*/
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            toastr.error("Failed to add admin. " + XMLHttpRequest.responseText, "Error");
+                        }
+                    });
+                }
+             
+            }).error(function(data,status){
+                toastr.error("Failed to add admin. " + data, "Error");
+            });
         }
 
         $scope.testiranje = function(){

@@ -16,14 +16,20 @@ public class PropsDTO implements Serializable {
 
     private String location;
 
+    private boolean reserved;
+
+    private boolean active;
+
     public PropsDTO() {
     }
 
-    public PropsDTO(long id, String description, String image, String location) {
+    public PropsDTO(long id, String description, String image, String location, boolean reserved, boolean active) {
         this.id = id;
         this.description = description;
         this.image = image;
         this.location = location;
+        this.reserved = reserved;
+        this.active = active;
     }
 
     public PropsDTO(Props props){
@@ -31,6 +37,8 @@ public class PropsDTO implements Serializable {
         this.description = props.getDescription();
         this.image = props.getImage();
         this.location = props.getFacility().getName() + ": " + props.getFacility().getAddress();
+        this.reserved = props.isReserved();
+        this.active = props.isActive();
     }
 
     public static long getSerialVersionUID() {
@@ -67,5 +75,21 @@ public class PropsDTO implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

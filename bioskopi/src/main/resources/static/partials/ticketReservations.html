@@ -1,0 +1,16 @@
+<h1>GET YOUR TICKETS NOW!!!</h1>
+
+<div ng-controller = "ticketReservationsController">
+
+
+    <h1></h1>
+    <p>    Number of seats: {{numberOfSeats}}</p>
+
+    <div ng-repeat = "seat in seats" style="float:left">
+        
+        <input style="margin: 5px" type="radio"  ng-checked="seatsStatuses[seat.id]" ng-click="seatSelected()">
+
+    </div>
+
+
+</div>

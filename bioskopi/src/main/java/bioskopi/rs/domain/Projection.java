@@ -2,6 +2,7 @@ package bioskopi.rs.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.util.Lazy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,7 +51,7 @@ public class Projection implements Serializable {
     @Column
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private ViewingRoom viewingRoom;
 

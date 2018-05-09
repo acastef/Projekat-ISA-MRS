@@ -26,7 +26,8 @@ import java.util.List;
 @RequestMapping("/facilities")
 public class FacilitiesController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CinemasController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacilitiesController.class);
+
 
     @Autowired
     private FacilitiesService facilitiesService;
@@ -41,7 +42,7 @@ public class FacilitiesController {
         return new ResponseEntity<>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getRepertoire{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "getRepertoire/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Projection>> getRepertoireById(@PathVariable String id) {
         logger.info("Fetching one repertoire with facility id: {}", id);

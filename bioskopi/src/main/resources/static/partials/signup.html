@@ -1,12 +1,17 @@
 <div ng-controller="signupController">
-    <span>Username:</span><input type="text" id="username"><br>
-    <span>Password:</span><input type="password" id="password"><br>
-    <span>Repeat new password:</span><input type="password" id="rep_password"><br>
-    <span>Name:</span><input type="text" id="name"><br>
-    <span>Surname:</span><input type="text" id="surname"><br>
-    <span>Address:</span><input type="text" id="address"><br>
-    <span>Phone number:</span><input type="text" id="phone_num"><br>
-    <p style="color: red" ng-show="valid == 1">Something missing!</p>
-    <p style="color:red" ng-show="valid == 2">Passwords are not the same!</p>
-    <button ng-click="redirect('/')">Sign Up</button>
+    <form>
+        <span>Username:</span><input type="text" ng-model="username" id="username"><br>
+        <span>Password:</span><input type="password" ng-model="password" id="password"><br>
+        <span>Avatar:</span><input type="text" ng-model="avatar" id="avatar"><br>
+        <span>Repeat new password:</span><input type="password" ng-model="rep_password" id="rep_password"><br>
+        <span>E-mail:</span><input type="text" ng-model="email" id="email"><br>
+        <span>Name:</span><input type="text" ng-model="name" id="name"><br>
+        <span>Surname:</span><input type="text" ng-model="surname" id="surname"><br>
+        <span>Address:</span><input type="text" ng-model="address" id="address"><br>
+        <span>Phone number:</span><input type="text" ng-model="phone_num" id="phone_num"><br>
+        <p style="color: red" ng-show="valid == 1">Something missing!</p>
+        <p style="color:red" ng-show="valid == 2">Passwords are not the same!</p>
+        <p style="color: red" ng-show="!registered">Unable to register user with inserted data! Try again</p>
+        <button ng-click="tryRegister()">Sign Up</button>
+    </form>
 </div>

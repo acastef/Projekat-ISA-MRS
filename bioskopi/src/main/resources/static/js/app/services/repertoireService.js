@@ -13,12 +13,13 @@
             return $http.get('/facilities/getRepertoires');
         };
 
-        service.getById = function(){
-            return $http.get("/facilities/getRepertoire2")}
+        service.getByFactoryId = function(data){
+            return $http.get("/facilities/getRepertoire/" + data);
+        }
 
+         service.save = function(data){
+            return $http.put("/projections/save",data);
+         }
         return service;
-
-        ////////////////
-
     }
 })();

@@ -17,7 +17,6 @@ public class Ticket implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private SeatStatus seatStatus;
@@ -66,7 +65,6 @@ public class Ticket implements Serializable {
         this.seatStatus = seatStatus;
     }
 
-
     public boolean isTaken() {
         return taken;
     }
@@ -105,5 +103,18 @@ public class Ticket implements Serializable {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", seatStatus=" + seatStatus +
+                ", taken=" + taken +
+                ", owner=" + owner +
+                ", seat=" + seat +
+                ", projection=" + projection +
+                ", facility=" + facility +
+                '}';
     }
 }

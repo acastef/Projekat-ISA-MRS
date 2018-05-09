@@ -5,6 +5,7 @@ import bioskopi.rs.domain.DTO.PropsDTO;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.Props;
+import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
 import bioskopi.rs.repository.PropsRepository;
 import org.junit.Before;
@@ -41,26 +42,26 @@ public class PropsServiceImplTest {
     @Transactional
     public void setUp() throws Exception {
 
-        Cinema cin1 = new Cinema(DB_LOC2, "addr1", "cinema",
+        DB_FAC = new Cinema(DB_LOC2, "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
         Cinema cin2 = new Cinema("PROPS2", "addr2", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-        cin1.getPointsScales().setFacility(cin1);
+        DB_FAC.getPointsScales().setFacility(DB_FAC);
         cin2.getPointsScales().setFacility(cin2);
 
-        Props props1 = new Props(DB_DESCRIPTION2, DB_IMG1, cin1);
+        Props props1 = new Props(DB_DESCRIPTION2, DB_IMG1, DB_FAC);
         Props props2 = new Props("mask2", DB_IMG2, cin2);
-        Props props3 = new Props("sticker2", DB_IMG3, cin1);
+        Props props3 = new Props("sticker2", DB_IMG3, DB_FAC);
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
-            add(cin1);
+            add(DB_FAC);
             add(cin2);
         }});
 
+        DB_PROP = propsRepository.save(props1);
         propsRepository.saveAll(new ArrayList<Props>() {{
-            add(props1);
             add(props2);
             add(props3);
         }});
@@ -82,5 +83,41 @@ public class PropsServiceImplTest {
         assertThat(allProps).hasSize(DB_COUNT);
     }
 
+    @Test
+    @Transactional
+    public void add(){
+        Props props = new Props(NEW_DES,NEW_ADR,DB_FAC);
+        int count = propsService.findAllProps().size();
+        Props temp = propsService.add(props);
+        List<PropsDTO> all = propsService.findAllProps();
+        assertThat(all).hasSize(count +1);
+    }
+
+    /**
+     * Facility that is in relation with props does not exist
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void wrongFacilityAdd(){
+        Props props = new Props(NEW_DES,NEW_ADR,new Facility());
+        propsService.add(props);
+    }
+
+    @Test
+    @Transactional
+    public void delete(){
+        propsService.delete(DB_PROP);
+        PropsDTO temp = propsService.findById(DB_PROP.getId());
+        assertThat(temp.isActive()).isEqualTo(false);
+    }
+
+    /**
+     * Props does not exist in database
+     */
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void noPropsDelete(){
+        propsService.delete(new Props());
+    }
 
 }

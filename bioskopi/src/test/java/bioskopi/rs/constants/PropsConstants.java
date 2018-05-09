@@ -42,4 +42,11 @@ public class PropsConstants {
     public static final String DB_LOC3 = "DB_LOC3";
     public static final String DB_PLACE3 = DB_LOC3 +": addr1";
 
+    public static Facility DB_FAC = new Facility();
+
+    public static String NEW_DES = "DESCRIPTION4";
+    public static String NEW_ADR = "ADDRESS4";
+
+    public static Props DB_PROP = new Props();
+
 }

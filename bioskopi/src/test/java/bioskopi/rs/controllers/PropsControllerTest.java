@@ -27,6 +27,7 @@ import java.util.HashSet;
 import static bioskopi.rs.constants.PropsConstants.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -55,29 +56,29 @@ public class PropsControllerTest {
     @Transactional
     public void setUp() throws Exception {
 
-        Cinema cin1 = new Cinema(DB_LOC, "addr1", "cinema",
+        DB_FAC = new Cinema(DB_LOC, "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
         Cinema cin2 = new Cinema("Arena", "addr2", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
 
-        cin1.getPointsScales().setFacility(cin1);
+        DB_FAC.getPointsScales().setFacility(DB_FAC);
         cin2.getPointsScales().setFacility(cin2);
 
-        Props props1 = new Props(DB_DESCRIPTION, DB_IMG1, cin1);
+        Props props1 = new Props(DB_DESCRIPTION, DB_IMG1, DB_FAC);
         Props props2 = new Props("mask", DB_IMG2, cin2);
-        Props props3 = new Props("sticker", DB_IMG3, cin1);
+        Props props3 = new Props("sticker", DB_IMG3, DB_FAC);
 
         RegisteredUser user = new RegisteredUser("user", "user", "user", new HashSet<>(),
                 new Person("test", "test", "test"));
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
-            add(cin1);
+            add(DB_FAC);
             add(cin2);
         }});
 
+        DB_PROP = propsRepository.save(props1);
         propsList = propsRepository.saveAll(new ArrayList<Props>() {{
-            add(props1);
             add(props2);
             add(props3);
         }});
@@ -125,12 +126,66 @@ public class PropsControllerTest {
         PropsReservation propsReservation = new PropsReservation(propsList.get(0), registeredUser, 1);
         String json = TestUtil.json(propsReservation);
         int index = json.lastIndexOf("}");
-        json = json.substring(0, index);
-
-        json += ",\"registeredUser\":{\"username\":\"\",\"password\":\"\",\"avatar\":\"\",\"id\":" + registeredUser.getId() +
-                ",\"propsReservations\":[],\"person\":{}}}";
+        json = json.substring(0,index) + ",\"registeredUser\":" + TestUtil.json(propsReservation.getRegisteredUser())
+                + "}";
         mockMvc.perform(post(URL_PREFIX + "/reserve")
                 .contentType(contentType).content(json))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @Transactional
+    public void add() throws Exception {
+        Props props = new Props(NEW_DES,NEW_ADR,DB_FAC);
+        String json = TestUtil.json(props);
+        int index = json.lastIndexOf("}");
+        json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(props.getFacility()) + "}";
+        mockMvc.perform(post(URL_PREFIX + "/add")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @Transactional
+    public void wrongFacilityAdd() throws Exception {
+        Props props = new Props(NEW_DES,NEW_ADR,new Facility());
+        String json = TestUtil.json(props);
+        int index = json.lastIndexOf("}");
+        json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(props.getFacility()) + "}";
+        mockMvc.perform(post(URL_PREFIX + "/add")
+                .contentType(contentType).content(json))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void change() throws Exception {
+        DB_PROP.setDescription(NEW_DES);
+        String json = TestUtil.json(DB_PROP);
+        int index = json.lastIndexOf("}");
+        json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(DB_PROP.getFacility()) + "}";
+        mockMvc.perform(put(URL_PREFIX + "/change")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @Transactional
+    public void delete() throws Exception {
+
+        String json = TestUtil.json(DB_PROP);
+        mockMvc.perform(put(URL_PREFIX + "/delete")
+                .contentType(contentType).content(json))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void wrongPropsDelete() throws Exception {
+
+        String json = TestUtil.json(new Props());
+        mockMvc.perform(put(URL_PREFIX + "/delete")
+                .contentType(contentType).content(json))
+                .andExpect(status().isBadRequest());
     }
 }

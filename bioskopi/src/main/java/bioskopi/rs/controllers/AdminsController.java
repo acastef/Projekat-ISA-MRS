@@ -51,7 +51,7 @@ public class AdminsController {
      * @param id of target fan-zone admin
      * @return fan-zone admin with given id
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/fan_zone/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/fan_zone/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<FanZoneAdmin> getByIdFanZone(@PathVariable String id) {
         logger.info("Fetching fan-zone admin with id {}", id);
@@ -124,7 +124,7 @@ public class AdminsController {
      * @param id of target cinema or theater admin
      * @return fan-zone admin with given id
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/ct/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/ct/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<CaTAdmin> getByIdCT(@PathVariable String id) {
         logger.info("Fetching cinema or theater admin with id {}", id);
@@ -137,7 +137,7 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ct/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addFanZone(@RequestBody CaTAdmin admin){
+    public ResponseEntity<Object> addCT(@RequestBody CaTAdmin admin){
         try{
             return new ResponseEntity<>(adminsService.addCaTAdmin(admin),HttpStatus.CREATED);
         }catch (ValidationException e){

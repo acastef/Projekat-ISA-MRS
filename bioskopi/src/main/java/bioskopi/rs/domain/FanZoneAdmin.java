@@ -6,62 +6,25 @@ import java.io.Serializable;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@DiscriminatorValue("fanAdmin")
 public class FanZoneAdmin extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=IDENTITY)
-    private long id;
-
-    @Column(nullable = false)
-    private boolean firstLogIn;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
-    private Person person;
-
     public FanZoneAdmin() {
     }
 
-    public FanZoneAdmin(long id, String username, String password, String avatar, boolean firstLogIn, Person person) {
-        super(username, password, avatar);
-        this.id = id;
-        this.firstLogIn = firstLogIn;
-        this.person = person;
+    public FanZoneAdmin(String name, String surname, String email, String username,
+                        String password, String avatar, boolean fl) {
+        super(name, surname, email, username, password, avatar, fl);
     }
 
-    public FanZoneAdmin(String username, String password, String avatar, boolean firstLogIn, Person person) {
-        super(username, password, avatar);
-        this.firstLogIn = firstLogIn;
-        this.person = person;
+    public FanZoneAdmin(long id, String name, String surname, String email, String username,
+                        String password, String avatar, boolean fl) {
+        super(id, name, surname, email, username, password, avatar, fl);
     }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public boolean isFirstLogIn() {
-        return firstLogIn;
-    }
-
-    public void setFirstLogIn(boolean firstLogIn) {
-        this.firstLogIn = firstLogIn;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 }

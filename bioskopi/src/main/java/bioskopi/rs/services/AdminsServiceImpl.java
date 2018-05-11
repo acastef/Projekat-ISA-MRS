@@ -32,7 +32,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Override
     public FanZoneAdmin getByIdFanZoneAdmin(long id) {
         return fanZoneAdminRepository.findById(id).orElse(new FanZoneAdmin(-1,null,
-                null,null,false,null));
+                null,null,null,null, null,false));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Override
     public CaTAdmin getByIdCaTAdmins(long id) {
         return caTAdminRepository.findById(id).orElse(new CaTAdmin(-1,null,null,
-                null,false,null));
+                null,null,null,null,false,null));
     }
 
     @Override

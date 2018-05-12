@@ -13,6 +13,8 @@ public class RegisteredUserServiceImpl implements RegisteredUserService{
 
     @Override
     public RegisteredUser findById(long id) {
+
         return registeredUserRepository.getOne(id);
+
     }
 }

@@ -11,22 +11,22 @@ public class CaTAdmin extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn
     private Facility facility;
 
     public CaTAdmin() {
     }
 
-    public CaTAdmin(String name, String surname, String email, String username, String password,
-                    String avatar, boolean fl, Facility facility) {
-        super(name, surname, email, username, password, avatar, fl);
+    public CaTAdmin(long id, String name, String surname, String email, String username, String password, String avatar,
+                    boolean firstLogin, String telephone, String address, Facility facility) {
+        super(id, name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.facility = facility;
     }
 
-    public CaTAdmin(long id, String name, String surname, String email, String username,
-                    String password, String avatar, boolean fl, Facility facility) {
-        super(id, name, surname, email, username, password, avatar, fl);
+    public CaTAdmin(String name, String surname, String email, String username, String password, String avatar,
+                    boolean firstLogin, String telephone, String address, Facility facility) {
+        super(name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.facility = facility;
     }
 

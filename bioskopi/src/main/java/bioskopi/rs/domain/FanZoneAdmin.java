@@ -14,14 +14,14 @@ public class FanZoneAdmin extends User implements Serializable {
     public FanZoneAdmin() {
     }
 
-    public FanZoneAdmin(String name, String surname, String email, String username,
-                        String password, String avatar, boolean fl) {
-        super(name, surname, email, username, password, avatar, fl);
+    public FanZoneAdmin(long id, String name, String surname, String email, String username, String password,
+                        String avatar, boolean firstLogin, String telephone, String address) {
+        super(id, name, surname, email, username, password, avatar, firstLogin, telephone, address);
     }
 
-    public FanZoneAdmin(long id, String name, String surname, String email, String username,
-                        String password, String avatar, boolean fl) {
-        super(id, name, surname, email, username, password, avatar, fl);
+    public FanZoneAdmin(String name, String surname, String email, String username, String password, String avatar,
+                        boolean firstLogin, String telephone, String address) {
+        super(name, surname, email, username, password, avatar, firstLogin, telephone, address);
     }
 
     public static long getSerialVersionUID() {

@@ -52,14 +52,28 @@
             <label>Email: </label>
             <input ng-model="email" type="email" name="email" required="required"> <br/>
 
+            <label>Telephone: </label>
+            <input ng-model="telephone" type="tel" name="telephone"> <br/>
+
+            <label>Address: </label>
+            <input ng-model="address" type="text" name="address"> <br/>
+
             <label>Username: </label>
             <input ng-model="username" type="text" name="username" required="required"> <br/>
 
             <label>Password: </label>
             <input ng-model="password" type="password" name="password" required="required"> <br/>
 
-            <select ng-model="selectedAdminType" ng-options="a for a in adminTypes"></select>
+            <label>Admin type: </label>
+            <select ng-model="selectedAdminType" ng-options="a for a in adminTypes"
+                ng-change="changeAdminType()"></select>
             <br/>
+
+            <label ng-show="selectedTypeCT">Facility: </label>
+            <select ng-model="selectedAdminFacility" ng-options="f.name for f in facilities"
+                ng-show="selectedTypeCT">
+            </select> <br/>
+
             <button ng-click="addAdmin()">Add</button>
             </div>
 </form>

@@ -33,19 +33,19 @@ public class RegisteredUser extends User implements Serializable {
 
     }
 
-    public RegisteredUser(String name, String surname, String email, String username, String password, String avatar,
-                          boolean fl, Set<PropsReservation> propsReservations, Set<Ticket> tickets,
-                          Set<RegisteredUser> friends) {
-        super(name, surname, email, username, password, avatar, fl);
+    public RegisteredUser(long id, String name, String surname, String email, String username, String password,
+                          String avatar, boolean firstLogin, String telephone, String address,
+                          Set<PropsReservation> propsReservations, Set<Ticket> tickets, Set<RegisteredUser> friends) {
+        super(id, name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.propsReservations = propsReservations;
         this.tickets = tickets;
         this.friends = friends;
     }
 
-    public RegisteredUser(long id, String name, String surname, String email, String username, String password,
-                          String avatar, boolean fl, Set<PropsReservation> propsReservations,
+    public RegisteredUser(String name, String surname, String email, String username, String password, String avatar,
+                          boolean firstLogin, String telephone, String address, Set<PropsReservation> propsReservations,
                           Set<Ticket> tickets, Set<RegisteredUser> friends) {
-        super(id, name, surname, email, username, password, avatar, fl);
+        super(name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.propsReservations = propsReservations;
         this.tickets = tickets;
         this.friends = friends;

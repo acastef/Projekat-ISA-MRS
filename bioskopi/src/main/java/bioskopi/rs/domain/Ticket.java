@@ -45,6 +45,15 @@ public class Ticket implements Serializable {
     public Ticket() {
     }
 
+    public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

@@ -22,9 +22,16 @@ app.config(function($routeProvider) {
     }).when('/facilities', {
         templateUrl: 'partials/facilities.html',
         //css: ['css/table.css']
-    }).when('/repertoire', {
-        templateUrl: 'partials/repertoire.html',
-    }).when('/ticketReservations', {
+    }).when('/repertoire/:id', {
+               templateUrl: 'partials/repertoire.html',
+               controller : 'repertoireController'
+           })
+
+
+//    .when('/repertoire', {
+//        templateUrl: 'partials/repertoire.html',
+//    })
+    .when('/ticketReservations', {
         templateUrl: 'partials/ticketReservations.html',
     }).when('/reservationsList', {
         templateUrl: 'partials/reservationsList.html',

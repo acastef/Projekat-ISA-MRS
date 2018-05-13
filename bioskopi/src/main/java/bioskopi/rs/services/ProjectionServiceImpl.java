@@ -1,11 +1,14 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.controllers.FacilitiesController;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.ProjectionRepository;
 import bioskopi.rs.repository.ViewingRoomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ import java.util.Optional;
  */
 @Service("projectionService")
 public class ProjectionServiceImpl implements ProjectionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FacilitiesController.class);
 
     @Autowired
     private ProjectionRepository projectionRepository;
@@ -75,9 +80,11 @@ public class ProjectionServiceImpl implements ProjectionService {
         try{
             Optional<Projection> temp = projectionRepository.findById(p.getId());
             if(temp.isPresent()){
+                logger.info("VEC POSTOJIIIIIIIIIIIIIIIIIIIIIIIIIiiii");
                 throw new ValidationException("Projection already exists");
             }
         }catch (NullPointerException e){
+            logger.info("NE RADI FINDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             throw new ValidationException("Wrong projections adasdasdsd");
         }
 

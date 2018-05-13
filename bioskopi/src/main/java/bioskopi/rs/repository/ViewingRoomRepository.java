@@ -15,4 +15,7 @@ public interface ViewingRoomRepository extends JpaRepository<ViewingRoom, Long> 
 
     @Query(value = "SELECT seats FROM ViewingRoom v WHERE v.id = ?1")
     public List<Seat> getSeats(Long id);
+
+    @Query(value = "SELECT vr FROM ViewingRoom vr WHERE vr.facility.id = ?1")
+    public List<ViewingRoom> getAllForFac(Long facId);
 }

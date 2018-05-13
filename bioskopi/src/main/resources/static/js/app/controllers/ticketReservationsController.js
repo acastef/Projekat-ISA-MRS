@@ -9,7 +9,7 @@
     function ticketReservationsController($scope,$location,ticketReservationsService) {
         var vm = this;
         var viewingRoomId = 5;
-        $scope.projectionId = 1;
+        $scope.projectionId = 57;
         $scope.projection = {};
         $scope.numberOfSeats = 0;
         $scope.seats = {};

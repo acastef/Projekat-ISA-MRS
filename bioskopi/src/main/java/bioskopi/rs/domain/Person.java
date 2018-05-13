@@ -24,6 +24,9 @@ public class Person {
 
 
     public Person() {
+        this.name = "name";
+        this.surname = "lastName";
+        this.email = "email";
     }
 
     public Person(long id, String name, String surname, String email) {

@@ -39,9 +39,9 @@ public class ProjectionsController {
 
         Projection temp = projectionService.findById(new Long( projection.getId()));
 
-        temp.setPrice(projection.getPrice());
+        //temp.setPrice(projection.getPrice());
 
-        return new ResponseEntity<>( projectionService.save(temp), HttpStatus.CREATED);
+        return new ResponseEntity<>( projectionService.save(projection), HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getSeatsStatuses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,17 +59,11 @@ public class ProjectionsController {
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
 
         return new ResponseEntity<>(projectionService.getTickets(Long.parseLong(id) ), HttpStatus.OK);
-//        List<Ticket> temp = projectionService.getTickets(Long.parseLong(id) );
-//        for (Ticket tq: temp) {
-//            logger.info(tq.toString());
-//        }
-//
-//        return temp;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addProps(@RequestBody Projection p){
+    public ResponseEntity<Object> addProjectection(@RequestBody Projection p){
         try{
             Projection temp = projectionService.add(p);
             return new ResponseEntity<>(temp,HttpStatus.CREATED);
@@ -87,7 +81,10 @@ public class ProjectionsController {
 
         String message = projectionService.delete(Long.parseLong(id));
 
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        if (message.equals("Great Success!"))
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 
 
     }

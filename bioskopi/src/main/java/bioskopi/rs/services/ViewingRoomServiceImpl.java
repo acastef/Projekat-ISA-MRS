@@ -27,4 +27,14 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
     public List<Seat> getSeatsById(Long id) {
         return viewingRoomRepository.getSeats(id);
     }
+
+    @Override
+    public List<ViewingRoom> getAll() {
+        return viewingRoomRepository.findAll();
+    }
+
+    @Override
+    public List<ViewingRoom> getAllForFacility(Long facilityId) {
+        return viewingRoomRepository.getAllForFac(facilityId);
+    }
 }

@@ -93,7 +93,7 @@ public class FacilitiesControllerTest {
 
     @Test
     public void getRepertoireById() throws Exception{
-        mockMvc.perform(get(URL_PREFIX + "/getRepertoire" + DB_FAC_ID))
+        mockMvc.perform(get(URL_PREFIX + "/getRepertoire/" + DB_FAC_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(0)));

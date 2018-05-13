@@ -20,4 +20,18 @@ public interface ViewingRoomService {
      * @return list of seats of given viewing room
      */
     public List<Seat> getSeatsById(Long id);
+
+    /**
+     * @param id of a viewing room
+     * @return list of all seats in viewing room with given id
+     */
+    public List<ViewingRoom> getAll();
+
+    /**
+     *
+     * @param id of facility
+     * @return list of viewing rooms in facility with given id
+     */
+    public List<ViewingRoom> getAllForFacility(Long id);
+
 }

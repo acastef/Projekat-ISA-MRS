@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 
+import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.ViewingRoom;
 import bioskopi.rs.repository.ViewingRoomRepository;
@@ -26,5 +27,20 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
     @Override
     public List<Seat> getSeatsById(Long id) {
         return viewingRoomRepository.getSeats(id);
+    }
+
+    @Override
+    public List<ViewingRoom> getAll() {
+        return viewingRoomRepository.findAll();
+    }
+
+    @Override
+    public List<ViewingRoom> getAllForFacility(Long facilityId) {
+        return viewingRoomRepository.getAllForFac(facilityId);
+    }
+
+    @Override
+    public Facility getFacility(Long id) {
+        return viewingRoomRepository.getFacility(id);
     }
 }

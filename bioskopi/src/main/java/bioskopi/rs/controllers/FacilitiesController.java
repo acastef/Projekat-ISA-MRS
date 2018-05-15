@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.*;
+import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.services.FacilitiesService;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<Facility>> getAll() {
+    public ResponseEntity<List<FacilityDTO>> getAll() {
         logger.info("Fetching all facilities");
         return new ResponseEntity<>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
     }
@@ -80,6 +81,23 @@ public class FacilitiesController {
     public ResponseEntity<Facility> addTheater(@RequestBody Theater facility) {
         logger.info("Inserting facility with name {}", facility.getName());
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Facility> save(@RequestBody Facility facility){
+        logger.info("Saving facility with id {}", facility.getId());
+        return new ResponseEntity<>(facilitiesService.save(facility), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getFastTickets/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Ticket>> getFastTickets(@PathVariable String id)
+    {
+        logger.info("Getting fast tickets from facility with id: " + id);
+        List<Ticket> temp =  facilitiesService.getFastTickets(Long.parseLong(id) );
+
+        return new ResponseEntity<>(temp,  HttpStatus.OK);
     }
 
 }

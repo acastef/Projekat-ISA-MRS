@@ -26,7 +26,7 @@ public class ViewingRoom implements Serializable {
     private String name;
 
     @JsonManagedReference
-    @OneToMany( fetch = FetchType.LAZY, mappedBy = "viewingRoom", cascade = CascadeType.ALL)
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "viewingRoom", cascade = CascadeType.MERGE)
     private Set<Seat> seats;
 
     @JsonBackReference

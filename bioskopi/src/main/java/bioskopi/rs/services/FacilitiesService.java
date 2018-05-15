@@ -1,7 +1,9 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
+import bioskopi.rs.domain.Ticket;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public interface FacilitiesService {
     /**
      * @return Collection of all available facilities in database
      */
-    List<Facility> findAllFacilities();
+    List<FacilityDTO> findAllFacilities();
 
     /***
      *
@@ -41,5 +43,20 @@ public interface FacilitiesService {
      */
 
     List<Facility>findFacilityByType(String type);
+
+    /**
+     *
+     * @param facility that needs to be saved
+     * @return modified facility
+     */
+    Facility save(Facility facility);
+
+    /**
+     *
+     * @param id of facility
+     * @return list of fast reservation tickets in facility with given id
+     */
+    List<Ticket> getFastTickets(long id);
+
 
 }

@@ -16,6 +16,19 @@
         service.getById = function(){
             return $http.get("/facilities/2")}
 
+        service.update = function(facility){
+
+            if (facility.type == "cinema")
+                return $http.put("/cinemas/save", facility);
+            else
+                return $http.put("/theaters/save", facility);
+        };
+
+        service.getFastTickets = function(facId)
+        {
+            return $http.get("/facilities/getFastTickets/" + facId);
+        }
+
         return service;
 
         ////////////////

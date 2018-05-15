@@ -29,7 +29,7 @@ public class Ticket implements Serializable {
     @ManyToOne(optional = false)
     private RegisteredUser owner;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Seat seat;
 
@@ -39,10 +39,45 @@ public class Ticket implements Serializable {
 
     @JsonBackReference(value = "facility")
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = true)
     private Facility facility;
+
+    @Column(nullable = false)
+    private boolean fastReservation;
 
 
     public Ticket() {
+    }
+
+    public Ticket(long id, SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+        this.id = id;
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = false;
+    }
+
+    public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = false;
+    }
+
+    public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = fastReservation;
     }
 
     public static long getSerialVersionUID() {
@@ -103,6 +138,14 @@ public class Ticket implements Serializable {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    public boolean isFastReservation() {
+        return fastReservation;
+    }
+
+    public void setFastReservation(boolean fastReservation) {
+        this.fastReservation = fastReservation;
     }
 
     @Override

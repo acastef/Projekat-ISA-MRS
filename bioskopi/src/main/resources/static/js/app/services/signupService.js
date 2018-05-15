@@ -12,6 +12,10 @@
             return $http.post("/signup/addUser", data);
         }
 
+        service.sendMail = function() {
+            return $http.post("/signup/success", {});
+        }
+
         return service;
     }
 

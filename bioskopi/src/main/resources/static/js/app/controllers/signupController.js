@@ -62,6 +62,7 @@
                 propsReservations: [],
                 tickets: []
             }).success(function(data, status) {
+                signupService.sendMail();
                 $scope.registered = true;
                 $scope.redirect("/");
             }).error(function(data, status) {

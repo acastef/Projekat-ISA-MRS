@@ -22,6 +22,10 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
+//    @Autowired
+//    private MailService mailService;
+
+
     /***
      * @return message with action result
      */
@@ -30,4 +34,14 @@ public class SignUpController {
         logger.info("Adding new registered user to database...");
         return new ResponseEntity<RegisteredUser>(userService.add(regUser), HttpStatus.CREATED);
     }
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/success")
+//    public void sendMail() throws Exception{
+//        try {
+//            mailService.sendMail();
+//        }catch(MailException e){
+//            System.out.print(e.getMessage());
+//        }
+//    }
+
 }

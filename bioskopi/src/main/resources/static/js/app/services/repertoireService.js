@@ -30,8 +30,8 @@
             return $http.get("/facilities/" + id);
         }
 
-        service.getAllVRs = function(){
-            return $http.get("/viewingRooms/all");
+        service.getAllVRs = function(facId){
+            return $http.get("/viewingRooms/getVRsForFacility/" +facId);
         }
 
         service.addProjection = function(projection){

@@ -56,7 +56,7 @@
                         $scope.repertoire[i].facility = data;
                     }
 
-                    repertoireService.getAllVRs().success(function(data,status){
+                    repertoireService.getAllVRs($scope.facilitiy.id).success(function(data,status){
 
                         $scope.viewingRooms = data;
 
@@ -188,6 +188,7 @@
 
         $scope.addProjection = function(){
             $scope.newProjectionForm = true;
+            $scope.repertoire.push(projection);
             repertoireService.addProjection($scope.newProjection);
             toastr.success("Projection successfully added");
         }

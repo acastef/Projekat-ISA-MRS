@@ -51,8 +51,8 @@ public class ProjectionServiceTest {
                 "genre2", "director2", 22, "picture2", "description2",
                 new ViewingRoom(), new HashSet<Ticket>() );
 
-        RegisteredUser user = new RegisteredUser("user3", "user", "user", new HashSet<>(),
-                new Person("test", "test", "test3"));
+//        RegisteredUser user = new RegisteredUser("user3", "user", "user", new HashSet<>(),
+//                new Person("test", "test", "test3"));
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(cin1);

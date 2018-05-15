@@ -9,7 +9,7 @@
         <p>    Price: {{projection.price}}</p>
         <p>    VR: {{projection.viewingRoom.name}}</p>
 
-        <a ng-href = "#ticketReservations">    Make a reservation</a><br><br>
+        <a ng-href = "#ticketReservations/{{projection.id}}">    Make a reservation</a><br><br>
 
         <button ng-click="deleteProjection(repertoire, $index)">Delete projection</button><br><br>
 

@@ -25,14 +25,12 @@ app.config(function($routeProvider) {
     }).when('/repertoire/:id', {
                templateUrl: 'partials/repertoire.html',
                controller : 'repertoireController'
-           })
-
-
-//    .when('/repertoire', {
-//        templateUrl: 'partials/repertoire.html',
-//    })
-    .when('/ticketReservations', {
+    }).when('/fastTickets/:id', {
+        templateUrl: 'partials/fastReservation.html',
+        controller : 'fastReservationController'
+    }).when('/ticketReservations/:id', {
         templateUrl: 'partials/ticketReservations.html',
+        controller : 'ticketReservationsController'
     }).when('/reservationsList', {
         templateUrl: 'partials/reservationsList.html',
     }).when('/theaters', {

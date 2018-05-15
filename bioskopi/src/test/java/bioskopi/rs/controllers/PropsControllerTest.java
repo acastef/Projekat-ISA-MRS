@@ -69,8 +69,9 @@ public class PropsControllerTest {
         Props props2 = new Props("mask", DB_IMG2, cin2);
         Props props3 = new Props("sticker", DB_IMG3, DB_FAC);
 
-        RegisteredUser user = new RegisteredUser("user", "user", "user", new HashSet<>(),
-                new Person("test", "test", "test"));
+        RegisteredUser user = new RegisteredUser("test", "test", "test","user",
+                "user", "user",false,"user1","user1",new HashSet<>(),
+                new HashSet<>(), new HashSet<>());
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(DB_FAC);

@@ -16,19 +16,22 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<RegisteredUser> findAllUsers(){ return userRepository.findAll();};
+    public List<RegisteredUser> findAllUsers(){
+        //return userRepository.findAll();
+        return new ArrayList<>();
+    }
 
     @Override
     public RegisteredUser findByUsername(String username) {return userRepository.findByUsername(username);}
 
     @Override
     public RegisteredUser add(RegisteredUser registeredUser) throws ValidationException {
-        List<RegisteredUser> regUsers = userRepository.findAll();
+        /*List<RegisteredUser> regUsers = userRepository.findAll();
         for(RegisteredUser ru : regUsers){
             if (ru.getUsername().equals(registeredUser.getUsername())){
                 throw new ValidationException("Username duplicated!");
             }
-        }
+        }*/
         return userRepository.saveAndFlush(registeredUser);
     }
 }

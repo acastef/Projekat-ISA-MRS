@@ -1,8 +1,10 @@
 package bioskopi.rs.constants;
 
-import bioskopi.rs.domain.Person;
+import bioskopi.rs.domain.Facility;
 
 public class AdminsConstants {
+
+    public static Facility DB_FAC = new Facility();
 
     public static long DB_FAN_ID = -1;
     public static final String DB_FAN_UN = "user1";
@@ -12,6 +14,8 @@ public class AdminsConstants {
     public static final String DB_FAN_NM = "user1";
     public static final String DB_FAN_SN = "user1";
     public static final String DB_FAN_EM = "user1";
+    public static final String DB_FAN_TEL = "user1";
+    public static final String DB_FAN_ADR = "user1";
     public static final int DB_FAN_COUNT = 1;
 
     public static long DB_CT_ID = -1;
@@ -22,6 +26,8 @@ public class AdminsConstants {
     public static final String DB_CT_NM = "user2";
     public static final String DB_CT_SN = "user2";
     public static final String DB_CT_EM = "user2";
+    public static final String DB_CT_TEL = "user2";
+    public static final String DB_CT_ADR = "user2";
     public static final int DB_CT_COUNT = 1;
 
     public static final String NEW_FAN_UN = "user3";
@@ -31,6 +37,8 @@ public class AdminsConstants {
     public static final String NEW_FAN_NM = "user3";
     public static final String NEW_FAN_SN = "user3";
     public static final String NEW_FAN_EM = "user3";
+    public static final String NEW_FAN_TEL = "user3";
+    public static final String NEW_FAN_ADR = "user3";
 
     public static final String NEW_CT_UN = "user4";
     public static final String NEW_CT_PS = "user4";
@@ -39,5 +47,7 @@ public class AdminsConstants {
     public static final String NEW_CT_NM = "user4";
     public static final String NEW_CT_SN = "user4";
     public static final String NEW_CT_EM = "user4";
+    public static final String NEW_CT_TEL = "user4";
+    public static final String NEW_CT_ADR = "user4";
 
 }

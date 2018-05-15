@@ -8,56 +8,47 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@DiscriminatorValue("registered")
 public class RegisteredUser extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy=IDENTITY)
-    private long id;
-
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "registeredUser", cascade = CascadeType.ALL)
     private Set<PropsReservation> propsReservations;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
-    private Person person;
-
     //@JsonManagedReference(value = "registerUser")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name="friends", joinColumns = {@JoinColumn(name="first")},
+                inverseJoinColumns = {@JoinColumn(name="second")})
+    private Set<RegisteredUser> friends;
 
     public RegisteredUser() {
 
     }
 
-    public RegisteredUser(String username, String password, String avatar,
-                          long id, Set<PropsReservation> propsReservations, Person person) {
-        super(username, password, avatar);
-        this.id = id;
+    public RegisteredUser(long id, String name, String surname, String email, String username, String password,
+                          String avatar, boolean firstLogin, String telephone, String address,
+                          Set<PropsReservation> propsReservations, Set<Ticket> tickets, Set<RegisteredUser> friends) {
+        super(id, name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.propsReservations = propsReservations;
-        this.person = person;
+        this.tickets = tickets;
+        this.friends = friends;
     }
 
-    public RegisteredUser(String username, String password, String avatar,
-                          Set<PropsReservation> propsReservations, Person person) {
-        super(username, password, avatar);
+    public RegisteredUser(String name, String surname, String email, String username, String password, String avatar,
+                          boolean firstLogin, String telephone, String address, Set<PropsReservation> propsReservations,
+                          Set<Ticket> tickets, Set<RegisteredUser> friends) {
+        super(name, surname, email, username, password, avatar, firstLogin, telephone, address);
         this.propsReservations = propsReservations;
-        this.person = person;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.tickets = tickets;
+        this.friends = friends;
     }
 
     public Set<PropsReservation> getPropsReservations() {
@@ -68,19 +59,19 @@ public class RegisteredUser extends User implements Serializable {
         this.propsReservations = propsReservations;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
     public Set<Ticket> getTickets() {
         return tickets;
     }
 
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Set<RegisteredUser> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<RegisteredUser> friends) {
+        this.friends = friends;
     }
 }

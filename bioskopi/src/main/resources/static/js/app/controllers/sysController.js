@@ -35,6 +35,9 @@
         $scope.name;
         $scope.surname;
         $scope.email;
+        $scope.telephone;
+        $scope.address;
+        $scope.selectedTypeCT = false;
         activate();
 
         ////////////////
@@ -273,8 +276,17 @@
             return false;
         }
 
+        $scope.changeAdminType = function () {
+            if($scope.selectedAdminType == "CT"){
+                $scope.selectedTypeCT = true;
+            }else{
+                $scope.selectedTypeCT = false;
+            }
+        }
+
         $scope.addAdmin = function(){
-            if(!$scope.adminForm.$valid){
+            if(!$scope.adminForm.$valid || (($scope.selectedAdminType == "CT") && 
+                    ($scope.selectedAdminFacility == undefined))){
                 toastr.error("All admin fields are requared", "Error");
             }else{
                 var fileName = $("#imageFile").val();
@@ -291,16 +303,20 @@
         function add(){
             var formData = new FormData();
             formData.append("image", $('#imageFile')[0].files[0]);
-            sysService.addAdmin({
+            var admin = {
                 avatar: "default-avatar.jpg",
                 username: $scope.username,
                 password: $scope.password,
-                person:{
-                    name: $scope.username,
-                    surname: $scope.surname,
-                    email: $scope.email
-                }
-            },$scope.selectedAdminType).success(function(adminData){
+                name: $scope.username,
+                surname: $scope.surname,
+                email: $scope.email,
+                telephone: $scope.telephone,
+                address: $scope.address,
+            }
+            if ($scope.selectedAdminType == "CT") {
+                admin.facility = $scope.selectedAdminFacility;
+            }
+            sysService.addAdmin(admin,$scope.selectedAdminType).success(function(adminData){
                 var fileName = $("#imageFile").val();
                 if(fileName == ""){
                     toastr.success("Successfully added admin","Ok");
@@ -315,7 +331,6 @@
                         success : function(data) {
                             console.log(data);
                             adminData.avatar = data;
-                            //propsData.facility = $scope.selectedFacility
                             sysService.changeAdmin(adminData,$scope.selectedAdminType)
                             .success(function(changedData){
                                 document.getElementById("adminForm").reset();
@@ -324,16 +339,6 @@
                             }).error(function(data,status){
                                 toastr.error("Failed to add admin. " + data, "Error");
                             });
-                            
-                            /*fanZoneAdminService.changeProps(propsData).success(function(data){
-                                toastr.success("Successfully added props","Ok");
-                                propsData.location = propsData.facility.name + ": "
-                                + propsData.facility.address;
-                                delete propsData.facilities;
-                                $scope.props.push(propsData);
-                            }).error(function(data,status){
-                                toastr.error("Failed to add props. " + data, "Error");            
-                            });*/
                         },
                         error : function(XMLHttpRequest, textStatus, errorThrown) {
                             toastr.error("Failed to add admin. " + XMLHttpRequest.responseText, "Error");

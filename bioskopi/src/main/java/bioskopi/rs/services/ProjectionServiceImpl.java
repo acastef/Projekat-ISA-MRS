@@ -62,12 +62,9 @@ public class ProjectionServiceImpl implements ProjectionService {
                     break;
                 }
             }
-
         }
-
         return seatStatuses;
     }
-
 
 
     @Override

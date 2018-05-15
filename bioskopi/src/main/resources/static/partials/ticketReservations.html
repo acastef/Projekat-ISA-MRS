@@ -7,8 +7,13 @@
     <p>    Number of seats: {{numberOfSeats}}</p>
 
     <div ng-repeat = "seat in seats" style="float:left">
+        <div>
+            <input style="margin: 5px" type="radio"  ng-checked="seatsStatuses[seat.id]" ng-click="seatSelected()">
+        </div>
+        <div>
+            <button ng-hide="seatsStatuses[seat.id]" ng-click="makeReservation(seat)" style="margin-right: 5px">{{seat.id}}</button>
+        </div>
         
-        <input style="margin: 5px" type="radio"  ng-checked="seatsStatuses[seat.id]" ng-click="seatSelected()">
 
     </div>
 

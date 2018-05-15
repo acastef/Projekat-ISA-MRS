@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.Facility;
+import bioskopi.rs.domain.Theater;
 import bioskopi.rs.services.FacilitiesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.util.List;
@@ -34,5 +36,12 @@ public class TheatersController {
         logger.info("Fetching all theaters");
         List<Facility> newList =facilitiesService.findFacilityByType("theater");
         return new ResponseEntity<List<Facility>>(facilitiesService.findFacilityByType("theater"), HttpStatus.OK) ;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Facility> save(@RequestBody Theater theater){
+        logger.info("Saving facility with id {}", theater.getId());
+        return new ResponseEntity<>(facilitiesService.save(theater), HttpStatus.CREATED);
     }
 }

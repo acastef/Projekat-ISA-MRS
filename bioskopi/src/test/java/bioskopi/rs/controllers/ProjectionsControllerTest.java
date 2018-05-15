@@ -52,9 +52,6 @@ public class ProjectionsControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
@@ -104,7 +101,7 @@ public class ProjectionsControllerTest {
         seats.add(seat2);
         seats.add(seat3);
 
-        Person person = new Person();
+        //Person person = new Person();
 
 //        personRepository.saveAll(new ArrayList<Person>() {{
 //            add(person);

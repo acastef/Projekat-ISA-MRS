@@ -1,5 +1,6 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.ViewingRoom;
 import bioskopi.rs.services.ViewingRoomService;
@@ -45,7 +46,7 @@ public class ViewingRoomController {
     @RequestMapping(method = RequestMethod.GET, value = "/getSeatsById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Seat>> getSeatsById(@PathVariable String id) {
-        logger.info("Fetching one projection with id: {}", id);
+        logger.info("Fetching seats from viewing Room with id: {}", id);
         return new ResponseEntity<>(viewingRoomService.getSeatsById(Long.parseLong(id)), HttpStatus.OK);
     }
 
@@ -54,5 +55,12 @@ public class ViewingRoomController {
     public ResponseEntity<List<ViewingRoom>> getAll()
     {
         return new ResponseEntity<>(viewingRoomService.getAll(),HttpStatus.OK) ;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getFacility/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public  ResponseEntity<Facility> getFacility(@PathVariable String id)
+    {
+        return new ResponseEntity<>(viewingRoomService.getFacility(Long.parseLong(id)), HttpStatus.OK);
     }
 }

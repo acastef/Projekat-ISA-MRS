@@ -39,6 +39,8 @@ public class ImageValidator {
 
         String[] tokens = imageFile.split("\\.");
         String current = new File(".").getCanonicalPath();
+        /*String path = current + File.separator + "src" + File.separator + "main" + File.separator +
+                "resources" + File.separator + "static" + File.separator + "img" + File.separator + "props";*/
         String path = current + File.separator + "src" + File.separator + "main" + File.separator +
                 "resources" + File.separator + "static" + File.separator + "img" + File.separator + "props";
         File directory = new File(path);
@@ -47,11 +49,13 @@ public class ImageValidator {
         }
         File[] files = directory.listFiles();
         if (files == null) {
-            return new UploadResponse("img-1-1." + tokens[tokens.length - 1],
+            return new UploadResponse(File.separator + "upload" + File.separator + "img-1-1." +
+                    tokens[tokens.length - 1],
                     path + File.separator + "img-1-1." + tokens[tokens.length - 1]);
         } else {
             int count = files.length;
-            return new UploadResponse("img-" + ++count + "-1." + tokens[tokens.length - 1],
+            return new UploadResponse(File.separator + "upload" + File.separator +"img-" + ++count + "-1." +
+                    tokens[tokens.length - 1],
                     path + File.separator + "img-" + count + "-1." + tokens[tokens.length - 1]);
         }
     }
@@ -73,6 +77,26 @@ public class ImageValidator {
             int count = files.length;
             return new UploadResponse("img-" + ++count + "-2." + tokens[tokens.length - 1],
                     path + File.separator + "img-" + count + "-2." + tokens[tokens.length - 1]);
+        }
+    }
+
+    public static UploadResponse generateAdName(String imageFile) throws IOException{
+        String[] tokens = imageFile.split("\\.");
+        String current = new File(".").getCanonicalPath();
+        String path = current + File.separator + "src" + File.separator + "main" + File.separator +
+                "resources" + File.separator + "static" + File.separator + "img" + File.separator + "ads";
+        File directory = new File(path);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return new UploadResponse("img-1-3." + tokens[tokens.length - 1],
+                    path + File.separator + "img-1-3." + tokens[tokens.length - 1]);
+        } else {
+            int count = files.length;
+            return new UploadResponse("img-" + ++count + "-3." + tokens[tokens.length - 1],
+                    path + File.separator + "img-" + count + "-3." + tokens[tokens.length - 1]);
         }
     }
 }

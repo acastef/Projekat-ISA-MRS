@@ -83,6 +83,23 @@ public class Projection implements Serializable {
         this.tickets = tickets;
     }
 
+    public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+                      String director, int duration, String picture, String description,
+                      ViewingRoom viewingRoom, Set<Ticket> tickets, Facility facility) {
+        this.name = name;
+        this.date = date;
+        this.price = price;
+        this.listOfActors = listOfActors;
+        this.genre = genre;
+        this.director = director;
+        this.duration = duration;
+        this.picture = picture;
+        this.description = description;
+        this.viewingRoom = viewingRoom;
+        this.tickets = tickets;
+        this.facility = facility;
+    }
+
     public Projection(long id, String name, LocalDate date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
                       ViewingRoom viewingRoom, Set<Ticket> tickets) {

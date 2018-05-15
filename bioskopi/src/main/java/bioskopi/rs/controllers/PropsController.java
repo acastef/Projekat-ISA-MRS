@@ -99,7 +99,7 @@ public class PropsController {
     }
 
     /**
-     * @param image thats needs to be uploaded
+     * @param image that needs to be uploaded
      * @return full image path
      */
     @RequestMapping(method = RequestMethod.POST, value = "/upload")

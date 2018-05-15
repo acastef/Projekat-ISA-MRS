@@ -1,0 +1,57 @@
+
+<div ng-controller = "fastReservationController">
+
+    <div>
+            <div>
+                    <h3>All non-fast reservations</h3><br><br>
+            </div>
+
+            <div ng-hide="hideVRForm">
+                <label>Select projection: </label>
+                <select ng-model="currentProjection" 
+                    ng-options="p.name + ' ' + p.viewingRoom.name + ' ' + p.viewingRoom.id for p in projections"
+                    ng-change="showSeats()" ></select><br>
+
+            </div>
+
+            <table>
+                <tr> <th>Row</th> <th>Collumn</th>  <th></th>  </tr>
+                <tr ng-repeat="seat in seats">
+                        <td>{{ seat.seatRow }}</td>
+                        <td>{{ seat.seatColumn }}</td>
+                        <td><button ng-click="addToFast(seat)">Add to fast</button>        
+                </tr>
+        
+                        <!-- <tr><td>{{seat.seatRow}}</td> <td>{{seat.seatCollumn}}</td>  </td></tr> -->
+
+                                <!-- ng-checked="seatsStatuses[seat.id]" -->
+                <!-- <input style="margin: 5px" type="radio"   ng-click="seatSelected()">
+                
+                </div> -->
+                        
+            </table>
+            
+            
+
+            
+
+
+
+    </div>
+    
+    <div>
+        <div>
+                <h3>Current fast reservations</h3><br><br>
+        </div>
+
+        <div  ng-repeat="ft in fastTickets" style="float: left;">
+                <button style="margin-right: 10px">{{ft.id}}</button>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+    

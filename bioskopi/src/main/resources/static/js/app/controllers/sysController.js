@@ -321,6 +321,7 @@
                 if(fileName == ""){
                     toastr.success("Successfully added admin","Ok");
                     document.getElementById("adminForm").reset();
+                    $scope.selectedTypeCT = false;
                 }else{
                     $.ajax({
                         url : '/admins/upload',
@@ -334,6 +335,7 @@
                             sysService.changeAdmin(adminData,$scope.selectedAdminType)
                             .success(function(changedData){
                                 document.getElementById("adminForm").reset();
+                                $scope.selectedTypeCT = false;
                                 $('#image').attr('src', 'img/avatars/default-avatar.jpg');
                                 toastr.success("Successfully added admin","Ok");
                             }).error(function(data,status){

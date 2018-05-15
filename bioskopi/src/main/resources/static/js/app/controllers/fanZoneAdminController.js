@@ -5,8 +5,8 @@
         .module('utopia')
         .controller('fanZoneAdminController', fanZoneAdminController);
 
-    fanZoneAdminController.$inject = ['$scope', '$location','$route','fanZoneAdminService'];
-    function fanZoneAdminController($scope, $location,$route, fanZoneAdminService) {
+    fanZoneAdminController.$inject = ['$scope', '$location','$route','fanZoneAdminService','adsService'];
+    function fanZoneAdminController($scope, $location,$route, fanZoneAdminService, adsService) {
         var vm = this;
         
         $scope.props = {};
@@ -22,6 +22,8 @@
         $scope.descriptionChange;
         $scope.imageFileChange = undefined;
         $scope.selectedPropsChange;
+
+        $scope.ads = {};
 
         activate();
 
@@ -40,8 +42,22 @@
                 toastr.error("Failed to fetch facilities data.", "Error");
             });
 
+            adsService.getAllWait().success(function(data,status){
+                $scope.ads = data;
+            }).error(function(data,status){
+                toastr.error("Failed to fetch ads data.", "Error");
+            });
+
          }
 
+        $scope.refresh = function(){
+            adsService.getAllWait().success(function(data,status){
+                $scope.ads = data;
+            }).error(function(data,status){
+                toastr.error("Failed to fetch ads data.", "Error");
+            });
+        }
+        
         function checkExtension(image){
             var tokens = image.split(".");
             for (let index = 0; index < extenxions.length; index++) {
@@ -242,7 +258,39 @@
                         toastr.error("Failed to delete props. " + data, "Error");
                     });
                 }
+                break;
             }
          }
+
+        $scope.acceptAd = function(id){
+            for (let index = 0; index < $scope.ads.length; index++) {
+                const element = $scope.ads[index];
+                if(element.id == id){
+                    adsService.acceptAds(element).success(function(data){
+                        toastr.success("Successfully accepted ad","Ok");
+                        $scope.ads.splice(index,1);
+                    }).error(function(data,status){
+                        toastr.error("Action failed. " + data, "Error");
+                    });
+                    break;
+                }
+            }
+            
+        }
+
+        $scope.reject = function(id){
+            for (let index = 0; index < $scope.ads.length; index++) {
+                const element = $scope.ads[index];
+                if(element.id == id){
+                    adsService.rejectAds(element).success(function(data){
+                        toastr.success("Successfully accepted ad","Ok");
+                        $scope.ads.splice(index,1);
+                    }).error(function(data,status){
+                        toastr.error("Action failed. " + data, "Error");
+                    });
+                    break;
+                }
+            }
+        }
     }
 })();

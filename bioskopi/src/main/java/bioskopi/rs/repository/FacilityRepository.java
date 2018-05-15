@@ -2,6 +2,7 @@ package bioskopi.rs.repository;
 
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
+import bioskopi.rs.domain.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,11 @@ public interface FacilityRepository extends JpaRepository<Facility,Long> {
     @Query(value = "SELECT * FROM Facility f WHERE f.type = :type", nativeQuery = true)
     List<Facility> findFacilityByType(@Param("type") String type);
 
+    @Query(value = "SELECT f.type FROM Facility f WHERE f.id = ?1", nativeQuery = true)
+    List<String> getType(long id);
+
+//    @Query("SELECT t FROM Ticket t WHERE t.facility.id = ?1")
+//    List<Ticket> getFastTickets(long id);
 
 }
 

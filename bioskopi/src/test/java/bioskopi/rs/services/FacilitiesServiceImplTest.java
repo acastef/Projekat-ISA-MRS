@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.*;
+import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
 import org.junit.Before;
@@ -68,7 +69,7 @@ public class FacilitiesServiceImplTest {
 
     @Test
     public void findAllFacilities() {
-        List<Facility> allFacilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> allFacilities = facilitiesService.findAllFacilities();
         assertThat(allFacilities).hasSize(DB_COUNT);
     }
 
@@ -106,7 +107,7 @@ public class FacilitiesServiceImplTest {
         Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
-        List<Facility> facilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> facilities = facilitiesService.findAllFacilities();
         assertThat(facilities).hasSize(count + 1);
 
         /*dbFacility = facilities.get(facilities.size()-1);
@@ -146,7 +147,7 @@ public class FacilitiesServiceImplTest {
         Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
-        List<Facility> facilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> facilities = facilitiesService.findAllFacilities();
         assertThat(facilities).hasSize(count + 1);
 
         /*dbFacility = facilities.get(facilities.size()-1);
@@ -177,7 +178,7 @@ public class FacilitiesServiceImplTest {
         Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
-        List<Facility> facilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> facilities = facilitiesService.findAllFacilities();
         assertThat(facilities).hasSize(count + 1);
 
         /*dbFacility = facilities.get(facilities.size()-1);
@@ -211,7 +212,7 @@ public class FacilitiesServiceImplTest {
         Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
-        List<Facility> facilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> facilities = facilitiesService.findAllFacilities();
         assertThat(facilities).hasSize(count + 1);
 
         /*dbFacility = facilities.get(facilities.size()-1);
@@ -250,7 +251,7 @@ public class FacilitiesServiceImplTest {
         Facility dbFacility = facilitiesService.add(cinema);
         assertThat(dbFacility).isNotNull();
 
-        List<Facility> facilities = facilitiesService.findAllFacilities();
+        List<FacilityDTO> facilities = facilitiesService.findAllFacilities();
         assertThat(facilities).hasSize(count + 1);
 
         /*dbFacility = facilities.get(facilities.size()-1);

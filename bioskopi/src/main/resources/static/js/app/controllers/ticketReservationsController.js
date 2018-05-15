@@ -5,11 +5,10 @@
         .module('utopia')
         .controller('ticketReservationsController', ticketReservationsController);
 
-    ticketReservationsController.$inject = ['$scope','$location', 'ticketReservationsService'];
-    function ticketReservationsController($scope,$location,ticketReservationsService) {
+    ticketReservationsController.$inject = ['$scope','$location', '$routeParams', 'ticketReservationsService'];
+    function ticketReservationsController($scope,$location, $routeParams, ticketReservationsService) {
         var vm = this;
-        var viewingRoomId = 5;
-        $scope.projectionId = 1;
+        $scope.projectionId = $routeParams.id;
         $scope.projection = {};
         $scope.numberOfSeats = 0;
         $scope.seats = {};
@@ -42,14 +41,44 @@
                 }).error(function(data, status) {
                     console.log("Error while getting data");
                 });
-
-
-        }
+           
+        };
 
         $scope.seatSelected = function() {
             console.log("ASDASDASD");
-        }
+        };
 
+        $scope.makeReservation = function(seat)
+        {
+            var ticket = {};
+            ticket.facility =  {};
+
+            ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status)
+            {
+                ticket.facility.id = data.id;
+                ticket.fastReservation = 0;
+                ticket.seatStatus = 1;
+                ticket.taken = 0;
+            
+                ticket.owner = {};
+                ticket.owner.id = 1;
+                ticket.projection = $scope.projection;
+                ticket.seat = seat;
+
+                $scope.seatsStatuses[seat.id] = true;
+
+                ticketReservationsService.addTicket(ticket);
+
+                toastr.success("Successful eservation for projection " + $scope.projection.name + " in " + 
+                $scope.projection.viewingRoom.name);
+                
+            }).error(function(data,status){
+                console.log("Error while getting data");
+            });
+
+           
+            
+        }
 
     }
 

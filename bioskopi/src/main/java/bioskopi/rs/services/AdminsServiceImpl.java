@@ -77,6 +77,7 @@ public class AdminsServiceImpl implements AdminsService {
             admin.setFacility(facility.get());
             return caTAdminRepository.save(admin);
         }catch (DataIntegrityViolationException e){
+
             throw new ValidationException("User name or email is already taken");
         }
     }

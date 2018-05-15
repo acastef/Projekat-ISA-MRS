@@ -1,13 +1,18 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
+import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
+import bioskopi.rs.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bioskopi.rs.validators.FacilitiesValidator;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,9 +24,26 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     @Autowired
     private FacilityRepository facilityRepository;
 
+    @Autowired
+    private TicketRepository ticketRepository;
+
     @Override
-    public List<Facility> findAllFacilities() {
-        return facilityRepository.findAll();
+    public List<FacilityDTO> findAllFacilities() {
+
+        List<Facility> listOfFac  = facilityRepository.findAll();
+        List<FacilityDTO> listOfFacDTOs =  new ArrayList<FacilityDTO>();
+
+
+        for (Facility f: listOfFac) {
+            List<String> type = facilityRepository.getType(f.getId());
+
+            FacilityDTO fDTO = new FacilityDTO(f);
+            fDTO.setType(type.get(0));
+
+            listOfFacDTOs.add(fDTO);
+        }
+
+        return listOfFacDTOs;
     }
 
     @Override
@@ -51,6 +73,18 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     @Override
     public List<Facility> findFacilityByType(String type){
         return facilityRepository.findFacilityByType(type);
+    }
+
+    @Override
+    @Transactional
+    public Facility save(Facility facility) {
+        return  facilityRepository.saveAndFlush(facility);
+    }
+
+    @Override
+    public List<Ticket> getFastTickets(long id) {
+        List<Ticket> temp = ticketRepository.getFastTickets(id);
+        return temp;
     }
 
 

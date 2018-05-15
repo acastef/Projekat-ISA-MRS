@@ -67,9 +67,36 @@
             <br/>
             <button type="submit">Add</button>
         </div>
-        
-        
-
     </form>
 
+    <h2 ng-show="ads.length ==0">There are no ads records</h2>
+    <button ng-click="refresh()">Refresh ads</button> <br/>
+    <table class="redTable" ng-show="ads.length >0">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th colspan="2">Options</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            <tr ng-repeat="ad in ads" 
+            class="cellInputs">
+                <td class="imgContainer">
+                    <img class="imgCell" ng-src="{{ad.image}}" alt="Image"/></td>
+                <td>{{ad.name }}</td>
+                <td>{{ad.description }}</td>
+                <td>{{ad.deadline | date: "medium"}}</td>
+                <td><button class="cellButton" ng-click="acceptAd(ad.id)">
+                    Accept</button></td>
+                <td><button class="cellButton" ng-click="reject(ad.id)">
+                    Reject</button></td>
+            </tr>
+    
+        </tbody>
+    </table>
 </div>

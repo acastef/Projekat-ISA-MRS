@@ -39,6 +39,9 @@ app.config(function($routeProvider) {
     }).when('/fan_zone_admin',{
         templateUrl: 'partials/fanZoneAdmin.html',
         css: ['css/table.css', 'css/props.css']
+    }).when('/ads',{
+        templateUrl: 'partials/ads.html',
+        css: ['css/table.css', 'css/props.css']
     })
 });
 

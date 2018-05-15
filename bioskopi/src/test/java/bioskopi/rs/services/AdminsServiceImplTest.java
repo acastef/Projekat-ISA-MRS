@@ -144,8 +144,10 @@ public class AdminsServiceImplTest {
     /*@Test(expected = ValidationException.class)
     @Transactional
     public void noUniqueUsernameAddCaTAdmin(){
-        CaTAdmin admin = new CaTAdmin(NEW_CT_NM,NEW_CT_SN,NEW_CT_EM,DB_CT_UN,NEW_CT_PS,NEW_CT_AV,NEW_CT_FL,
-                NEW_CT_TEL,NEW_CT_ADR,DB_FAC);
+        int count = adminsService.getAllCaTAdmins().size();
+        List<CaTAdmin> temp = adminsService.getAllCaTAdmins();
+        CaTAdmin admin = new CaTAdmin(DB_CT_NM,DB_CT_SN,DB_CT_EM,DB_CT_UN,DB_CT_PS,DB_CT_AV,DB_CT_FL,
+                DB_CT_TEL,DB_CT_ADR,DB_FAC);
         adminsService.addCaTAdmin(admin);
     }*/
 }

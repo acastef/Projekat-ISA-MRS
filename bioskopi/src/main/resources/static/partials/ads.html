@@ -1,5 +1,23 @@
 <div ng-controller="adsController">
-    <a ng-href="#props">Props</a> <br/>
+    
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link headers" href="#props" >Props
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link headers">Ads</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" placeholder="Search ads" type="search" ng-model="search">
+                    </form>
+                </div>
+            </nav>
+
 
     <form id="adForm" name="adForm" novalidate="novalidate">
         <div class="imageContainer">
@@ -36,7 +54,7 @@
 
         <tbody>
             
-            <tr ng-repeat="ad in ads" 
+            <tr ng-repeat="ad in ads | filter:{name:search}" 
             class="cellInputs">
                 <td class="imgContainer">
                     <img class="imgCell" ng-src="{{ad.image}}" alt="Image"/></td>

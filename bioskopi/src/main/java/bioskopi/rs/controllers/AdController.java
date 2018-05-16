@@ -54,7 +54,6 @@ public class AdController {
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> add(@RequestBody Ad ad){
-        ad.setDeadline(ad.getDeadline().minusMinutes(20L));
         try {
             return new ResponseEntity<>(adService.add(ad),HttpStatus.CREATED);
         }catch (ValidationException e){

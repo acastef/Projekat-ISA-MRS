@@ -29,6 +29,11 @@
             return $http.get("/facilities/getFastTickets/" + facId);
         }
 
+        service.makeFastReservation = function(fastTicketId)
+        {
+            return $http.put("/tickets/makeFastReservation/" + fastTicketId)
+        }
+
         return service;
 
         ////////////////

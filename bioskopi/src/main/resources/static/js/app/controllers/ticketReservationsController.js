@@ -21,35 +21,30 @@
         function activate()
         {
             ticketReservationsService.getProjectionById($scope.projectionId)
-            .success(function(data, status)
-            {
-                $scope.projection = data;
-                ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status)
-                {
-                    $scope.seats = data;
-                    //$scope.seatRow = $scope.seats[0].seatRow;
-                    $scope.numberOfSeats = data.length;
+                .success(function(data, status){
+                    $scope.projection = data;
+                    ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status) {
+                        $scope.seats = data;
+                        //$scope.seatRow = $scope.seats[0].seatRow;
+                        $scope.numberOfSeats = data.length;
 
-                    ticketReservationsService.getSeatsStatuses($scope.projectionId).success(function(data, status)
-                    {
-                        $scope.seatsStatuses = data;
-                    }).error(function(data,status){
+                        ticketReservationsService.getSeatsStatuses($scope.projectionId).success(function(data, status) {
+                            $scope.seatsStatuses = data;
+                        }).error(function(data, status) {
+                            console.log("Error while getting data");
+                        });
+
+                    }).error(function(data, status) {
                         console.log("Error while getting data");
                     });
-    
-                }).error(function(data,status){
+
+                }).error(function(data, status) {
                     console.log("Error while getting data");
                 });
-
-            }).error(function(data,status){
-                console.log("Error while getting data");
-            });
-
            
         };
 
-        $scope.seatSelected =function()
-        {
+        $scope.seatSelected = function() {
             console.log("ASDASDASD");
         };
 

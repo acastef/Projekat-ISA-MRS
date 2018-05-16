@@ -10,6 +10,7 @@
         var vm = this;
         
         $scope.ads = {}
+        $scope.search = "";
         const extenxions = ["GIF", "JPG", "PNG", "BMP", "TIFF"];
         $scope.name;
         $scope.description;

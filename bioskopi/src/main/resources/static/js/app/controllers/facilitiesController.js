@@ -68,6 +68,20 @@
             facilitiesService.update($scope.facilities[indeks]);
             $scope.changeForms[$scope.facilities[indeks].id] = true;
         }
+
+        $scope.makeFastReservation = function(fastTicket, facId)
+        {
+            facilitiesService.makeFastReservation(fastTicket.id).success(function(data, status)
+            {
+                 toastr.success("Uspesno rezervisana karta!");
+                 var index = $scope.fastTickets[facId].indexOf(fastTicket);
+                 if (index != -1)
+                     $scope.fastTickets[facId].splice(index, 1);
+
+            }).error(function(data,status){
+                console.log("Nazalost, nije moguce rezervisati kartu :(");
+            });
+        }
     
 
 

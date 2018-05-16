@@ -15,7 +15,7 @@ app.config(function($routeProvider) {
         //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
     }).when('/props', {
         templateUrl: 'partials/props.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/table.css', 'css/lineSection.css', 'css/fanZoneNavigation.css']
     }).when('/sys', {
         templateUrl: 'partials/sys.html',
         css: ['css/table.css']
@@ -43,10 +43,10 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/profile.html'
     }).when('/fan_zone_admin',{
         templateUrl: 'partials/fanZoneAdmin.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/table.css', 'css/lineSection.css']
     }).when('/ads',{
         templateUrl: 'partials/ads.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/table.css', 'css/lineSection.css', 'css/fanZoneNavigation.css']
     })
 });
 

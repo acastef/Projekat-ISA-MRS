@@ -10,11 +10,14 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket,Long> {
 
-    @Query(value = "SELECT * FROM ticket t WHERE t.facility_id = ?1 AND t.fast_reservation = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM ticket t WHERE t.facility_id = ?1 AND t.fast_reservation = true AND t.taken = false", nativeQuery = true)
     List<Ticket> getFastTickets(long id);
 
-    @Transactional
     @Modifying
     @Query(value = "UPDATE ticket SET fast_reservation = true WHERE id = ?1", nativeQuery = true)
     void changeTicket(long id);
+
+    @Modifying
+    @Query(value = "UPDATE Ticket SET taken = true WHERE id = ?1")
+    void makeFastReservation(long id);
 }

@@ -50,17 +50,18 @@
 
         $scope.register = function($http) {
             signupService.registerUser({
-                person: {
-                    name: $scope.name,
-                    surname: $scope.surname,
-                    email: $scope.email,
-                },
+                name: $scope.name,
+                surname: $scope.surname,
+                email: $scope.email,
                 username: $scope.username,
                 password: $scope.password,
-                person_id: $scope.person_id,
                 avatar: $scope.avatar,
+                firstLogin: true,
+                telephone: $scope.phone_num,
+                address: $scope.address,
                 propsReservations: [],
-                tickets: []
+                tickets: [],
+                friends: [],
             }).success(function(data, status) {
                 $scope.registered = true;
                 $scope.redirect("/");

@@ -45,6 +45,11 @@ public class Ticket implements Serializable {
     @Column(nullable = false)
     private boolean fastReservation;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
+
 
     public Ticket() {
     }
@@ -60,7 +65,8 @@ public class Ticket implements Serializable {
         this.fastReservation = false;
     }
 
-    public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+    public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection,
+                  Facility facility, Long version) {
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -68,9 +74,11 @@ public class Ticket implements Serializable {
         this.projection = projection;
         this.facility = facility;
         this.fastReservation = false;
+        this.version = version;
     }
 
-    public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+    public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat,
+                  Projection projection, Facility facility, Long version) {
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -78,6 +86,7 @@ public class Ticket implements Serializable {
         this.projection = projection;
         this.facility = facility;
         this.fastReservation = fastReservation;
+        this.version = version;
     }
 
     public static long getSerialVersionUID() {
@@ -146,6 +155,14 @@ public class Ticket implements Serializable {
 
     public void setFastReservation(boolean fastReservation) {
         this.fastReservation = fastReservation;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

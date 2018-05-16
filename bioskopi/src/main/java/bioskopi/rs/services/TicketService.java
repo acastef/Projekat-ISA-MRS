@@ -27,4 +27,11 @@ public interface TicketService {
 
 
     public Ticket update(Ticket t);
+
+    /**
+     *
+     * @param id of bla bla bla
+     * @return bla x4
+     */
+    Boolean makeFastReservation(long id);
 }

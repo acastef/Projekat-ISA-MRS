@@ -47,7 +47,8 @@
                 </div>
 
                 <div ng-repeat="fastTicket in fastTickets[fac.id]" style="float: left;">
-                        <button style="margin-right: 10px">{{fastTicket.id}}</button>
+                        <button ng-click="makeFastReservation(fastTicket, fac.id)"
+                        style="margin-right: 10px">{{fastTicket.id}}</button>
         
                 </div>
             </div>

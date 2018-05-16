@@ -2,7 +2,7 @@ package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.PropsReservation;
 import bioskopi.rs.domain.RegisteredUser;
-import bioskopi.rs.domain.Person;
+//import bioskopi.rs.domain.Person;
 import bioskopi.rs.repository.UserRepository;
 import bioskopi.rs.util.TestUtil;
 import org.junit.Before;

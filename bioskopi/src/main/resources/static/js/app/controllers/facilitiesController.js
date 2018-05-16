@@ -64,7 +64,7 @@
 
         $scope.changeFacility = function(indeks)
         {
-            toastr.success("MNJIIIIIIIIIIII");
+            toastr.success("Facility changed");
             facilitiesService.update($scope.facilities[indeks]);
             $scope.changeForms[$scope.facilities[indeks].id] = true;
         }

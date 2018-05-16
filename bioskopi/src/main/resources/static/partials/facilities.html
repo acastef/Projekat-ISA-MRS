@@ -1,20 +1,22 @@
-<h1>Facilities</h1>
+<!-- <h1>Facilities</h1> -->
 
-<div ng-controller = "facilitiesController">
+<!-- style="background-color: #c2d1f0"  -->
+<div  ng-controller = "facilitiesController" >
     <h2 ng-show="facilities.length ==0">There are no facilities records</h2>
 
-    <div ng-repeat="fac in facilities">
+    <div ng-repeat="fac in facilities" >
 
-        <div style="float: left;">
-            <p>    Id: {{fac.id}}</p>
-            <p>    Name: {{fac.name}}</p>
-            <p>    Address: {{fac.address}}</p>
-            <p>    Description: {{fac.description}}</p>
+        <!-- background:#3366cc !important -->
+        <div style="float: left; margin: 20px" class="p-3 mb-2 bg-dark text-white">
+            <p  class="text-white bg-dark">    Id: {{fac.id}}</p>
+            <p  class="text-white bg-dark">    Name: {{fac.name}}</p>
+            <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
+            <p  class="text-white bg-dark">    Description: {{fac.description}}</p>
             <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
-            <a ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+            <a  class="text-white bg-dark" ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
 
             <!-- every facility has form in which it can be changed -->
-            <button ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
+            <button class="btn btn-small btn-primary" ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
 
             <form accept-charset="UTF-8" ng-hide= changeForms[{{fac.id}}]  ng-submit="changeFacility($index)">
 
@@ -25,30 +27,32 @@
                 <input type="text" ng-model="fac.address"><br>
         
                 <label>Description: </label>
-                <input type="text" ng-model="fac.description"><br>
+                <input class="form-control" rows="10" type="text" ng-model="fac.description"><br>
         
                 <input type = "submit" value = "Change">
 
 
             </form>
 
-            <a href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-            <a href = "#configureSeats">Configure seats</a>
+            <a  class="text-white bg-dark" href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
+            <a  class="text-white bg-dark"href = "#configureSeats">Configure seats</a>
 
             <p>==============================================================================</p>
 
         </div>
 
-        <div style="float: right; display: flex; margin-right: 100px">
+        <div class="p-3 mb-2 bg-dark text-white" style="float: right; display: flex; position: relative; margin-top: 20px; margin-right: 100px">
 
             <div>
                 <div>
-                        <h1>Fast tickets</h1><br><br>
+                        <h1 > Fast tickets</h1><br><br>
+                        <!-- <p ng-show="fastTickets[fac.id].length == 0">There are no fast tickets</p><br><br> -->
                 </div>
 
                 <div ng-repeat="fastTicket in fastTickets[fac.id]" style="float: left;">
-                        <button ng-click="makeFastReservation(fastTicket, fac.id)"
-                        style="margin-right: 10px">{{fastTicket.id}}</button>
+                        <button class="btn btn-medium btn-primary" 
+                            ng-click="makeFastReservation(fastTicket, fac.id)"
+                            style="margin-right: 10px">{{fastTicket.id}}</button>
         
                 </div>
             </div>

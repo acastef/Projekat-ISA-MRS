@@ -43,6 +43,13 @@ public class FacilitiesController {
         return new ResponseEntity<>(facilitiesService.findAllFacilities(), HttpStatus.OK) ;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Facility>> getAllFacilites() {
+        logger.info("Fetching all facilities");
+        return new ResponseEntity<>(facilitiesService.getAll(), HttpStatus.OK) ;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "getRepertoire/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Projection>> getRepertoireById(@PathVariable String id) {

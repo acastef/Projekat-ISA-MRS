@@ -188,9 +188,10 @@
 
         $scope.addProjection = function(){
             $scope.newProjectionForm = true;
-            $scope.repertoire.push(projection);
+            $scope.repertoire.push($scope.newProjection);
             repertoireService.addProjection($scope.newProjection);
             toastr.success("Projection successfully added");
+            $scope.changeProjection = true;
         }
 
         $scope.changeProjection = function(indeks)

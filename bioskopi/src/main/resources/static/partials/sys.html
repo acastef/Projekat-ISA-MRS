@@ -18,7 +18,7 @@
                             <tr ng-repeat="category in categories.userCategories" 
                             class="cellInputs">
                                 <td>{{category.name}}</td>
-                                <td><input id="category.id" type="number" name="points" min="0"  placeholder="Integer" 
+                                <td><input id="{{category.id}}" type="number" name="points" min="0"  placeholder="Integer" 
                                     ng-model="category.points" ng-change="changePoints(category.id)"/></td>
                                 <td><input  type="number" ng-change="changeDiscount(category.id)" name="discount" 
                                     step="0.01" min="0" max="100" 
@@ -32,8 +32,6 @@
             <span ng-show="error">{{errorMessage}} </span>
 
 <br/> <br/>
-
-<button ng-click="testiranje()">testiranje</button>
 
 <p style="text-align: center"><h2>Admin manager</h2></p>
 

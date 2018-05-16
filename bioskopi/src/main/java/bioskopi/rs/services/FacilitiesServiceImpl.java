@@ -47,6 +47,11 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     }
 
     @Override
+    public List<Facility> getAll() {
+        return facilityRepository.findAll();
+    }
+
+    @Override
     public Facility getFacilityById(long id) {
         return facilityRepository.getOne(id);
     }

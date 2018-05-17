@@ -1,9 +1,9 @@
 <div ng-controller="loginController">
-
-    <span>Username:</span><input type="text" ng-model="username" id="username"><br>
-    <span>Password:</span><input type="password" ng-model="password" id="password"><br>
-    <p style="color:red" ng-show="error">Username or password missing!</p>
-    <p style="color: red" ng-show="!valid">Username or password is not correct!</p>
-    <button ng-click="tryLogin()">Log In</button>
-
+    <div class="form" align="center">
+        <input type="text" placeholder="Username" ng-model="username" id="username"><br>
+        <input type="password" placeholder="Password" ng-model="password" id="password"><br>
+        <p style="color:red" ng-show="error">Username or password missing!</p>
+        <p style="color: red" ng-show="!valid">Username or password is not correct!</p>
+        <button class="btn btn-success" ng-click="tryLogin()">Log In</button>
+    </div>
 </div>

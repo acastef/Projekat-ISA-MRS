@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket,Long> {
@@ -20,4 +19,10 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
     @Modifying
     @Query(value = "UPDATE Ticket SET taken = true WHERE id = ?1")
     void makeFastReservation(long id);
+
+    @Query(value = "DELETE FROM Ticket WHERE id = ?1")
+    void deleteReservation(long id);
+
+    @Query(value = "SELECT * FROM Ticket where owner_id = ?1", nativeQuery = true)
+    List<Ticket> getAllTickets(long id);
 }

@@ -1,28 +1,60 @@
 <div ng-controller="homeController">
     <h1>Home page</h1>
-    <button ng-click="redirect('/props')">Props</button>
-    <button ng-click="redirect('/ticketReservations')">Reservation</button>
-    <button ng-click="redirect('/theaters')">Theatres</button>
-    <button ng-click="redirect('/cinemas')">Cinemas</button>
-    <button ng-click="redirect('/friends')">Friends</button>
-    <br/>
-    <button ng-click="redirect('/profile')">Profile</button>
-    <p class="name">Pera</p>
-    <p class="surname">Peric</p>
-    <p class="email">pera@gmail.com</p>
-    <p class="city">Novi Sad</p>
-    <table border="1">
-        <tbody>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#props">Props</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#facilities">Facilities</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#friends">Friends</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#profile">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#reservations">My tickets</a>
+            </li>
+        </ul>
+    </div>
+    <div class="userData">
+        <table>
             <tr>
-                <td>Facility</td>
-                <td>City</td>
+                <td>Name: </td>
+                <td>Pera</td>
             </tr>
-            <tr ng-repeat="visit in visits">
-                <td>{{visit.facility}}</td>
-                <td>{{visit.city}}</td>
+            <tr>
+                <td>Last name: </td>
+                <td>Peric</td>
             </tr>
-        </tbody>
-    </table>
-    <a ng-href="#facilities">Show facilities</a>
-    <button ng-click="redirect('/')">Log Out</button>
+            <tr>
+                <td>E-mail: </td>
+                <td>pera@gmail.com</td>
+            </tr>
+            <tr>
+                <td>Phone number: </td>
+                <td>061729283</td>
+            </tr>
+        </table>
+    </div><br>
+    <div class="visits">
+        <p>VISITS</p>
+        <table border="1">
+            <tbody>
+                <tr>
+                </tr>
+                <tr>
+                    <td>Facility</td>
+                    <td>City</td>
+                </tr>
+                <tr ng-repeat="visit in visits ">
+                    <td>{{visit.facility}}</td>
+                    <td>{{visit.city}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button ng-click="redirect('/')" class="logout">Log Out</button>
 </div>

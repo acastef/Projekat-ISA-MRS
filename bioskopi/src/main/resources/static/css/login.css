@@ -1,0 +1,17 @@
+.form {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+}
+
+#username {
+    border-radius: 5pt;
+    margin-bottom: 15px;
+    padding: 5px 10px 5px 10px;
+}
+
+#password {
+    border-radius: 5pt;
+    margin-bottom: 15px;
+    padding: 5px 10px 5px 10px;
+}

@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegisteredUser add(RegisteredUser registeredUser) throws ValidationException {
-        /*List<RegisteredUser> regUsers = userRepository.findAll();
-        for(RegisteredUser ru : regUsers){
+        List<User> regUsers = userRepository.findAll();
+        for(User ru : regUsers){
             if (ru.getUsername().equals(registeredUser.getUsername())){
                 throw new ValidationException("Username duplicated!");
             }
-        }*/
+        }
         return userRepository.saveAndFlush(registeredUser);
     }
 }

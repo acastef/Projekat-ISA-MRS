@@ -11,7 +11,6 @@
 
         activate();
 
-        ////////////////
 
         function activate() {
             $scope.visits = [
@@ -19,7 +18,7 @@
                 {'facility': 'Arena Cineplex', "city": "Novi Sad"}
             ];
             //console.log("pozvan home contoller");
-        }
+        };
         
         $scope.redirect = function(path) {
             $location.path(path);

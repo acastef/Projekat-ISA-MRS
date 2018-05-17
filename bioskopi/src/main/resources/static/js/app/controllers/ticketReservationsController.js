@@ -69,16 +69,13 @@
 
                 ticketReservationsService.addTicket(ticket);
 
-                toastr.success("Successful eservation for projection " + $scope.projection.name + " in " + 
+                toastr.success("Successful reservation for projection " + $scope.projection.name + " in " +
                 $scope.projection.viewingRoom.name);
                 
             }).error(function(data,status){
                 console.log("Error while getting data");
             });
-
-           
-            
-        }
+        };
 
     }
 

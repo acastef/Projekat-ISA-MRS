@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OptimisticLockException;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("tickets")
 public class TicketServiceImpl implements TicketService{
@@ -62,5 +65,21 @@ public class TicketServiceImpl implements TicketService{
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }
+
+    @Override
+    public void deleteReservation(long id) {
+        try{
+            ticketRepository.deleteReservation(id);
+        }catch (ValidationException e){
+            throw new ValidationException("Reservation doesn't exists!");
+        }
+    }
+
+    @Override
+    public List<Ticket> getTickets(long id) {
+        List<Ticket> allTickets = ticketRepository.getAllTickets(id);
+        return allTickets;
+    }
+
 
 }

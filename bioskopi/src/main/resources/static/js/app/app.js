@@ -6,13 +6,13 @@ app.config(function($routeProvider) {
         //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
     }).when('/login', {
         templateUrl: 'partials/login.html',
-        //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
+        css: ['css/login.css']
     }).when('/signup', {
         templateUrl: 'partials/signup.html',
-        //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
+        css: ['css/signup.css']
     }).when('/home', {
         templateUrl: 'partials/home.html',
-        //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
+        css: ['css/home.css', 'css/table.css']
     }).when('/props', {
         templateUrl: 'partials/props.html',
         css: ['css/table.css', 'css/props.css']
@@ -31,7 +31,7 @@ app.config(function($routeProvider) {
     }).when('/ticketReservations/:id', {
         templateUrl: 'partials/ticketReservations.html',
         controller : 'ticketReservationsController'
-    }).when('/reservationsList', {
+    }).when('/reservations', {
         templateUrl: 'partials/reservationsList.html',
     }).when('/theaters', {
         templateUrl: 'partials/theaters.html',

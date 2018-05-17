@@ -43,4 +43,6 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
     public Facility getFacility(Long id) {
         return viewingRoomRepository.getFacility(id);
     }
+
+
 }

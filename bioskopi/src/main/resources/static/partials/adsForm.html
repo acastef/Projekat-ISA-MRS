@@ -1,0 +1,52 @@
+<div ng-controller="adsController">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link headers" href="#props">Props
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle headers" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ads</a>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                        <a class="dropdown-item subheader" href="#ads_form">Post an Ad</a>
+                        <a class="dropdown-item subheader" href="#ads">View Ads</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" placeholder="Search ads" type="search" ng-model="search">
+            </form>
+        </div>
+    </nav>
+
+
+    <form id="adForm" name="adForm" novalidate="novalidate">
+        <div class="imageContainer">
+            <p>
+                <h2>Add ads</h2>
+            </p>
+            <img class="avatar" id="image" src="img/ads/no-image-found.jpg" alt="Image">
+            <br/>
+            <input type="file" id="imageFile" name="imageFile" fileread="imageFile" required>
+            <br/>
+
+            <label>Name</label>
+            <input ng-model="name" type="text" name="name" required="required">
+            <br/>
+
+            <label>Description: </label>
+            <input ng-model="description" type="text" name="description" required="required">
+            <br/>
+
+            <label>Deadline: </label>
+            <input ng-model="deadline" type="datetime-local" name="deadline" required="required">
+            <br/>
+
+
+            <button ng-click="addAd()">Add</button>
+        </div>
+    </form>
+</div>

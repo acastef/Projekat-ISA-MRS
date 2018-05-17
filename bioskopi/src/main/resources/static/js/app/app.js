@@ -47,6 +47,9 @@ app.config(function($routeProvider) {
     }).when('/ads',{
         templateUrl: 'partials/ads.html',
         css: ['css/table.css', 'css/lineSection.css', 'css/fanZoneNavigation.css']
+    }).when('/ads_form',{
+        templateUrl: 'partials/adsForm.html',
+        css: ['css/table.css', 'css/lineSection.css', 'css/fanZoneNavigation.css']
     })
 });
 

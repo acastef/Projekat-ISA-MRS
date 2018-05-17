@@ -90,7 +90,10 @@ public class AdServiceImpl implements AdService {
             throw new ValidationException("User does not exist");
         }
         ad.setOwner(temp.get());
+
         return adRepository.save(ad);
+
+
     }
 
     @Override

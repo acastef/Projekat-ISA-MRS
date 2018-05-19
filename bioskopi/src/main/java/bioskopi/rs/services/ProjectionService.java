@@ -52,4 +52,12 @@ public interface ProjectionService {
      * @return message that show if operation was successful
      */
     String delete(Long id);
+
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+//    List<Projection> findByUserId(long id);
 }

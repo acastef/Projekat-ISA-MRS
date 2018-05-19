@@ -1,6 +1,7 @@
 package bioskopi.rs.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,10 +21,11 @@ public class Feedback implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private RegisteredUser registeredUser;
 
+    @JsonManagedReference
     @ManyToOne(optional = false)
     private Facility facility;
 

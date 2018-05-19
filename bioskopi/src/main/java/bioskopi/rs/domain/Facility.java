@@ -1,5 +1,6 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -47,6 +48,7 @@ public class Facility implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Feedback> feedbacks;
 

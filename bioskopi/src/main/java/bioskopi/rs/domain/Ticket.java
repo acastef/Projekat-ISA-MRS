@@ -21,6 +21,8 @@ public class Ticket implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private SeatStatus seatStatus;
 
+    @Column(nullable = false)
+    private int discount;
 
     @Column(nullable = false)
     private boolean taken;
@@ -56,6 +58,7 @@ public class Ticket implements Serializable {
 
     public Ticket(long id, SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
         this.id = id;
+        this.discount = 0;
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -67,6 +70,7 @@ public class Ticket implements Serializable {
 
     public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection,
                   Facility facility, Long version) {
+        this.discount = 0;
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -79,6 +83,7 @@ public class Ticket implements Serializable {
 
     public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat,
                   Projection projection, Facility facility, Long version) {
+        this.discount = 0;
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -163,6 +168,14 @@ public class Ticket implements Serializable {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     @Override

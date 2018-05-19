@@ -6,8 +6,10 @@
         .controller('facilitiesController', facilitiesController);
 
     facilitiesController.$inject = ['$scope','$location', 'facilitiesService'];
-    function facilitiesController($scope,$location,facilitiesService) {
+    function facilitiesController($scope,$location,  facilitiesService, ) {
         var vm = this;
+
+        // otvaranje modala
 
         $scope.facilities = {};
         $scope.changeForms = {};
@@ -57,9 +59,56 @@
             });
         }
 
+        // $scope.showModalForm = function(size, selectedFacility) {
+
+        //     var modalInstance = $modal.open({
+        //       animation: $scope.animationsEnabled,
+        //       templateUrl: 'facilities.html',
+        //       controller: function ($scope, $modalInstance, facilityyy) {
+        //             $scope.facilityyy = facilityyy;
+        //       },
+        //       size: size,
+        //       resolve: {
+        //         facy: function() {
+        //           return selectedFacility;
+        //         }
+        //       }
+        //     });
+        
+        //     modalInstance.result.then(function(selectedItem) {
+        //       $scope.selected = selectedItem;
+        //     }, function() {
+        //       $log.info('Modal dismissed at: ' + new Date());
+        //     });
+        //   };
+        
+        // $scope.toggleAnimation = function() {
+        // $scope.animationsEnabled = !$scope.animationsEnabled;
+        // };
+
+
         $scope.showChangeForm = function(index)
         {
                 $scope.changeForms[index] = false;
+
+                var modalInstance = $modal.open({
+                    templateUrl: 'modalChaningForm.html',
+                    controller: ModalInstanceCtrl,
+                    scope: $scope,
+                    resolve: {
+                        userForm: function () {
+                            return $scope.userForm;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+
         };
 
         $scope.changeFacility = function(indeks)

@@ -1,66 +1,43 @@
 <div ng-controller="adsController">
-    
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link headers" href="#props" >Props
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle headers" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ads</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                              <a class="dropdown-item subheader" href="#ads_form">Post an Ad</a>
-                              <a class="dropdown-item subheader" href="#ads">View Ads</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" placeholder="Search ads" type="search" ng-model="search">
-                    </form>
-                </div>
-            </nav>
 
-    <h2 ng-show="ads.length ==0">There are no ads records</h2>
-    <button ng-click="refresh()">Refresh ads</button> <br/>
-    <table class="redTable" ng-show="ads.length >0">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Deadline</th>
-                <th>Options</th>
-            </tr>
-        </thead>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link headers" href="#props">Props
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle headers" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                        >Ads</a>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                        <a class="dropdown-item subheader" href="#ads_form">Post an Ad</a>
+                        <a class="dropdown-item subheader" ng-click="getAds()" href>View Ads</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link headers" ng-click="refresh()" href>Refesh</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" placeholder="Search ads" type="search" ng-model="search">
+            </form>
+        </div>
+    </nav>
 
-        <tbody>
-            
-            <tr ng-repeat="ad in ads | filter:{name:search}" 
-            class="cellInputs">
-                <td class="imgContainer">
-                    <img class="imgCell" ng-src="{{ad.image}}" alt="Image"/></td>
-                <td>{{ad.name }}</td>
-                <td>{{ad.description }}</td>
-                <td>{{ad.deadline | date: "medium"}}</td>
-                <td><button class="cellButton" ng-click="showDetails(ad.id)">
-                    Show details</button></td>
-            </tr>
-    
-        </tbody>
-    </table>
-
-    <h2 ng-show="ads.length ==0">There are no active ads records</h2>
-    <div ng-show="ads.length >0">
+    <h2 ng-show="ads.length ==0 && showAds">There are no active ads records</h2>
+    <br/>
+    <div ng-show="ads.length >0 && showAds">
         <div ng-repeat="ad in ads | filter:{name:search}" class="w-25 p-3 lineSection">
-            <span class="card text-white bg-info mb-3 lineSection">
+            <span class="card text-white bg-primary mb-3 lineSection">
                 <div class="card-header">{{ad.name }}</div>
                 <div class="card-body">
-                    <img class="rounded imgCell" ng-src="{{prop.image}}" alt="Image" />
+                    <img class="rounded imgCell" ng-src="{{ad.image}}" alt="Image" />
                     <br/>
-                    <p class="card-text">{{ad.description }}</p>
-                    <button ng-click="showDetails(ad.id)" class="btn btn-primary lineSectionButton">
+                    <p class="card-text">Description: {{ad.description }}</p>
+                    <p class="card-text">Deadline: {{ad.deadline | date: "medium"}}</p>
+                    <button ng-click="showDetails(ad.id)" class="btn btn-info lineSectionButton">
                         Show details</button>
                 </div>
             </span>
@@ -68,4 +45,49 @@
         </div>
     </div>
 
+    <div ng-show="details">
+        <span class="card text-white bg-primary mb-3 col-centered col-5 detailFont">
+            <div class="card-header">{{selected.name }}</div>
+            <div class="card-body">
+                <img class="rounded imgCell" ng-src="{{selected.image}}" alt="Image" />
+                <br/>
+                <p class="card-text">Description: {{selected.description }}</p>
+                <p class="card-text">Deadline: {{selected.deadline | date: "medium"}}</p>
+            </div>
+        </span> <br/>
+        <h2 style="text-align: center">Offers</h2>
+        <h2 ng-show="selected.bids.length == 0">There are no offers</h2>
+        <table class="table table-hover col-centered" style="width: 60%" ng-show="selected.bids.length >0">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">User</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Offer</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="bid in selected.bids" class="table-primary">
+                    <td>{{bid.user.username}}</td>
+                    <td>{{bid.date | date: "medium"}}</td>
+                    <td>{{bid.offer}}$</td>
+                    <td><button ng-click="" class="btn btn-info lineSectionButton">
+                        Accept</button> </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <br/>
+        <form id="bidForm" name="bidForm" class="col-centered" style="width: 60%" novalidate="novalidate">
+            <div class="form-group row">
+                <div class="col-1 detailFont"> <label >Offer: </label> </div>
+                <div class="col-3"> <input class="form-control" ng-model="bidValue" type="number" min="0" 
+                    placeholder="enter value" required="required"> </div>
+                <div class="col-3"> <button ng-click="addBid()" class="btn btn-info lineSectionButton">
+                        Add offer</button></div>
+            </div>
+        </form>
+        
+    </div>
 </div>

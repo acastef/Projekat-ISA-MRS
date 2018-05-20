@@ -17,6 +17,7 @@
 
 .lineSectionButton{
     width : 100%;
+    font-size: 20px;
 }
 
 .imgContainer{
@@ -26,4 +27,8 @@
 .imageContainer {
     text-align: center;
     margin: 24px 0 12px 0;
+}
+
+.detailFont {
+    font-size: 20px;
 }

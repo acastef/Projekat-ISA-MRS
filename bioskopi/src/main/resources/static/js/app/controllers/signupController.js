@@ -27,11 +27,13 @@
                 $scope.surname == "" || $scope.address == "" ||
                 $scope.email == "" || $scope.phone_num == "" ||
                 $scope.avatar == "") {
+                toastr.error("Something missing!");
                 $scope.valid = 1;
                 return;
             }
             if ($scope.password != $scope.rep_password) {
-                $scope.valid = 2;
+                toastr.error("Password doesn't match!");
+                $scope.valid = 1;
                 return;
             }
             $scope.valid = 0;
@@ -63,10 +65,10 @@
                 tickets: [],
                 friends: [],
             }).success(function(data, status) {
-                $scope.registered = true;
+                toastr.success("Succefully registered!");
                 $scope.redirect("/");
             }).error(function(data, status) {
-                $scope.registered = false;
+                toastr.error("Already registered with this username!");
             });
         }
     }

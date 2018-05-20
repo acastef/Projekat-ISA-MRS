@@ -38,6 +38,12 @@
         $scope.telephone;
         $scope.address;
         $scope.selectedTypeCT = false;
+
+        $scope.showFacility = false;
+        $scope.showPointScale = true;
+        $scope.showAdmin = false;
+
+
         activate();
 
         ////////////////
@@ -48,6 +54,24 @@
             }).error(function(data,status){
                 toastr.error("Error while getting data", "Error");
             });
+        }
+
+        $scope.viewFacility = function(){
+            $scope.showFacility = true;
+            $scope.showAdmin = false;
+            $scope.showPointScale = false;
+        }
+
+        $scope.viewPointScale = function(){
+            $scope.showFacility = false;
+            $scope.showAdmin = false;
+            $scope.showPointScale = true;
+        }
+
+        $scope.viewAdmin = function(){
+            $scope.showFacility = false;
+            $scope.showAdmin = true;
+            $scope.showPointScale = false;
         }
 
         $scope.getScale = function(){

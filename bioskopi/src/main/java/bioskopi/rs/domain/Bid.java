@@ -1,9 +1,11 @@
 package bioskopi.rs.domain;
 
+import bioskopi.rs.domain.util.LocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Bid {
@@ -16,7 +18,8 @@ public class Bid {
     private double offer;
 
     @Column(nullable = false)
-    private LocalDate date;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime date;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
@@ -29,7 +32,7 @@ public class Bid {
     public Bid() {
     }
 
-    public Bid(long id, double offer, LocalDate date, RegisteredUser user, Ad ad) {
+    public Bid(long id, double offer, LocalDateTime date, RegisteredUser user, Ad ad) {
         this.id = id;
         this.offer = offer;
         this.date = date;
@@ -53,11 +56,11 @@ public class Bid {
         this.offer = offer;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

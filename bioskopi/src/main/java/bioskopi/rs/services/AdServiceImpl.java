@@ -2,9 +2,11 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Ad;
 import bioskopi.rs.domain.AdState;
+import bioskopi.rs.domain.Bid;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.AdRepository;
+import bioskopi.rs.repository.BidRepository;
 import bioskopi.rs.repository.RegisteredUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,9 @@ public class AdServiceImpl implements AdService {
 
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
     private final String IMAGE_PATH = Paths.get("img", "ads").toString()
             + File.separator;
@@ -152,6 +157,34 @@ public class AdServiceImpl implements AdService {
         try{
             adRepository.save(ad);
         }catch (OptimisticLockException e){
+            throw new ValidationException("Data are stale");
+        }
+    }
+
+    @Override
+    @Transactional
+    public Ad addBid(Bid bid) {
+        try{
+            Optional<Ad> ad = adRepository.findById(bid.getAd().getId());
+            if(!ad.isPresent()){
+                throw new ValidationException("Ad does not exist");
+            }
+            Optional<RegisteredUser> user = registeredUserRepository.findById(bid.getUser().getId());
+            if (!user.isPresent()){
+                throw new ValidationException("User does not exist");
+            }
+            Ad temp = ad.get();
+            if(bid.getDate().isAfter(temp.getDeadline())){
+                throw new ValidationException("Offer date is after deadline");
+            }
+            if(bid.getUser().getId() == temp.getOwner().getId()){
+                throw new ValidationException("You can not add offer to your ad");
+            }
+            temp.getBids().add(bid);
+            return adRepository.save(temp);
+        } catch (NullPointerException e){
+            throw new ValidationException("Corrupted data received");
+        } catch (OptimisticLockException e){
             throw new ValidationException("Data are stale");
         }
     }

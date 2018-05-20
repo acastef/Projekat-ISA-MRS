@@ -1,63 +1,109 @@
-<h1>Facilities</h1>
+<!-- <h1>Facilities</h1> -->
 
-<div ng-controller = "facilitiesController">
+<!-- style="background-color: #c2d1f0"  -->
+<div  ng-controller = "facilitiesController" >
     <h2 ng-show="facilities.length ==0">There are no facilities records</h2>
 
-    <div ng-repeat="fac in facilities">
+    <div ng-repeat="fac in facilities" class="container" style="margin: 5px">
 
-        <div style="float: left;">
-            <p>    Id: {{fac.id}}</p>
-            <p>    Name: {{fac.name}}</p>
-            <p>    Address: {{fac.address}}</p>
-            <p>    Description: {{fac.description}}</p>
-            <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
-            <a ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+        <div class="row row-eq-height">
 
-            <!-- every facility has form in which it can be changed -->
-            <button ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
+            <div class="col-md-8">
+                <div class="p-3 mb-2 bg-dark text-white">
 
-            <form accept-charset="UTF-8" ng-hide= changeForms[{{fac.id}}]  ng-submit="changeFacility($index)">
-
-                <label>Name: </label>
-                <input type="text" ng-model="fac.name"><br>
+                    <div class="container">
         
-                <label>Address: </label>
-                <input type="text" ng-model="fac.address"><br>
+                        <div class="row">
         
-                <label>Description: </label>
-                <input type="text" ng-model="fac.description"><br>
+                            <div class="col-md-4">
+                                    <!-- <span><p  class="text-white bg-dark">    Id: {{fac.id}}</p></span> -->
+                                    <p  class="text-white bg-dark">    Name: {{fac.name}}</p>
+                                    <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
+                                    
+                                    <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
+                                    <a  class="text-white bg-dark" ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+                        
+                                    <!-- every facility has form in which it can be changed -->
+                                    <button class="btn btn-small btn-primary" ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
+                        
+                                    <form accept-charset="UTF-8" ng-hide= changeForms[{{fac.id}}]  ng-submit="changeFacility($index)">
+                        
+                                        <label>Name: </label>
+                                        <input type="text" ng-model="fac.name"><br>
+                                
+                                        <label>Address: </label>
+                                        <input type="text" ng-model="fac.address"><br>
+                                
+                                        <label>Description: </label>
+                                        <input class="form-control" rows="10" type="text" ng-model="fac.description"><br>
+                                
+                                        <input type = "submit" value = "Change">
+                        
+                        
+                                    </form>
+                        
+                                    <a  class="text-white bg-dark" href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
+                                    <a  class="text-white bg-dark"href = "#configureSeats">Configure seats</a>
+                
+                            </div>
+                            
+                
+                            <span class="border border-primary" style="width: 60%; margin: 5px;">
+                                <div class="col-md-8">
+                                    <p  class="text-white bg-dark">    Description: {{fac.description}}</p>
+                                </div>
+                            </span>
         
-                <input type = "submit" value = "Change">
-
-
-            </form>
-
-            <a href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-            <a href = "#configureSeats">Configure seats</a>
-
-            <p>==============================================================================</p>
-
-        </div>
-
-        <div style="float: right; display: flex; margin-right: 100px">
-
-            <div>
-                <div>
-                        <h1>Fast tickets</h1><br><br>
+                        </div>
+                        
+        
+                    </div>
+                                
+        
                 </div>
 
-                <div ng-repeat="fastTicket in fastTickets[fac.id]" style="float: left;">
-                        <button ng-click="makeFastReservation(fastTicket, fac.id)"
-                        style="margin-right: 10px">{{fastTicket.id}}</button>
-        
+            </div>
+            <!-- drugi -->
+            <div class="col-md-4">
+                <div class="p-3 mb-2 bg-dark text-white">
+
+                        <div>
+                            <div>
+                                    <h1 > Fast tickets</h1><br><br>
+                                    <!-- <p ng-show="fastTickets[fac.id].length == 0">There are no fast tickets</p><br><br> -->
+                            </div>
+                            <div class="row">
+                                <div ng-repeat="fastTicket in fastTickets[fac.id]" >
+                                    
+                                    <button class="btn btn-medium btn-primary" style="margin: 5px"
+                                        ng-click="makeFastReservation(fastTicket, fac.id)"
+                                        >{{fastTicket.id}}</button>
+                                    
+                                            <!-- <div class="card" style="width: 5rem; ">
+                                                <img class="card-img-top" src="..." alt="Card image cap">
+                                                <div class="card-block">
+                                                    <h4 class="card-title">{{fastTicket.id}}</h4>
+                                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                </div>
+                                                </div> -->
+                        
+                                </div>
+                            </div>
+                        </div>
+                        
                 </div>
             </div>
-           
+
         </div>
+
+
+
+        <!-- background:#3366cc !important -->
         
 
+       
         
-
     </div>
 
 </div>

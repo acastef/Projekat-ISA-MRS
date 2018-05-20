@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Ad;
+import bioskopi.rs.domain.Bid;
 
 import java.util.List;
 
@@ -46,4 +47,11 @@ public interface AdService {
      * @param ad that needs to be deleted
      */
     void delete(Ad ad);
+
+    /**
+     * @param bid that needs to be added
+     * @return saved bid to database
+     */
+    Ad addBid(Bid bid);
+
 }

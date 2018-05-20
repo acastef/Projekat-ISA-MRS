@@ -5,8 +5,9 @@
         .module('utopia')
         .controller('repertoireController', repertoireController);
 
-    repertoireController.$inject = ['$scope','$location','$routeParams', 'repertoireService'];
-    function repertoireController($scope,$location,$routeParams, repertoireService) {
+    repertoireController.$inject = ['$scope', '$location', '$routeParams', 'repertoireService'];
+
+    function repertoireController($scope, $location, $routeParams, repertoireService) {
         var vm = this;
 
         $scope.repertoire = [];
@@ -18,110 +19,105 @@
         $scope.selectedVR = {};
 
         $scope.changeForms = {};
-        $scope.newProjectionForm  = true;
+        $scope.newProjectionForm = true;
         $scope.pp = 0;
         $scope.id = $routeParams.id;
 
         $scope.date = "2016-01-01";
 
-         $scope.newProjection = { 
-            date: "2016-01-01", description:"qwe", director:"asd",
-            genre:"zxc",duration : 0, name:"name1", price: 234,
-            picture: "asdasd", listOfActors:[], tickets:[], facility: {},
-            viewingRoom:{} };
+        $scope.newProjection = {
+            date: "2016-01-01",
+            description: "qwe",
+            director: "asd",
+            genre: "zxc",
+            duration: 0,
+            name: "name1",
+            price: 234,
+            picture: "asdasd",
+            listOfActors: [],
+            tickets: [],
+            facility: {},
+            viewingRoom: {}
+        };
 
-                                       
+
         activate();
 
-        function activate()
-        {
-            repertoireService.getByFacilityId($scope.id).success(function(data, status)
-            {
-                 $scope.repertoire = data;
-                 for(let i = 0; i < $scope.repertoire.length; i++)
-                 {
-                     //$scope.forms[$scope.repertoire[i].id] = true;
-                     $scope.changeForms[$scope.repertoire[i].id] = true;
-                     $scope.newProjectionForm = true;
-                     
-                 }
+        function activate() {
+            repertoireService.getByFacilityId($scope.id).success(function(data, status) {
+                $scope.repertoire = data;
+                for (let i = 0; i < $scope.repertoire.length; i++) {
+                    //$scope.forms[$scope.repertoire[i].id] = true;
+                    $scope.changeForms[$scope.repertoire[i].id] = true;
+                    $scope.newProjectionForm = true;
 
-                 repertoireService.getFacility($scope.id).success(function(data,status){
+                }
+
+                repertoireService.getFacility($scope.id).success(function(data, status) {
                     $scope.facilitiy = data;
                     $scope.newProjection.facility = data;
 
                     // put facility in parameter "facility" in every projection on this page 
-                    for(let i = 0; i < $scope.repertoire.length; i++)
-                    {
+                    for (let i = 0; i < $scope.repertoire.length; i++) {
                         $scope.repertoire[i].facility = data;
                     }
 
-                    repertoireService.getAllVRs($scope.facilitiy.id).success(function(data,status){
+                    repertoireService.getAllVRs($scope.facilitiy.id).success(function(data, status) {
 
                         $scope.viewingRooms = data;
 
-                        for(let i = 0; i < $scope.viewingRooms.length; i++)
-                        {
+                        for (let i = 0; i < $scope.viewingRooms.length; i++) {
                             $scope.viewingRooms[i].facility = $scope.facility;
                         }
 
-                    }).error(function(data,status){
+                    }).error(function(data, status) {
                         toastr.error("Error while getting data", "Error");
                     });
 
-                }).error(function(data,status){
+                }).error(function(data, status) {
                     toastr.error("Error while getting data", "Error");
                 });
 
-            }).error(function(data,status){
+            }).error(function(data, status) {
                 console.log("Error while getting data");
             });
         }
 
-        $scope.showForm = function(index)
-        {
-             $scope.forms[index] = false;
+        $scope.showForm = function(index) {
+            $scope.forms[index] = false;
         }
 
-        $scope.showChangeForm = function(index)
-        {
-             $scope.changeForms[index] = false;
+        $scope.showChangeForm = function(index) {
+            $scope.changeForms[index] = false;
         }
 
-        $scope.showNewProjectionForm = function()
-        {
-             $scope.newProjectionForm = false;
+        $scope.showNewProjectionForm = function() {
+            $scope.newProjectionForm = false;
         }
 
-        $scope.save = function(data)
-        {
-            repertoireService.save(data).success(function(data, status)
-            {
-                toastr.success("Successfully saved projection","Ok");
+        $scope.save = function(data) {
+            repertoireService.save(data).success(function(data, status) {
+                toastr.success("Successfully saved projection", "Ok");
 
-            }).error(function(data2,status){
+            }).error(function(data2, status) {
                 toastr.error("Could not save the new price for projection");
-                for(let i = 0; i < $scope.repertoire.length; i++)
-                {
-                    if ($scope.repertoire[i].id == data.id)
-                    {
-                       $scope.repertoire[i].price = 0;
+                for (let i = 0; i < $scope.repertoire.length; i++) {
+                    if ($scope.repertoire[i].id == data.id) {
+                        $scope.repertoire[i].price = 0;
                     }
                 }
             });
         }
 
-        $scope.deleteProjection = function(arej, index)
-        {
+        $scope.deleteProjection = function(arej, index) {
             repertoireService.deleteProjection($scope.repertoire[index].id)
-            .success(function(data, status)
-            {
-                arej.splice(index,1);
-                toastr.success("Projection  successfully deleted\n\n" + data);
+                .success(function(data, status) {
+                    arej.splice(index, 1);
+                    toastr.success("Projection  successfully deleted\n\n" + data);
 
-            }).error(function(data,status){
-                toastr.error("Could not delete projection with id " + data);
-            });
+                }).error(function(data, status) {
+                    toastr.error("Could not delete projection with id " + data);
+                });
         }
 
         // gets selected facility, puts it in the new projection and finds all VRs in that facility
@@ -164,7 +160,7 @@
         //             {
         //                 //toastr.success("Got All VRs for Facility " + element.id ,"Ok");
         //                 $scope.viewingRooms = data;
-        
+
         //             }).error(function(data2,status){
 
         //             });
@@ -174,7 +170,7 @@
         // }
 
 
-        $scope.setViewingRoom = function(){
+        $scope.setViewingRoom = function() {
             var id;
             for (let index = 0; index < $scope.viewingRooms.length; index++) {
                 const element = $scope.viewingRooms[index];
@@ -185,8 +181,7 @@
             }
         }
 
-
-        $scope.addProjection = function(){
+        $scope.addProjection = function() {
             $scope.newProjectionForm = true;
             $scope.repertoire.push($scope.newProjection);
             repertoireService.addProjection($scope.newProjection);
@@ -194,15 +189,14 @@
             $scope.changeProjection = true;
         }
 
-        $scope.changeProjection = function(indeks)
-        {
-            toastr.success("MNJIIIIIIIIIIII");
+        $scope.changeProjection = function(indeks) {
+            toastr.success("Projection successfully changed");
             repertoireService.save($scope.repertoire[indeks]);
             $scope.changeForms[$scope.repertoire[indeks].id] = true;
         }
 
 
-     }
+    }
 
 
 })();

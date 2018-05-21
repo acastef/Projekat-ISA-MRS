@@ -15,10 +15,10 @@ app.config(function($routeProvider) {
         css: ['css/home.css', 'css/table.css']
     }).when('/props', {
         templateUrl: 'partials/props.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/sys', {
         templateUrl: 'partials/sys.html',
-        css: ['css/table.css']
+        css: [ 'css/navigation.css']
     }).when('/facilities', {
         templateUrl: 'partials/facilities.html',
         //css: ['css/table.css']
@@ -40,16 +40,24 @@ app.config(function($routeProvider) {
     }).when('/friends', {
         templateUrl: 'partials/friends.html',
     }).when('/profile', {
-        templateUrl: 'partials/profile.html'
+        templateUrl: 'partials/profile.html',
+        css: []
     }).when('/fan_zone_admin',{
         templateUrl: 'partials/fanZoneAdmin.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/ads',{
         templateUrl: 'partials/ads.html',
+<<<<<<< HEAD
         css: ['css/table.css', 'css/props.css']
     }).when('/usersProjections/:id', {
         templateUrl: 'partials/usersProjections.html',
         controller : 'usersProjectionsController'
+=======
+        css: ['css/lineSection.css', 'css/navigation.css']
+    }).when('/ads_form',{
+        templateUrl: 'partials/adsForm.html',
+        css: ['css/lineSection.css', 'css/navigation.css']
+>>>>>>> 600d22ef9ff58ab38a25b1f2a11ea953b66c8aff
     })
 });
 

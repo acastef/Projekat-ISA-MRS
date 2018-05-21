@@ -17,6 +17,10 @@
             return $http.get("/ads/all/wait");
         }
 
+        service.getById = function(data){
+            return $http.get("/ads/get/" + data);
+        }
+
         service.addAds = function(data){
             return $http.post("/ads/add",data);
         }
@@ -35,6 +39,10 @@
 
         service.deleteAds = function(data){
             return $http.put("/ads/delete",data);
+        }
+
+        service.addBid = function(data){
+            return $http.post("ads/bid",data);
         }
 
         return service;

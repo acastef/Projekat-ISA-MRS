@@ -74,6 +74,12 @@ public class FacilitiesServiceImplTest {
     }
 
     @Test
+    public void getAll(){
+        List<Facility> allFacilities = facilitiesService.getAll();
+        assertThat(allFacilities).hasSize(DB_COUNT);
+    }
+
+    @Test
     public void getFacilityById() {
         Facility facility = facilitiesService.getFacilityById(DB_FAC_ID);
         assertThat(facility).isNotNull();

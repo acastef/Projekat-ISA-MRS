@@ -52,6 +52,7 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
         return viewingRoomRepository.getFacility(id);
     }
 
+
     @Transactional
     @Override
     public Boolean closeSegment(Long vrId, SegmentEnum segmentType) {

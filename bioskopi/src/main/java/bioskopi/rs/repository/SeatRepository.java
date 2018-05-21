@@ -1,5 +1,4 @@
 package bioskopi.rs.repository;
-
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.SegmentEnum;
 import com.sun.org.apache.xpath.internal.operations.Bool;

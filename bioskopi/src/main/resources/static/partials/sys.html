@@ -1,159 +1,174 @@
 <div ng-controller="sysController">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link headers" ng-click="viewPointScale()" href>Points-Scale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link headers" ng-click="viewAdmin()" href>Add-Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link headers" ng-click="viewFacility()" href>Add-Facility</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div ng-show="showPointScale" class="form-group">
         <label>Select Facility: </label>
-        <select ng-model="selectedFacility" ng-options="f.name for f in facilities"
-            ng-change="getScale()"></select>
+        <select class="custom-select col-4" ng-model="selectedFacility" ng-options="f.name for f in facilities" ng-change="getScale()"></select>
         <h2 ng-show="categories.userCategories.length ==0">Error no user categories available</h2>
-            <form name="userCategory">
+        <form name="userCategory" class="form-group">
             <label>{{categories.length}}</label>
-            <table class="redTable" ng-show="categories.userCategories.length >0">
+            <table class="table table-hover" style="width: 60%" ng-show="categories.userCategories.length >0">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Points</th>
-                        <th>Discount</th>
+                    <tr class="table-primary">
+                        <th scope="col" style="width: 33%">Name</th>
+                        <th scope="col" style="width: 33%">Points</th>
+                        <th scope="col" style="width: 33%">Discount</th>
                     </tr>
                 </thead>
-        
+
                 <tbody>
-                            <tr ng-repeat="category in categories.userCategories" 
-                            class="cellInputs">
-                                <td>{{category.name}}</td>
-                                <td><input id="category.id" type="number" name="points" min="0"  placeholder="Integer" 
-                                    ng-model="category.points" ng-change="changePoints(category.id)"/></td>
-                                <td><input  type="number" ng-change="changeDiscount(category.id)" name="discount" 
-                                    step="0.01" min="0" max="100" 
-                                    ng-model="category.discount" placeholder="Decimal"></td>
-                            </tr>
-                    
+                    <tr ng-repeat="category in categories.userCategories" class="table-primary">
+                        <td>{{category.name}}</td>
+                        <td>
+                            <input class="form-control" id="{{category.id}}" type="number" name="points" min="0" placeholder="Integer" ng-model="category.points" ng-change="changePoints(category.id)"
+                            />
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" ng-change="changeDiscount(category.id)" name="discount" step="0.01" min="0" max="100" ng-model="category.discount"
+                                placeholder="Decimal">
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
-                <input type="button" value="Save" ng-click="save()">
-            </form>
-            <span ng-show="error">{{errorMessage}} </span>
+            <button type="button" ng-click="save()" class="btn btn-primary">Save</button>
+        </form>
+        <span ng-show="error">{{errorMessage}} </span>
+    </div>
 
-<br/> <br/>
-
-<button ng-click="testiranje()">testiranje</button>
-
-<p style="text-align: center"><h2>Admin manager</h2></p>
-
-<form name="adminForm" id="adminForm" accept-charset="UTF-8" novalidate="novalidate">
+    <form ng-show="showAdmin" name="adminForm" id="adminForm" accept-charset="UTF-8" novalidate="novalidate">
         <div class="imageContainer">
-            <img class="avatar" id="image" src="img/avatars/default-avatar.jpg" alt="Avatar"
-                width="250" height="250"><br/>
-            <input type="file" id="imageFile" name="imageFile" fileread="imageFile"><br/>
-                
+            <img class="avatar" id="image" src="img/avatars/default-avatar.jpg" alt="Avatar" width="250" height="250">
+            <br/>
+            <input type="file" id="imageFile" name="imageFile" fileread="imageFile">
+            <br/>
+
             <label>Name: </label>
-            <input ng-model="name" type="text" name="name" required="required"> <br/>
-    
+            <input ng-model="name" type="text" name="name" required="required">
+            <br/>
+
             <label>Surname: </label>
-            <input ng-model="surname" type="text" name="surname" required="required"> <br/>
+            <input ng-model="surname" type="text" name="surname" required="required">
+            <br/>
 
             <label>Email: </label>
-            <input ng-model="email" type="email" name="email" required="required"> <br/>
+            <input ng-model="email" type="email" name="email" required="required">
+            <br/>
 
             <label>Telephone: </label>
-            <input ng-model="telephone" type="tel" name="telephone"> <br/>
+            <input ng-model="telephone" type="tel" name="telephone">
+            <br/>
 
             <label>Address: </label>
-            <input ng-model="address" type="text" name="address"> <br/>
+            <input ng-model="address" type="text" name="address">
+            <br/>
 
             <label>Username: </label>
-            <input ng-model="username" type="text" name="username" required="required"> <br/>
+            <input ng-model="username" type="text" name="username" required="required">
+            <br/>
 
             <label>Password: </label>
-            <input ng-model="password" type="password" name="password" required="required"> <br/>
+            <input ng-model="password" type="password" name="password" required="required">
+            <br/>
 
             <label>Admin type: </label>
-            <select ng-model="selectedAdminType" ng-options="a for a in adminTypes"
-                ng-change="changeAdminType()"></select>
+            <select ng-model="selectedAdminType" ng-options="a for a in adminTypes" ng-change="changeAdminType()"></select>
             <br/>
 
             <label ng-show="selectedTypeCT">Facility: </label>
-            <select ng-model="selectedAdminFacility" ng-options="f.name for f in facilities"
-                ng-show="selectedTypeCT">
-            </select> <br/>
+            <select ng-model="selectedAdminFacility" ng-options="f.name for f in facilities" ng-show="selectedTypeCT">
+            </select>
+            <br/>
 
             <button ng-click="addAdmin()">Add</button>
-            </div>
-</form>
+        </div>
+    </form>
 
 
-<h2>Facilities manager</h2>
+    <form ng-show="showFacility" name="facForm" id="facForm" accept-charset="UTF-8" novalidate>
+        <label>Name: </label>
+        <input type="text" name="name" ng-model="facName" required>
+        <span ng-show="facForm.name.$dirty && facForm.name.$error.required">
+            Name is required
+        </span>
+        <br/>
 
-<form name="facForm" id="facForm" accept-charset="UTF-8" novalidate>
-    <label>Name: </label>
-    <input type="text" name="name" ng-model="facName" required>
-    <span ng-show="facForm.name.$dirty && facForm.name.$error.required">
-        Name is required
-    </span> 
-    <br/>
-    
-    <label>Address: </label>
-    <input type="text" name="address" ng-model="facAdd" required>
-    <span ng-show="facForm.address.$dirty && facForm.address.$error.required">
-        Address is required
-    </span>
-    <br/>
+        <label>Address: </label>
+        <input type="text" name="address" ng-model="facAdd" required>
+        <span ng-show="facForm.address.$dirty && facForm.address.$error.required">
+            Address is required
+        </span>
+        <br/>
 
-    <label>Description: </label>
-    <input type="text" name="description" ng-model="facDes" required>
-    <span ng-show="facForm.description.$dirty && facForm.description.$error.required">
-        Description is required
-    </span>
-    <br/>
-    
-
-    <label>Type: </label>
-    <select ng-model="selectedFacType" ng-options="t for t in facTypes" required>
-    </select>
+        <label>Description: </label>
+        <input type="text" name="description" ng-model="facDes" required>
+        <span ng-show="facForm.description.$dirty && facForm.description.$error.required">
+            Description is required
+        </span>
+        <br/>
 
 
-<h2>Viewing Room manager</h2>
-<label>Name: </label>    
-<input type="text" name="roomName" ng-model="roomName" required> 
-<span ng-show="facForm.roomName.$dirty && facForm.roomName.$error.required">
-    Room name is required
-</span>
-<br/>
+        <label>Type: </label>
+        <select ng-model="selectedFacType" ng-options="t for t in facTypes" required>
+        </select>
 
-<label>Rows: </label>
-<input type="number" name="roomRows" ng-model="roomRows" 
-    ng-change="calculate()" ng-init="roomRows = 1" required> 
-<span ng-show="facForm.roomRows.$dirty && facForm.roomRows.$error.required">
-    Rows are required
-</span>
-<br/>
-<label>Columns</label>
-<input type="number" name="roomColumns" ng-model="roomColumns"
-    ng-change="calculate()" ng-init="roomColumns = 1" required> 
-<span ng-show="facForm.roomColumns.$dirty && facForm.roomColumns.$error.required">
-    Columns are required
-</span>
-<br/>
-<label>Number of seats</label>
-<input type="number" ng-readonly="true" min="1" ng-model="seatsCounter"> <br/>
-<button ng-click="addRoom()">Add</button>
 
-<table class="redTable" ng-show="rooms.length >0">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Rows</th>
-                <th>Columns</th>
-            </tr>
-        </thead>
+        <h2>Viewing Room manager</h2>
+        <label>Name: </label>
+        <input type="text" name="roomName" ng-model="roomName" required>
+        <span ng-show="facForm.roomName.$dirty && facForm.roomName.$error.required">
+            Room name is required
+        </span>
+        <br/>
 
-        <tbody>
-                    <tr ng-repeat="room in roomsTemp" 
-                    class="cellInputs">
-                        <td>{{room.name}}</td>
-                        <td>{{room.seatRow}}</td>
-                        <td>{{room.seatColumn}}</td>
-                    </tr>
-            
-        </tbody>
-    </table>
-<button ng-click="addFacility()">Add Facility</button>
-</form>
+        <label>Rows: </label>
+        <input type="number" name="roomRows" ng-model="roomRows" ng-change="calculate()" ng-init="roomRows = 1" required>
+        <span ng-show="facForm.roomRows.$dirty && facForm.roomRows.$error.required">
+            Rows are required
+        </span>
+        <br/>
+        <label>Columns</label>
+        <input type="number" name="roomColumns" ng-model="roomColumns" ng-change="calculate()" ng-init="roomColumns = 1" required>
+        <span ng-show="facForm.roomColumns.$dirty && facForm.roomColumns.$error.required">
+            Columns are required
+        </span>
+        <br/>
+        <label>Number of seats</label>
+        <input type="number" ng-readonly="true" min="1" ng-model="seatsCounter">
+        <br/>
+        <button ng-click="addRoom()">Add</button>
+
+        <table class="redTable" ng-show="rooms.length >0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rows</th>
+                    <th>Columns</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="room in roomsTemp" class="cellInputs">
+                    <td>{{room.name}}</td>
+                    <td>{{room.seatRow}}</td>
+                    <td>{{room.seatColumn}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <button ng-click="addFacility()">Add Facility</button>
+    </form>
 </div>

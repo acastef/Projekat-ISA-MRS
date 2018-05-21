@@ -13,7 +13,7 @@
         }
 
         service.getAllFacilities = function(){
-            return $http.get("/facilities/all");
+            return $http.get("/facilities/getAll");
         }
 
         service.addProps = function(data){

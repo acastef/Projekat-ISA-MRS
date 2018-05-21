@@ -92,4 +92,5 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
         return new ResponseEntity<List<Ticket>>(ticketService.getTickets(Long.parseLong(id)), HttpStatus.OK);
     }
+
 }

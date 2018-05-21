@@ -52,6 +52,7 @@ public class Ad implements Serializable {
     private Long version;
 
     public Ad() {
+        version = 0L;
     }
 
     public Ad(long id, String image, String name, String description, LocalDateTime deadline, AdState state,

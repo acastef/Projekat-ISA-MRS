@@ -50,10 +50,10 @@ public class FacilitiesControllerTest {
     public void setUp() throws Exception {
 
         Cinema cinema = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Theater theater = new Theater("FAC_FAC2", "FAC_ADDR2", "theater",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         cinema.getPointsScales().setFacility(cinema);
         theater.getPointsScales().setFacility(theater);
@@ -92,6 +92,14 @@ public class FacilitiesControllerTest {
     }
 
     @Test
+    public void getAllFacilities() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/getAll"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(DB_COUNT)));
+    }
+
+    @Test
     public void getRepertoireById() throws Exception{
         mockMvc.perform(get(URL_PREFIX + "/getRepertoire/" + DB_FAC_ID))
                 .andExpect(status().isOk())
@@ -113,7 +121,7 @@ public class FacilitiesControllerTest {
     @Transactional
     public void addCinema() throws Exception {
         Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -142,7 +150,7 @@ public class FacilitiesControllerTest {
     @Transactional
     public void notUniqueNameAddCinema() throws Exception {
         Cinema cinema = new Cinema(DB_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -168,7 +176,7 @@ public class FacilitiesControllerTest {
     @Transactional
     public void addTheater() throws Exception {
         Theater theater = new Theater(NEW_THA_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         theater.getPointsScales().setFacility(theater);
         theater.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), theater.getPointsScales()),
@@ -194,7 +202,7 @@ public class FacilitiesControllerTest {
     @Transactional
     public void notUniqueNameAddTheater() throws Exception {
         Theater theater = new Theater(DB_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         theater.getPointsScales().setFacility(theater);
         theater.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), theater.getPointsScales()),

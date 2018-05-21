@@ -51,7 +51,7 @@ public class AdminsServiceImplTest {
                 DB_FAN_TEL,DB_FAN_ADR);
 
         DB_FAC = new Cinema("Cin1", "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
         DB_FAC.getPointsScales().setFacility(DB_FAC);
 
         CaTAdmin ct1 = new CaTAdmin(DB_CT_NM,DB_CT_SN,DB_CT_EM,DB_CT_UN,DB_CT_PS,DB_CT_AV,DB_CT_FL,

@@ -10,9 +10,9 @@
     function sysService($http) {
 
         var service = {};
-
-        service.getAllFacilities = function() {
-            return $http.get("/facilities/all");
+        
+        service.getAllFacilities = function(){
+            return $http.get("/facilities/getAll");
         }
 
         service.getOne = function(id) {

@@ -9,6 +9,5 @@ import java.io.Serializable;
 public enum SeatStatus implements Serializable {
 
     FREE,
-    TAKEN,
-    CLOSED
+    TAKEN
 }

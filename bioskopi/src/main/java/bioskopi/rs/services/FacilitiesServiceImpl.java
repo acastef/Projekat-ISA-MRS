@@ -4,15 +4,19 @@ import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
+import bioskopi.rs.domain.ViewingRoom;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.FacilityRepository;
+import bioskopi.rs.repository.SeatRepository;
 import bioskopi.rs.repository.TicketRepository;
+import bioskopi.rs.repository.ViewingRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bioskopi.rs.validators.FacilitiesValidator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -26,6 +30,12 @@ public class FacilitiesServiceImpl implements FacilitiesService {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private ViewingRoomRepository viewingRoomRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public List<FacilityDTO> findAllFacilities() {
@@ -44,6 +54,11 @@ public class FacilitiesServiceImpl implements FacilitiesService {
         }
 
         return listOfFacDTOs;
+    }
+
+    @Override
+    public List<Facility> getAll() {
+        return facilityRepository.findAll();
     }
 
     @Override
@@ -78,7 +93,14 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     @Override
     @Transactional
     public Facility save(Facility facility) {
-        return  facilityRepository.saveAndFlush(facility);
+        Facility temp = facilityRepository.saveAndFlush(facility);
+        temp.setViewingRooms(new HashSet<>(viewingRoomRepository.saveAll(temp.getViewingRooms())));
+        /*for (ViewingRoom vm :
+                temp.getViewingRooms()) {
+            seatRepository.saveAll(vm.getSeats());
+        }*/
+        return temp;
+
     }
 
     @Override

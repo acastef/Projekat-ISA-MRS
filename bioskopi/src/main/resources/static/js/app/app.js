@@ -15,10 +15,10 @@ app.config(function($routeProvider) {
         css: ['css/home.css', 'css/table.css']
     }).when('/props', {
         templateUrl: 'partials/props.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/sys', {
         templateUrl: 'partials/sys.html',
-        css: ['css/table.css']
+        css: [ 'css/navigation.css']
     }).when('/facilities', {
         templateUrl: 'partials/facilities.html',
         //css: ['css/table.css']
@@ -41,13 +41,17 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/friends.html',
         css: ['css/friends.css']
     }).when('/profile', {
-        templateUrl: 'partials/profile.html'
-    }).when('/fan_zone_admin', {
+        templateUrl: 'partials/profile.html',
+        css: []
+    }).when('/fan_zone_admin',{
         templateUrl: 'partials/fanZoneAdmin.html',
-        css: ['css/table.css', 'css/props.css']
-    }).when('/ads', {
+        css: ['css/lineSection.css', 'css/navigation.css']
+    }).when('/ads',{
         templateUrl: 'partials/ads.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/lineSection.css', 'css/navigation.css']
+    }).when('/ads_form',{
+        templateUrl: 'partials/adsForm.html',
+        css: ['css/lineSection.css', 'css/navigation.css']
     })
 });
 

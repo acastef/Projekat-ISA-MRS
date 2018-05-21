@@ -2,6 +2,7 @@ package bioskopi.rs.controllers;
 
 
 import bioskopi.rs.domain.Ad;
+import bioskopi.rs.domain.Bid;
 import bioskopi.rs.domain.util.UploadResponse;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.AdService;
@@ -39,22 +40,48 @@ public class AdController {
     @Autowired
     private AdService adService;
 
+    /**
+     * @return all active ads
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/all/active", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Ad>>  getAllActive(){
         return new ResponseEntity<>(adService.getAllActive(),HttpStatus.OK);
     }
 
+    /**
+     * @return all ads that wait to be accepted or rejected
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/all/wait", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Ad>>  getAllWait(){
         return new ResponseEntity<>(adService.getAllWait(),HttpStatus.OK);
     }
 
+
+    /**
+     * @param id of targeted ad
+     * @return ad with given id
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Ad>  getById(@PathVariable String id){
+        try{
+            return new ResponseEntity<>(adService.findById(Long.parseLong(id)),HttpStatus.OK);
+        } catch (NumberFormatException e){
+            throw new ValidationException("Wrong id");
+        }
+
+    }
+
+
+    /**
+     * @param ad that needs to be added
+     * @return result of action add action
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> add(@RequestBody Ad ad){
-        ad.setDeadline(ad.getDeadline().minusMinutes(20L));
         try {
             return new ResponseEntity<>(adService.add(ad),HttpStatus.CREATED);
         }catch (ValidationException e){
@@ -136,6 +163,19 @@ public class AdController {
     public ResponseEntity<Object> deleteAd(@RequestBody Ad ad) {
         adService.delete(ad);
         return new ResponseEntity<>("Successfully reject ad", HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/bid", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object>  addBid(@RequestBody Bid bid){
+        try {
+            Ad ad = adService.addBid(bid);
+            ad.setImage(IMAGE_PATH + ad.getImage());
+            return new ResponseEntity<>(ad, HttpStatus.CREATED);
+        } catch (ValidationException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

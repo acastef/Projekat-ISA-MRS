@@ -17,6 +17,11 @@ public interface FacilitiesService {
      */
     List<FacilityDTO> findAllFacilities();
 
+    /**
+     * @return Collection of all available facilities in database
+     */
+    List<Facility> getAll();
+
     /***
      *
      * @return A facility with given id

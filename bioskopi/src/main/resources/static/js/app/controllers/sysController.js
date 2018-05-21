@@ -38,6 +38,12 @@
         $scope.telephone;
         $scope.address;
         $scope.selectedTypeCT = false;
+
+        $scope.showFacility = false;
+        $scope.showPointScale = true;
+        $scope.showAdmin = false;
+
+
         activate();
 
         ////////////////
@@ -48,6 +54,24 @@
             }).error(function(data,status){
                 toastr.error("Error while getting data", "Error");
             });
+        }
+
+        $scope.viewFacility = function(){
+            $scope.showFacility = true;
+            $scope.showAdmin = false;
+            $scope.showPointScale = false;
+        }
+
+        $scope.viewPointScale = function(){
+            $scope.showFacility = false;
+            $scope.showAdmin = false;
+            $scope.showPointScale = true;
+        }
+
+        $scope.viewAdmin = function(){
+            $scope.showFacility = false;
+            $scope.showAdmin = true;
+            $scope.showPointScale = false;
         }
 
         $scope.getScale = function(){
@@ -352,22 +376,5 @@
                 toastr.error("Failed to add admin. " + data, "Error");
             });
         }
-
-        $scope.testiranje = function(){
-            sysService.save({
-                id:1,
-                userCategories:[
-                    {id: 2, name: "SILVER", points: 75, discount: 56.74, $$hashKey: "005"},
-                    {id: 1, name: "GOLD", points: 85, discount: 85.36, $$hashKey: "006"},
-                    {id: 3, name: "BRONZE", points: 50, discount: 76.57, $$hashKey: "007"}
-                ]
-            }).success(function(data,status){
-                console.log("SUCCESS SAVE");
-                self.categories = data;
-            }).error(function(data,status){
-                toastr.error("Error while saving data. " + data, "Error");
-            });
-        }
-
     }
 })();

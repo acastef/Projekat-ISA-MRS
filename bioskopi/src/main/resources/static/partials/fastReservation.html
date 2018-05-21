@@ -19,24 +19,16 @@
                 <tr ng-repeat="seat in seats">
                         <td>{{ seat.seatRow }}</td>
                         <td>{{ seat.seatColumn }}</td>
-                        <td><button ng-click="addToFast(seat)">Add to fast</button>        
-                </tr>
-        
-                        <!-- <tr><td>{{seat.seatRow}}</td> <td>{{seat.seatCollumn}}</td>  </td></tr> -->
-
-                                <!-- ng-checked="seatsStatuses[seat.id]" -->
-                <!-- <input style="margin: 5px" type="radio"   ng-click="seatSelected()">
-                
-                </div> -->
-                        
+                        <td><button ng-click="enterDiscount(seat)">Add to fast</button>        
+                </tr>   
             </table>
+
+            <form ng-hide="hideDiscountForm" ng-submit="addToFast()">
+                <label>Enter discout for selected ticket (%): </label>
+                <input type="text" ng-model="newDiscount"><br>
+                <button type="submit">Make new fast reservation</button>
+            </form>
             
-            
-
-            
-
-
-
     </div>
     
     <div>

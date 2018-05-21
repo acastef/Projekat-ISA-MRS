@@ -1,31 +1,25 @@
 (function() {
     'use strict';
 
-        angular
+    angular
         .module('utopia')
-        .controller('reservationsListController',reservationsListController);
+        .controller('reservationsListController', reservationsListController);
 
-        reservationsListController.$inject = ['$scope', '$location', 'reservationsListService'];
-        function reservationsListController($scope, reservationsListService){
+    reservationsListController.$inject = ['$scope', '$location', 'reservationsListService'];
 
-            $scope.id = 1;
-            $scope.reservations = {};
-            activate();
-            function activate(){
-                reservationsListService.getTickets($scope.id).success(function(data, status){
-                    $scope.reservations = data;
-                }).error(function(data, status){
-                    console.log("Failed to fetch data!");
-                });
-            };
+    function reservationsListController($scope, reservationsListService) {
 
-            $scope.deleteTicket = function(id){
-                reservationsListService.deleteTicket(id).success(function(data, status){
-                    toastr.success("Successfully deleted ticket");
-                }).error(function(data, status){
-                    console.log("Failed to delete ticket");
-                });
-            };
+        $scope.id = 1;
+        $scope.reservations = [];
+        activate();
 
+        function activate() {
+            reservationsListService.getAll($scope.id).success(function(data, status) {
+                $scope.reservations = data;
+            }).error(function(data, status) {
+                toastr.error("Failed to fetch data");
+            });
         }
+
+    }
 })();

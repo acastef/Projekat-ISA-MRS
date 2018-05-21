@@ -5,17 +5,16 @@
     <span>Search: </span><input class="search" type="text">
     <table border="1">
         <tbody>
-        <tr>
-            <td>Facility name</td>
-            <td>Projection</td>
-            <td>Date</td>
-        </tr>
-        <tr ng-repeat="reservation in reservations">
-            <td>{{reservation.facility.name}}</td>
-            <td>{{reservation.projection.name}}</td>
-            <td>{{reservation.projection.date}}</td>
-            <td><button id="delete" ng-click="deleteTicket(reservation.id)">Delete</button></td>
-        </tr>
+            <tr>
+                <td>Facility name</td>
+                <td>Projection</td>
+                <td>Date</td>
+            </tr>
+            <tr ng-repeat="reservation in reservations">
+                <td>{{reservation.seatStatus}}</td>
+                <td>{{reservation.seatStatus}}</td>
+                <td>{{reservation.seatStatus}}</td>
+            </tr>
         </tbody>
     </table>
 </div>

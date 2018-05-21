@@ -71,7 +71,7 @@ public class PropsControllerTest {
 
         RegisteredUser user = new RegisteredUser("test", "test", "test","user",
                 "user", "user",false,"user1","user1",new HashSet<>(),
-                new HashSet<>(), new HashSet<>());
+                new HashSet<>(), new ArrayList<>());
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(DB_FAC);

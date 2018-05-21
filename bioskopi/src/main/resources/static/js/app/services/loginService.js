@@ -2,7 +2,7 @@
     'use strict'
     angular
         .module('utopia')
-        .service('loginService', loginService);
+        .factory('loginService', loginService);
 
     loginService.$inject = ['$http'];
 

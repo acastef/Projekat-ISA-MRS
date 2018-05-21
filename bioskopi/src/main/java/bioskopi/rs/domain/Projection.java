@@ -55,7 +55,7 @@ public class Projection implements Serializable {
     @JoinColumn(nullable = false)
     private ViewingRoom viewingRoom;
 
-    //@JsonManagedReference(value = "projection")
+    @JsonManagedReference(value = "projection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projection", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 

@@ -23,14 +23,14 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/facilities.html',
         //css: ['css/table.css']
     }).when('/repertoire/:id', {
-               templateUrl: 'partials/repertoire.html',
-               controller : 'repertoireController'
+        templateUrl: 'partials/repertoire.html',
+        controller: 'repertoireController'
     }).when('/fastTickets/:id', {
         templateUrl: 'partials/fastReservation.html',
-        controller : 'fastReservationController'
+        controller: 'fastReservationController'
     }).when('/ticketReservations/:id', {
         templateUrl: 'partials/ticketReservations.html',
-        controller : 'ticketReservationsController'
+        controller: 'ticketReservationsController'
     }).when('/reservations', {
         templateUrl: 'partials/reservationsList.html',
     }).when('/theaters', {
@@ -39,12 +39,13 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/cinemas.html',
     }).when('/friends', {
         templateUrl: 'partials/friends.html',
+        css: ['css/friends.css']
     }).when('/profile', {
         templateUrl: 'partials/profile.html'
-    }).when('/fan_zone_admin',{
+    }).when('/fan_zone_admin', {
         templateUrl: 'partials/fanZoneAdmin.html',
         css: ['css/table.css', 'css/props.css']
-    }).when('/ads',{
+    }).when('/ads', {
         templateUrl: 'partials/ads.html',
         css: ['css/table.css', 'css/props.css']
     })

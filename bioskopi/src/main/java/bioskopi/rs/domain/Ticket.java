@@ -39,7 +39,7 @@ public class Ticket implements Serializable {
 
     @JsonBackReference(value = "facility")
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = true)
+    @JoinColumn(nullable = false)
     private Facility facility;
 
     @Column(nullable = false)

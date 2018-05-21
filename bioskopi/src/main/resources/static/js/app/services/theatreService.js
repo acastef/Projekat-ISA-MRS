@@ -3,14 +3,15 @@
 
     angular
         .module('utopia')
-        .service('theatersService',theatersService);
+        .factory('theatersService', theatersService);
     theatersService.$inject = ['$http'];
-    function theatersService($http){
+
+    function theatersService($http) {
         var service = {};
 
-        service.findTheaters = function(){
+        service.findTheaters = function() {
             return $http.get('/theaters/allTheaters');
         };
         return service;
     }
-}) ();
+})();

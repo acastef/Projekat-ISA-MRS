@@ -1,7 +1,7 @@
 (function() {
     angular
         .module('utopia')
-        .service('signupService', signupService);
+        .factory('signupService', signupService);
 
     signupService.$inject = ['$http'];
 

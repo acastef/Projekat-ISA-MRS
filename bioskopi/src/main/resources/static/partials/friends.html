@@ -1,9 +1,37 @@
 <div ng-controller="friendsController">
-    <p>Friends</p>
     <span>Search: </span><input type="text">
-    <table border="1">
-        <tr ng-repeat='friend in friends'>
-            <td>{{friend.name}} {{friend.surname}}</td>
-        </tr>
-    </table>
+    <div class="friends">
+        <p>Friends</p>
+        <table border="1">
+            <tr>
+                <td>Name</td>
+                <td>Last Name</td>
+                <td> E-mail</td>
+                <td>Phone number</td>
+                <td></td>
+            </tr>
+            <tr ng-repeat='friend in friends'>
+                <td>{{friend.name}}</td>
+                <td>{{friend.surname}}</td>
+                <td>{{friend.email}}</td>
+                <td>{{friend.telephone}}</td>
+                <td><button>Delete friend</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="nonFriends">
+        <p>Add friends</p>
+        <table border="1">
+            <tr>
+                <td>Name</td>
+                <td>Last Name</td>
+                <td></td>
+            </tr>
+            <tr ng-repeat='nonFriend in nonFriends'>
+                <td>{{nonFriend.name}}</td>
+                <td>{{nonFriend.surname}}</td>
+                <td><button>Add friend</button></td>
+            </tr>
+        </table>
+    </div>
 </div>

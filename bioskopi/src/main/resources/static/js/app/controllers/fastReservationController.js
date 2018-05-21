@@ -22,6 +22,9 @@
         $scope.seats = [];
         $scope.hideVRForm = false;
         $scope.hideSeats = false;
+        $scope.hideDiscountForm = true;
+
+        $scope.newDiscount = 0;
 
         activate();
 
@@ -78,16 +81,30 @@
             });
         }
 
-        $scope.addToFast = function(seat){
+        $scope.enterDiscount = function(seat)
+        {
+             // remove from seat list
+             var index = $scope.seats.indexOf(seat);
+             if (index != -1)
+                 $scope.seats.splice(index, 1);
+
+            $scope.hideDiscountForm = false;
+
+            //save the seat
+            $scope.selectedSeat = seat;
+        }
+
+        $scope.addToFast = function(){
 
             var ticketId = {};
             var foundedSeatInProjection = false;
+            $scope.hideDiscountForm = true;
         
             //get ticket id that has selected seat in it and update tickets
             for (let inde = 0; inde <  $scope.currentProjection.tickets.length; inde++) {
                         
                
-                if ( $scope.currentProjection.tickets[inde].seat.id == seat.id)
+                if ( $scope.currentProjection.tickets[inde].seat.id == $scope.selectedSeat.id)
                 {
                     // update local storage of projection tickets
                     $scope.currentProjection.tickets[inde].fastReservation = true;
@@ -102,6 +119,9 @@
                     
             // save new Ticket to database
             var ticket = {};
+
+            // if the ticket is alraedy saved, then we need to add an id so that
+            // em knows that it needs to update the ticket instead of creating one
             if (foundedSeatInProjection)
                 ticket.id = ticketId;
             ticket.fastReservation = 1;
@@ -111,20 +131,15 @@
             ticket.facility.id = $scope.facilityId;
             ticket.owner = {};
             ticket.owner.id = 1;
+            ticket.discount = parseInt($scope.newDiscount);
             ticket.projection = $scope.currentProjection;
-            ticket.seat = seat;
+            ticket.seat = $scope.selectedSeat;
 
 
             fastReservationService.newFastReservation(ticket).success(function(data,status){
 
                 //add to fast reservations list
                 $scope.fastTickets.push(ticket);
-                // remove from seat list
-                var index = $scope.seats.indexOf(seat);
-                if (index != -1)
-                    $scope.seats.splice(index, 1);
-
-                //set
             
             }).error(function(data,status){
             toastr.error("Could not transfer ticket");

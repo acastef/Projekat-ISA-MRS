@@ -59,5 +59,5 @@ public interface ProjectionService {
      * @param id
      * @return
      */
-//    List<Projection> findByUserId(long id);
+    List<Projection> findByUserId(long id);
 }

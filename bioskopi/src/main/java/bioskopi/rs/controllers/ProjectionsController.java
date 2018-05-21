@@ -87,12 +87,12 @@ public class ProjectionsController {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/getByUserId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public ResponseEntity<Projection> getByUserId(@PathVariable String id) {
-//        logger.info("Fetching one projection with id: {}", id);
-//        return new ResponseEntity<>(projectionService.findByUserId(Long.parseLong(id)), HttpStatus.OK);
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "/getByUserId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Projection> > getByUserId(@PathVariable String id) {
+        logger.info("Fetching one projection with id: {}", id);
+        return new ResponseEntity<>(projectionService.findByUserId(Long.parseLong(id)), HttpStatus.OK);
+    }
 
 
 }

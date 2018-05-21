@@ -49,10 +49,10 @@ public class CinemasControllerTest {
     public void setUp() throws Exception {
 
         Cinema cinema = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(), new HashSet<>());
 
         Theater theater = new Theater("FAC_FAC2", "FAC_ADDR2", "theater",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(), new HashSet<>());
 
         cinema.getPointsScales().setFacility(cinema);
         theater.getPointsScales().setFacility(theater);

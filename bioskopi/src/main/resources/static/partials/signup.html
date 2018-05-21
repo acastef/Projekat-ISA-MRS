@@ -1,17 +1,14 @@
 <div ng-controller="signupController">
-    <form>
-        <span>Username:</span><input type="text" ng-model="username" id="username"><br>
-        <span>Password:</span><input type="password" ng-model="password" id="password"><br>
-        <span>Repeat new password:</span><input type="password" ng-model="rep_password" id="rep_password"><br>
-        <span>Avatar:</span><input type="text" ng-model="avatar" id="avatar"><br>
-        <span>E-mail:</span><input type="text" ng-model="email" id="email"><br>
-        <span>Name:</span><input type="text" ng-model="name" id="name"><br>
-        <span>Surname:</span><input type="text" ng-model="surname" id="surname"><br>
-        <span>Address:</span><input type="text" ng-model="address" id="address"><br>
-        <span>Phone number:</span><input type="text" ng-model="phone_num" id="phone_num"><br>
-        <p style="color: red" ng-show="valid == 1">Something missing!</p>
-        <p style="color:red" ng-show="valid == 2">Passwords are not the same!</p>
-        <p style="color: red" ng-show="!registered">Unable to register user with inserted data! Try again</p>
-        <button ng-click="tryRegister()">Sign Up</button>
-    </form>
+    <div align="center" class="signupForm">
+        <input placeholder="Username" type="text" ng-model="username" class="input" id="username"><br>
+        <input placeholder="Password" type="password" ng-model="password" class="input" id="password"><br>
+        <input placeholder="Repeat password" type="password" ng-model="rep_password" class="input" id="rep_password"><br>
+        <input placeholder="Avatar" type="text" ng-model="avatar" class="input" id="avatar"><br>
+        <input placeholder="E-mail" type="text" ng-model="email" class="input" id="email"><br>
+        <input placeholder="Name" type="text" ng-model="name" class="input" id="name"><br>
+        <input placeholder="Last name" type="text" ng-model="surname" class="input" id="surname"><br>
+        <input placeholder="Address" type="text" ng-model="address" class="input" id="address"><br>
+        <input placeholder="Phone number" type="text" ng-model="phone_num" class="input" id="phone_num"><br>
+        <button class="btn btn-primary my-2 my-sm-0" ng-click="tryRegister()">Sign Up</button>
+    </div>
 </div>

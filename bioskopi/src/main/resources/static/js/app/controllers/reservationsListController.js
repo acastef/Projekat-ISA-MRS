@@ -5,11 +5,27 @@
         .module('utopia')
         .controller('reservationsListController',reservationsListController);
 
-        reservationsListController.$inject = ['$scope', '$location'];
-        function reservationsListController($scope){
-            $scope.reservations = [
-                {'facility': 'Arena Cineplex', 'projection': 'Deadpool 2', 'date': '5.5.2018.', 'time': '21:00'},
-                {'facility': 'Arena Cinestar', 'projection': 'Kamiondzije', 'date': '3.5.2018.', 'time': '20:30'}
-              ];
+        reservationsListController.$inject = ['$scope', '$location', 'reservationsListService'];
+        function reservationsListController($scope, reservationsListService){
+
+            $scope.id = 1;
+            $scope.reservations = {};
+            activate();
+            function activate(){
+                reservationsListService.getTickets($scope.id).success(function(data, status){
+                    $scope.reservations = data;
+                }).error(function(data, status){
+                    console.log("Failed to fetch data!");
+                });
+            };
+
+            $scope.deleteTicket = function(id){
+                reservationsListService.deleteTicket(id).success(function(data, status){
+                    toastr.success("Successfully deleted ticket");
+                }).error(function(data, status){
+                    console.log("Failed to delete ticket");
+                });
+            };
+
         }
 })();

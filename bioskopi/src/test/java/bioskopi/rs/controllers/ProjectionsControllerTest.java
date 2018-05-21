@@ -75,10 +75,10 @@ public class ProjectionsControllerTest {
     public void setUp() throws Exception {
 
         DB_FAC = new Cinema("name1", "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         cin2 = new Cinema("Arena", "addr2", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         DB_FAC.getPointsScales().setFacility(DB_FAC);
         cin2.getPointsScales().setFacility(cin2);
@@ -128,7 +128,7 @@ public class ProjectionsControllerTest {
 
         p = new Projection( DB_PROJ_ID, DB_PROJ_NAME, today, DB_PROJ_PRICE, new HashSet<String>(),
                 "genre1", "director1", 2, "picture1", "description1",
-                new ViewingRoom(), new HashSet<Ticket>() );
+                new ViewingRoom(), new HashSet<Ticket>(),  new HashSet<Feedback>() );
 
         p.setFacility(cin2);
         p.setViewingRoom(viewingRoom);
@@ -194,7 +194,7 @@ public class ProjectionsControllerTest {
     {
         Projection p2 = new Projection( "name2", LocalDate.now(), 222, new HashSet<String>(),
                 "genre2", "director2", 22, "picture2", "description2",
-                new ViewingRoom(), new HashSet<Ticket>() );
+                new ViewingRoom(), new HashSet<Ticket>(), new HashSet<Feedback>() );
 
         p2.setFacility(DB_FAC);
 

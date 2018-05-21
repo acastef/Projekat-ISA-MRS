@@ -49,7 +49,7 @@ public class Ticket implements Serializable {
 
     @Version
     @Column(nullable = false)
-    private Long version;
+    private long version;
 
 
 
@@ -59,6 +59,18 @@ public class Ticket implements Serializable {
     public Ticket(long id, SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
         this.id = id;
         this.discount = 0;
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = false;
+    }
+
+    public Ticket(int discount, long id, SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
+        this.id = id;
+        this.discount = discount;
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;
@@ -84,6 +96,19 @@ public class Ticket implements Serializable {
     public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat,
                   Projection projection, Facility facility, Long version) {
         this.discount = 0;
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = fastReservation;
+        this.version = version;
+    }
+
+    public Ticket(SeatStatus seatStatus, boolean fastReservation, boolean taken, RegisteredUser owner, Seat seat,
+                  Projection projection, Facility facility, Long version, int discount) {
+        this.discount = discount;
         this.seatStatus = seatStatus;
         this.taken = taken;
         this.owner = owner;

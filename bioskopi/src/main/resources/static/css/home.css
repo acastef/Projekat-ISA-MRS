@@ -1,0 +1,17 @@
+.userData {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+}
+
+.visits {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+}
+
+.logout {
+    position: absolute;
+    top: 65%;
+    right: 48%;
+}

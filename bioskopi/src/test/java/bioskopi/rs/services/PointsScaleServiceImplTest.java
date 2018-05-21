@@ -41,10 +41,10 @@ public class PointsScaleServiceImplTest {
     public void setUp() throws Exception {
 
         Cinema cin1 = new Cinema(DB_FAC_NAME, "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Cinema cin2 = new Cinema("PS2", "addr2", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);

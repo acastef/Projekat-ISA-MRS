@@ -2,6 +2,7 @@ package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Seat;
+import bioskopi.rs.domain.SegmentEnum;
 import bioskopi.rs.domain.ViewingRoom;
 import bioskopi.rs.services.ViewingRoomService;
 import org.slf4j.Logger;
@@ -48,6 +49,13 @@ public class ViewingRoomController {
     public ResponseEntity<List<Seat>> getSeatsById(@PathVariable String id) {
         logger.info("Fetching seats from viewing Room with id: {}", id);
         return new ResponseEntity<>(viewingRoomService.getSeatsById(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/closeSegment/{id}/{segmentType}")
+    @ResponseBody
+    public ResponseEntity<Boolean> closeSegment(@PathVariable String id, @PathVariable String segmentType) {
+        return new ResponseEntity<>(viewingRoomService.closeSegment(Long.parseLong(id), SegmentEnum.valueOf(segmentType)), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)

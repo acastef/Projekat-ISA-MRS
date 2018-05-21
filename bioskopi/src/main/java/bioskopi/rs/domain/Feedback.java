@@ -25,25 +25,33 @@ public class Feedback implements Serializable {
     @JoinColumn(nullable = false)
     private RegisteredUser registeredUser;
 
-    @JsonManagedReference
-    @ManyToOne(optional = false)
+    @JsonBackReference(value = "facility")
+    @ManyToOne
     private Facility facility;
+
+    @JsonBackReference(value = "projection")
+    @ManyToOne
+    private Projection projection;
 
 
     public Feedback() {
     }
 
-    public Feedback(int score, String description, RegisteredUser registeredUser) {
+    public Feedback(int score, String description, RegisteredUser registeredUser, Projection projection, Facility facility) {
         this.score = score;
         this.description = description;
         this.registeredUser = registeredUser;
+        this.facility = facility;
+        this.projection = projection;
     }
 
-    public Feedback(long id, int score, String description, RegisteredUser registeredUser) {
+    public Feedback(long id, int score, String description, RegisteredUser registeredUser, Projection projection, Facility facility) {
         this.id = id;
         this.score = score;
         this.description = description;
         this.registeredUser = registeredUser;
+        this.facility = facility;
+        this.projection = projection;
     }
 
     public static long getSerialVersionUID() {
@@ -88,5 +96,13 @@ public class Feedback implements Serializable {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    public Projection getProjection() {
+        return projection;
+    }
+
+    public void setProjection(Projection projection) {
+        this.projection = projection;
     }
 }

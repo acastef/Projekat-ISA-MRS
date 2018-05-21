@@ -40,10 +40,10 @@ public class FacilitiesServiceImplTest {
 
 
         Cinema cinema = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Theater theater = new Theater("FAC_FAC2", "FAC_ADDR2", "theater",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         cinema.getPointsScales().setFacility(cinema);
         theater.getPointsScales().setFacility(theater);
@@ -92,7 +92,7 @@ public class FacilitiesServiceImplTest {
     @Transactional
     public void add() {
         Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -130,7 +130,7 @@ public class FacilitiesServiceImplTest {
     @Transactional
     public void notUniqueNameAdd() {
         Cinema cinema = new Cinema(DB_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -169,7 +169,7 @@ public class FacilitiesServiceImplTest {
     @Transactional
     public void noViewingRoomsAdd() {
         Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
         cinema.getPointsScales().setUserCategories(new HashSet<>(Arrays.asList(
                 new UserCategory(GOLD, 70L, new BigDecimal("36.11"), cinema.getPointsScales()),
@@ -199,7 +199,7 @@ public class FacilitiesServiceImplTest {
     @Transactional
     public void noPointsScaleAdd() {
         Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
 
         ViewingRoom viewingRoom = new ViewingRoom();
@@ -233,7 +233,7 @@ public class FacilitiesServiceImplTest {
     @Transactional
     public void noAllUserCategoryAdd() {
         Cinema cinema = new Cinema(NEW_FAC_NAME, NEW_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
-                new PointsScale(), new HashSet<>());
+                new PointsScale(), new HashSet<>(),  new HashSet<>());
         cinema.getPointsScales().setFacility(cinema);
 
         ViewingRoom viewingRoom = new ViewingRoom();

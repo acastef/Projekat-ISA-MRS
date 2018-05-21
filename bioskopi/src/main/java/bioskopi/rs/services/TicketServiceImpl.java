@@ -49,6 +49,7 @@ public class TicketServiceImpl implements TicketService{
         }
     }
 
+    @Transactional
     @Override
     public Ticket update(Ticket t) {
         return ticketRepository.saveAndFlush(t);

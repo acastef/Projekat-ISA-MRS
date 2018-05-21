@@ -6,6 +6,7 @@ import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.ProjectionRepository;
+import bioskopi.rs.repository.TicketRepository;
 import bioskopi.rs.repository.ViewingRoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,9 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Autowired
     private ViewingRoomRepository viewingRoomRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Override
     public Projection findById(long id) {
@@ -98,5 +103,22 @@ public class ProjectionServiceImpl implements ProjectionService {
             return "Not great success :(";
         }
 
+    }
+
+    @Override
+    public List<Projection> findByUserId(long id) {
+
+        List<Projection> projectionsList = new ArrayList<Projection>();
+
+        List<Ticket> listOfUsersTickets = ticketRepository.getAllTickets(id);
+
+        for (Ticket t: listOfUsersTickets) {
+            Projection p = projectionRepository.getOne(t.getProjection().getId());
+            if (p != null && !projectionsList.contains(p))
+                projectionsList.add(p);
+        }
+
+
+        return projectionsList;
     }
 }

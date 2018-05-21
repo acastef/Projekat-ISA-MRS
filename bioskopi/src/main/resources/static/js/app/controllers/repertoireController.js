@@ -120,55 +120,6 @@
                 });
         }
 
-        // gets selected facility, puts it in the new projection and finds all VRs in that facility
-        // $scope.setFacility = function(facId, projectionId){
-        //     var name;
-        //     // if its new projection 
-        //     if (facId == -1)
-        //         name = $scope.selectedFacility.name;
-        //     // if not, find name of fac with given id
-        //     else
-        //     {
-        //         for (let index = 0; index < $scope.facilities.length; index++) {
-        //             if (facId == $scope.facilities[index].id) {
-        //                 name = $scope.facilities[index].name;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     for (let index = 0; index < $scope.facilities.length; index++) {
-        //         const element = $scope.facilities[index];
-        //         if (element.name == name) {
-
-        //             // if its new projection 
-        //             if (facId == -1)
-        //                 $scope.newProjection.facility = element;
-        //             // if not, put facility in its projection
-        //             else
-        //             {
-        //                 for(let i = 0; i < $scope.repertoire.length; i++)
-        //                 {
-        //                     if ($scope.repertoire[i].id == projectionId)
-        //                     {
-        //                        $scope.repertoire[i].facility = element;
-        //                        break;
-        //                     }
-        //                 }
-        //             }
-
-        //             repertoireService.getVRsForFac(element.id).success(function(data, status)
-        //             {
-        //                 //toastr.success("Got All VRs for Facility " + element.id ,"Ok");
-        //                 $scope.viewingRooms = data;
-
-        //             }).error(function(data2,status){
-
-        //             });
-        //             break;
-        //         }
-        //     }
-        // }
-
 
         $scope.setViewingRoom = function() {
             var id;
@@ -186,7 +137,11 @@
             $scope.repertoire.push($scope.newProjection);
             repertoireService.addProjection($scope.newProjection);
             toastr.success("Projection successfully added");
+<<<<<<< HEAD
+            $scope.changeForms[$scope.repertoire[$scope.repertoire.length - 1].id] = true;
+=======
             $scope.changeProjection = true;
+>>>>>>> 600d22ef9ff58ab38a25b1f2a11ea953b66c8aff
         }
 
         $scope.changeProjection = function(indeks) {

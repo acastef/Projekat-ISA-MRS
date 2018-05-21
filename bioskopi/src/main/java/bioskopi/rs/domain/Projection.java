@@ -55,7 +55,7 @@ public class Projection implements Serializable {
     @JoinColumn(nullable = false)
     private ViewingRoom viewingRoom;
 
-    //@JsonManagedReference(value = "projection")
+    @JsonManagedReference(value = "projection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projection", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 
@@ -63,13 +63,18 @@ public class Projection implements Serializable {
     @ManyToOne(optional = false)
     private Facility facility;
 
+    @JsonManagedReference(value = "projection")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projection", cascade = CascadeType.ALL)
+    private Set<Feedback> feedback;
+
+
 
     public Projection() {
     }
 
     public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
-                      ViewingRoom viewingRoom, Set<Ticket> tickets) {
+                      ViewingRoom viewingRoom, Set<Ticket> tickets, Set<Feedback> feedback) {
         this.name = name;
         this.date = date;
         this.price = price;
@@ -81,11 +86,12 @@ public class Projection implements Serializable {
         this.description = description;
         this.viewingRoom = viewingRoom;
         this.tickets = tickets;
+        this.feedback = feedback;
     }
 
     public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
-                      ViewingRoom viewingRoom, Set<Ticket> tickets, Facility facility) {
+                      ViewingRoom viewingRoom, Set<Ticket> tickets, Facility facility, Set<Feedback> feedback) {
         this.name = name;
         this.date = date;
         this.price = price;
@@ -98,11 +104,12 @@ public class Projection implements Serializable {
         this.viewingRoom = viewingRoom;
         this.tickets = tickets;
         this.facility = facility;
+        this.feedback = feedback;
     }
 
     public Projection(long id, String name, LocalDate date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
-                      ViewingRoom viewingRoom, Set<Ticket> tickets) {
+                      ViewingRoom viewingRoom, Set<Ticket> tickets, Set<Feedback> feedback) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -115,6 +122,7 @@ public class Projection implements Serializable {
         this.description = description;
         this.viewingRoom = viewingRoom;
         this.tickets = tickets;
+        this.feedback = feedback;
     }
 
     public LocalDate getDate() {
@@ -223,5 +231,13 @@ public class Projection implements Serializable {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    public Set<Feedback> getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(Set<Feedback> feedback) {
+        this.feedback = feedback;
     }
 }

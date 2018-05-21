@@ -1,19 +1,19 @@
-(function(){
+(function() {
+    'use strict';
     angular
-    .module('utopia')
-    .service('reservationsListService', reservationsListService);
+        .module('utopia')
+        .factory('reservationsListService', reservationsListService);
 
-    reservationsListService.$inject = ["$http"];
-    function reservationsListService($http){
-        service = {};
-        service.getTickets = function(id){
+    reservationsListService.$inject = ['$http'];
+
+    function reservationsListService($http) {
+        var service = {};
+
+        service.getAll = function(id) {
             return $http.get("/tickets/all/" + id);
-        };
-        service.deleteTicket = function(id){
-            return $http.put("tickets/deleteTicket/" + id, id);
         };
 
         return service;
     }
 
-}) ();
+})();

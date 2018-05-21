@@ -1,0 +1,11 @@
+.friends {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+}
+
+.nonFriends {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+}

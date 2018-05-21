@@ -1,5 +1,6 @@
 package bioskopi.rs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -43,10 +44,11 @@ public class Facility implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private PointsScale pointsScales;
 
-    //@JsonManagedReference(value = "facility")
+    @JsonManagedReference(value = "facility")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Ticket> tickets;
 
+    @JsonManagedReference(value = "facility")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "facility", cascade = CascadeType.ALL)
     private Set<Feedback> feedbacks;
 
@@ -55,7 +57,7 @@ public class Facility implements Serializable {
     }
 
     public Facility(long id, String name, String address, String description, Set<ViewingRoom> viewingRooms,
-                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
+                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets, Set<Feedback> feedbacks) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -64,10 +66,11 @@ public class Facility implements Serializable {
         this.projections = projections;
         this.pointsScales = pointsScales;
         this.tickets = tickets;
+        this.feedbacks = feedbacks;
     }
 
     public Facility( String name, String address, String description, Set<ViewingRoom> viewingRooms,
-                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets) {
+                    Set<Projection> projections, PointsScale pointsScales, Set<Ticket> tickets, Set<Feedback> feedbacks) {
         this.name = name;
         this.address = address;
         this.description = description;
@@ -75,6 +78,7 @@ public class Facility implements Serializable {
         this.projections = projections;
         this.pointsScales = pointsScales;
         this.tickets = tickets;
+        this.feedbacks = feedbacks;
     }
 
     public long getId() {

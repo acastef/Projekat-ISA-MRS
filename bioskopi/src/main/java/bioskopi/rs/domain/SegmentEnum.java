@@ -7,6 +7,7 @@ public enum SegmentEnum {
 
     VIP,
     FUN,
-    NORMAL
+    NORMAL,
+    CLOSED
 }
 

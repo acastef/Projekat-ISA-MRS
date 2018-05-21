@@ -43,10 +43,10 @@ public class PropsReservationServiceImplTest {
         registeredUserRepository.deleteAll();
 
         Cinema cin1 = new Cinema(DB_LOC3, "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(), new HashSet<>());
 
         Cinema cin2 = new Cinema("PRESERVATION", "addr2", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(), new HashSet<>());
 
         cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);
@@ -58,7 +58,7 @@ public class PropsReservationServiceImplTest {
 
         RegisteredUser user = new RegisteredUser("user3", "user", "user", "user",
                 "user", "user",true,"user","user", new HashSet<>(),
-                new HashSet<>(),new HashSet<>());
+                new HashSet<>(),new ArrayList<>());
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(cin1);

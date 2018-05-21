@@ -58,11 +58,11 @@ public class AdControllerTest {
 
         RegisteredUser user1 = new RegisteredUser("user3", "user", "user", "user",
                 "user", "user",true,"user","user", new HashSet<>(),
-                new HashSet<>(),new HashSet<>());
+                new HashSet<>(),new ArrayList<>());
 
         RegisteredUser user2 = new RegisteredUser("user4", "user4", "user4", "user4",
                 "user4", "user4",true,"user4","user4", new HashSet<>(),
-                new HashSet<>(),new HashSet<>());
+                new HashSet<>(),new ArrayList<>());
 
 
         RUSER1 = registeredUserRepository.save(user1);

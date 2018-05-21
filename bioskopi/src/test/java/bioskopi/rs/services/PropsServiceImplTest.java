@@ -43,10 +43,10 @@ public class PropsServiceImplTest {
     public void setUp() throws Exception {
 
         DB_FAC = new Cinema(DB_LOC2, "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Cinema cin2 = new Cinema("PROPS2", "addr2", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         DB_FAC.getPointsScales().setFacility(DB_FAC);
         cin2.getPointsScales().setFacility(cin2);

@@ -39,17 +39,17 @@ public class ProjectionServiceTest {
 
 
         Cinema cin1 = new Cinema("loc1", "addr1", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Cinema cin2 = new Cinema("PRESERVATION", "addr2", "cinema",
-                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>());
+                new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);
 
         Projection p = new Projection( "name2", LocalDate.now(), 222, new HashSet<String>(),
                 "genre2", "director2", 22, "picture2", "description2",
-                new ViewingRoom(), new HashSet<Ticket>() );
+                new ViewingRoom(), new HashSet<Ticket>(), new HashSet<Feedback>() );
 
 //        RegisteredUser user = new RegisteredUser("user3", "user", "user", new HashSet<>(),
 //                new Person("test", "test", "test3"));

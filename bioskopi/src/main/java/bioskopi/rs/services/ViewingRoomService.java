@@ -2,6 +2,7 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Seat;
+import bioskopi.rs.domain.SegmentEnum;
 import bioskopi.rs.domain.ViewingRoom;
 
 import java.util.List;
@@ -40,5 +41,12 @@ public interface ViewingRoomService {
      * @param id of viewing room
      * @return a facility that has viewing room with given id
      */
-    Facility getFacility(Long id);
+    public Facility getFacility(Long id);
+
+    /**
+     *
+     * @param VrId id of viewing room
+     * @param segmentType type of segment that needs to be closed in viewing room with given id
+     */
+    public Boolean closeSegment(Long VrId, SegmentEnum segmentType);
 }

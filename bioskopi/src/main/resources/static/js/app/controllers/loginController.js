@@ -40,9 +40,11 @@
                         $scope.valid = false;
                     }
                 } else {
+
                     $scope.valid = false;
                 }
             }).error(function(data, status) {
+                console.log("Nema kurca smrdljivog");
                 $scope.valid = false;
             });
         }

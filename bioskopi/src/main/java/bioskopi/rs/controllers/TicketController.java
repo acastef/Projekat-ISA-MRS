@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Repository
+@RestController
 @RequestMapping("/tickets")
 public class TicketController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CinemasController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @Autowired
     private TicketService ticketService;
@@ -73,11 +73,11 @@ public class TicketController {
         catch (javax.validation.ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteReservation(@PathVariable String id){
         try{
             ticketService.deleteReservation(Long.parseLong(id));
@@ -86,9 +86,11 @@ public class TicketController {
         }
     }
 
-    @ResponseBody
+
     @RequestMapping(method = RequestMethod.GET, value = "/all/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
         return new ResponseEntity<List<Ticket>>(ticketService.getTickets(Long.parseLong(id)), HttpStatus.OK);
     }
+
 }

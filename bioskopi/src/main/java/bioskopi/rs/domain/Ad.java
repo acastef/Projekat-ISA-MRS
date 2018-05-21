@@ -68,6 +68,18 @@ public class Ad implements Serializable {
         this.version = version;
     }
 
+    public Ad( String image, String name, String description, LocalDateTime deadline, AdState state,
+              RegisteredUser owner, Set<Bid> bids, Long version) {
+        this.image = image;
+        this.name = name;
+        this.description = description;
+        this.deadline = deadline;
+        this.state = state;
+        this.owner = owner;
+        this.bids = bids;
+        this.version = version;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

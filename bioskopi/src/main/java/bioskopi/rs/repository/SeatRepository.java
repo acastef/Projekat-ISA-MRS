@@ -12,4 +12,8 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     @Query(value = "UPDATE Seat SET segment = 3 WHERE viewingRoom.id = ?1 AND segment = ?2")
     void closeSegment(long vrId, SegmentEnum segmentType);
 
+    @Modifying
+    @Query(value = "UPDATE Seat SET segment = ?2 WHERE id = ?1")
+    void changeSegment(Long seatId, SegmentEnum segmentType);
+
 }

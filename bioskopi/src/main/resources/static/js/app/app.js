@@ -23,8 +23,8 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/facilities.html',
         //css: ['css/table.css']
     }).when('/repertoire/:id', {
-               templateUrl: 'partials/repertoire.html',
-               controller : 'repertoireController'
+       templateUrl: 'partials/repertoire.html',
+       controller : 'repertoireController'
     }).when('/fastTickets/:id', {
         templateUrl: 'partials/fastReservation.html',
         controller : 'fastReservationController'
@@ -47,17 +47,17 @@ app.config(function($routeProvider) {
         css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/ads',{
         templateUrl: 'partials/ads.html',
-<<<<<<< HEAD
         css: ['css/table.css', 'css/props.css']
     }).when('/usersProjections/:id', {
         templateUrl: 'partials/usersProjections.html',
         controller : 'usersProjectionsController'
-=======
-        css: ['css/lineSection.css', 'css/navigation.css']
+        //css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/ads_form',{
         templateUrl: 'partials/adsForm.html',
         css: ['css/lineSection.css', 'css/navigation.css']
->>>>>>> 600d22ef9ff58ab38a25b1f2a11ea953b66c8aff
+    })
+    .when('/viewingRooms',{
+        templateUrl: 'partials/viewingRooms.html',
     })
 });
 

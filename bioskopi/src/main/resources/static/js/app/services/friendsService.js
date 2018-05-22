@@ -15,7 +15,18 @@
         service.getNonFriends = function(id) {
             return $http.get("/friends/getAllNonFriends/" + id);
         };
+
+        service.addFriend = function(first, second) {
+            return $http.post("/friends/addFriend", [first, second]);
+        };
+
+        service.deleteFriend = function(first, second) {
+            return $http.put("/friends/deleteFriend", [first, second]);
+        };
+
         return service;
+
+
     }
 
 })();

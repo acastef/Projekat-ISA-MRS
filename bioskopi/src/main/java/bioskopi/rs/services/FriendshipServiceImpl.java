@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.DTO.UserDTO;
+import bioskopi.rs.domain.Friendship;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.User;
 import bioskopi.rs.repository.FriendshipRepository;
@@ -59,6 +60,24 @@ public class FriendshipServiceImpl implements FriendshipService {
                     u.getAvatar(), u.getTelephone(), u.getAddress()));
         }
         return allUsers;
+    }
+
+    @Override
+    public void addFriendship(UserDTO first, UserDTO second) {
+        RegisteredUser firstReg = userRepository.findByUsername(first.getUsername());
+        RegisteredUser secondReg = userRepository.findByUsername(second.getUsername());
+        Friendship newFriends = new Friendship(firstReg, secondReg);
+        Friendship newFriends2 = new Friendship(secondReg, firstReg);
+        friendshipRepository.saveAndFlush(newFriends);
+        friendshipRepository.saveAndFlush(newFriends2);
+    }
+
+    @Override
+    public void deleteFriendship(UserDTO first, UserDTO second) {
+        Friendship newFriends = friendshipRepository.getFriendshipByUsers(first.getId(), second.getId());
+        Friendship newFriends2 = friendshipRepository.getFriendshipByUsers(second.getId(), first.getId());
+        friendshipRepository.delete(newFriends);
+        friendshipRepository.delete(newFriends2);
     }
 
 

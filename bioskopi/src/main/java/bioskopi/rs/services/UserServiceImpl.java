@@ -18,8 +18,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<RegisteredUser> findAllUsers(){
-        //return userRepository.findAll();
-        return new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        List<RegisteredUser> regUsers = new ArrayList<>();
+        for(User u : users){
+            regUsers.add(new RegisteredUser(u.getId(), u.getName(), u.getSurname(), u.getEmail(),
+                            u.getUsername(), u.getPassword(), u.getAvatar(), u.isFirstLogin(), u.getTelephone(),
+                            u.getAddress()));
+        }
+        return regUsers;
     }
 
     @Override

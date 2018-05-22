@@ -6,7 +6,7 @@
             <tr>
                 <td>Name</td>
                 <td>Last Name</td>
-                <td> E-mail</td>
+                <td>E-mail</td>
                 <td>Phone number</td>
                 <td></td>
             </tr>
@@ -15,7 +15,7 @@
                 <td>{{friend.surname}}</td>
                 <td>{{friend.email}}</td>
                 <td>{{friend.telephone}}</td>
-                <td><button>Delete friend</button></td>
+                <td><button ng-click="deleteFriend(friend.id)">Delete friend</button></td>
             </tr>
         </table>
     </div>
@@ -30,7 +30,7 @@
             <tr ng-repeat='nonFriend in nonFriends'>
                 <td>{{nonFriend.name}}</td>
                 <td>{{nonFriend.surname}}</td>
-                <td><button>Add friend</button></td>
+                <td><button ng-click="addFriend(nonFriend.id)">Add friend</button></td>
             </tr>
         </table>
     </div>

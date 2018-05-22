@@ -50,4 +50,8 @@ public class FriendshipController {
     public ResponseEntity<List<UserDTO>> getAllNonFriends(@PathVariable String id){
         return new ResponseEntity<List<UserDTO>>(friendshipService.getAllNonFriends(Long.parseLong(id)), HttpStatus.OK);
     }
+
+//    @RequestMapping(method=RequestMethod.POST, value = "addFriend/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public void
 }

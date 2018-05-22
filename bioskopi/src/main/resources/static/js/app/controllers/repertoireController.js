@@ -137,11 +137,9 @@
             $scope.repertoire.push($scope.newProjection);
             repertoireService.addProjection($scope.newProjection);
             toastr.success("Projection successfully added");
-<<<<<<< HEAD
             $scope.changeForms[$scope.repertoire[$scope.repertoire.length - 1].id] = true;
-=======
             $scope.changeProjection = true;
->>>>>>> 600d22ef9ff58ab38a25b1f2a11ea953b66c8aff
+
         }
 
         $scope.changeProjection = function(indeks) {
@@ -149,9 +147,5 @@
             repertoireService.save($scope.repertoire[indeks]);
             $scope.changeForms[$scope.repertoire[indeks].id] = true;
         }
-
-
     }
-
-
 })();

@@ -1,10 +1,24 @@
 <div ng-controller="profileController">
 
-    <form id="profileForm" name="profileForm" novalidate="novalidate">
+    <form ng-show="logged" id="profileForm" name="profileForm" novalidate="novalidate">
         <label>Name: </label> <input type="text" ng-model="name" name="name" required><br/>
         <label>Surname: </label> <input type="text" ng-model="surname" name="surname" required><br/>
         <label>E-mail: </label> <input type="email" ng-model="email" name="email" required><br/>
         <label>Telephone: </label> <input type="tel" ng-model="telephone" name="telephone" required><br/>
         <label>Address: </label> <input type="text" ng-model="address" name="address" required><br/>
+        <button ng-click="save()">Save</button>
     </form>
+    <br/>
+
+    <button ng-hide="changePassword" ng-click="changePassword = true">Change password</button>
+    
+    <h3 ng-hide="logged">Please change your default password</h3>
+
+    <form ng-show="changePassword" id="passwordForm" name="passwordForm" novalidate="novalidate">
+        <label>Password: </label> <input type="password" ng-model="password" name="password" required><br/>
+        <label>Repeat password: </label> <input type="password" ng-model="repeatPassword" name="repeatPassword" required><br/>
+        <button ng-click="savePassword()">Save</button>
+        <button ng-show="logged" ng-click="cancel()">Cancel</button>
+    </form>
+
 </div>

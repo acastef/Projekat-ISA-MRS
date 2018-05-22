@@ -3,7 +3,7 @@
 
     angular
         .module('utopia')
-        .service('userService', userService);
+        .factory('userService', userService);
 
     userService.$inject = ['$http'];
 

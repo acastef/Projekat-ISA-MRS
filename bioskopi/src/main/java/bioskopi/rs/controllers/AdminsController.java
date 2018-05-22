@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +32,7 @@ public class AdminsController {
 
     public static final Logger logger = LoggerFactory.getLogger(AdminsController.class);
 
-    private final String IMAGE_PATH =   Paths.get("img", "avatars").toString()
+    private final String IMAGE_PATH = Paths.get("img", "avatars").toString()
             + File.separator;
 
     @Autowired
@@ -44,7 +45,7 @@ public class AdminsController {
     @ResponseBody
     public ResponseEntity<List<FanZoneAdmin>> getAllFanZone() {
         logger.info("Fetching all fan-zone admins");
-        return new ResponseEntity<>(adminsService.getAllFanZoneAdmins(), HttpStatus.OK) ;
+        return new ResponseEntity<>(adminsService.getAllFanZoneAdmins(), HttpStatus.OK);
     }
 
     /**
@@ -55,7 +56,7 @@ public class AdminsController {
     @ResponseBody
     public ResponseEntity<FanZoneAdmin> getByIdFanZone(@PathVariable String id) {
         logger.info("Fetching fan-zone admin with id {}", id);
-        return new ResponseEntity<>(adminsService.getByIdFanZoneAdmin(Long.parseLong(id)), HttpStatus.OK) ;
+        return new ResponseEntity<>(adminsService.getByIdFanZoneAdmin(Long.parseLong(id)), HttpStatus.OK);
     }
 
     /**
@@ -64,10 +65,10 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/fan_zone/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addFanZone(@RequestBody FanZoneAdmin admin){
-        try{
-            return new ResponseEntity<>(adminsService.addFanZoneAdmin(admin),HttpStatus.CREATED);
-        }catch (ValidationException e){
+    public ResponseEntity<Object> addFanZone(@RequestBody FanZoneAdmin admin) {
+        try {
+            return new ResponseEntity<>(adminsService.addFanZoneAdmin(admin), HttpStatus.CREATED);
+        } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -78,22 +79,22 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @ResponseBody
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image){
-        if(image.isEmpty()){
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
+        if (image.isEmpty()) {
             return new ResponseEntity<>("Please select file to upload", HttpStatus.NO_CONTENT);
         }
-        if(!ImageValidator.checkExtension(image.getOriginalFilename())){
+        if (!ImageValidator.checkExtension(image.getOriginalFilename())) {
             return new ResponseEntity<>("Wrong image format. Acceptable formats are: GIF, JPG, PNG, BMP, TIFF",
                     HttpStatus.BAD_REQUEST);
         }
 
         try {
-            byte [] bytes = image.getBytes();
+            byte[] bytes = image.getBytes();
             UploadResponse result = ImageValidator.generateAvatarName(image.getOriginalFilename());
             Path path = Paths.get(result.getPath());
             Files.write(path, bytes);
             return new ResponseEntity<>(IMAGE_PATH + result.getName(), HttpStatus.CREATED);
-        }catch (IOException e){
+        } catch (IOException e) {
             return new ResponseEntity<>("Action failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -104,10 +105,14 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/fan_zone/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> changeFanZone(@RequestBody FanZoneAdmin admin){
-        String[] tokens = admin.getAvatar().split("/");
-        admin.setAvatar(tokens[tokens.length-1]);
-        return new ResponseEntity<>(adminsService.addFanZoneAdmin(admin),HttpStatus.CREATED);
+    public ResponseEntity<Object> changeFanZone(@RequestBody FanZoneAdmin admin) {
+        try{
+            String[] tokens = admin.getAvatar().split("/");
+            admin.setAvatar(tokens[tokens.length - 1]);
+            return new ResponseEntity<>(adminsService.addFanZoneAdmin(admin), HttpStatus.CREATED);
+        } catch (NullPointerException e){
+            return new ResponseEntity<>("Wrong data received", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -117,7 +122,7 @@ public class AdminsController {
     @ResponseBody
     public ResponseEntity<List<CaTAdmin>> getAllCT() {
         logger.info("Fetching all cinema or theater admins");
-        return new ResponseEntity<>(adminsService.getAllCaTAdmins(), HttpStatus.OK) ;
+        return new ResponseEntity<>(adminsService.getAllCaTAdmins(), HttpStatus.OK);
     }
 
     /**
@@ -128,7 +133,7 @@ public class AdminsController {
     @ResponseBody
     public ResponseEntity<CaTAdmin> getByIdCT(@PathVariable String id) {
         logger.info("Fetching cinema or theater admin with id {}", id);
-        return new ResponseEntity<>(adminsService.getByIdCaTAdmins(Long.parseLong(id)), HttpStatus.OK) ;
+        return new ResponseEntity<>(adminsService.getByIdCaTAdmins(Long.parseLong(id)), HttpStatus.OK);
     }
 
     /**
@@ -137,10 +142,10 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ct/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addCT(@RequestBody CaTAdmin admin){
-        try{
-            return new ResponseEntity<>(adminsService.addCaTAdmin(admin),HttpStatus.CREATED);
-        }catch (ValidationException e){
+    public ResponseEntity<Object> addCT(@RequestBody CaTAdmin admin) {
+        try {
+            return new ResponseEntity<>(adminsService.addCaTAdmin(admin), HttpStatus.CREATED);
+        } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -151,10 +156,14 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/ct/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> changeCT(@RequestBody CaTAdmin admin){
-        String[] tokens = admin.getAvatar().split("/");
-        admin.setAvatar(tokens[tokens.length-1]);
-        return new ResponseEntity<>(adminsService.addCaTAdmin(admin),HttpStatus.CREATED);
+    public ResponseEntity<Object> changeCT(@RequestBody CaTAdmin admin) {
+        try {
+            String[] tokens = admin.getAvatar().split("/");
+            admin.setAvatar(tokens[tokens.length - 1]);
+            return new ResponseEntity<>(adminsService.addCaTAdmin(admin), HttpStatus.CREATED);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>("Wrong data received", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

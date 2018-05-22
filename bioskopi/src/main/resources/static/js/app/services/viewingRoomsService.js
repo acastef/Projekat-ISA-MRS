@@ -25,10 +25,11 @@
         // {
         //     return $http.put("/projections/delete/" + id);
         // }
-
-        // service.getFacility = function(id){
-        //     return $http.get("/facilities/" + id);
-        // }
+        
+        service.getSeats = function(data)
+        {
+            return $http.get("/viewingRooms/getSeatsById/" + data)
+        };
 
         service.getAllVRs = function(){
             return $http.get("/viewingRooms/all");
@@ -39,10 +40,10 @@
             return $http.put("/viewingRooms/closeSegment/" + idVR + "/" + segment);
         }
 
-        // service.getVRsForFac = function(id)
-        // {
-        //     return $http.get("viewingRooms/getVRsForFacility/" + id);
-        // }
+        service.changeSeats = function(listOfIds, segment)
+        {
+            return $http.put("/seats/changeSegment/" + segment, listOfIds);
+        }
 
         return service;
     }

@@ -5,6 +5,27 @@
     <select ng-model="selectedViewingRoom" ng-options="v.name for v in viewingRooms"
         ng-change="setViewingRoom()" ></select><br>
 
+    <div ng-repeat = "seat in seats" style="margin: 20px">
+
+        <div>
+            <input type="checkbox" ng-model="selectedSeats[seat.id]">
+            <!-- <input style="margin: 5px" type="radio"  ng-checked="selectedSeats[seat.id]" ng-click="seatSelected()"> -->
+        </div>
+        <div>
+            <span ng-style="myStyle[seat.segment]">Segment</span>
+        </div>
+
+    </div>
+
+    <div>
+        <button ng-hide = hideButtons ng-click="changeSelected('VIP')">Change selected to "VIP" zone</button>
+        <button ng-hide = hideButtons ng-click="changeSelected('FUN')">Change selected to "FUN" zone</button>
+        <button ng-hide = hideButtons ng-click="changeSelected('NORMAL')">Change selected to "NORMAL" zone</button>
+
+    </div>
+
+    
+
 
     <div>
 

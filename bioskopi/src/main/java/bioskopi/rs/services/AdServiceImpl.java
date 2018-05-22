@@ -74,8 +74,13 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public Ad findById(long id) {
-        return adRepository.findById(id).orElse(new Ad(-1,null,null,null,null,
-                null,null,null,null));
+        Optional<Ad> temp = adRepository.findById(id);
+        if(!temp.isPresent()){
+            throw new ValidationException("Ad does not exist");
+        }
+        Ad ad = temp.get();
+        ad.setImage(IMAGE_PATH + ad.getImage());
+        return ad;
     }
 
     @Override

@@ -40,6 +40,13 @@ public class Bid {
         this.ad = ad;
     }
 
+    public Bid( double offer, LocalDateTime date, RegisteredUser user, Ad ad) {
+        this.offer = offer;
+        this.date = date;
+        this.user = user;
+        this.ad = ad;
+    }
+
     public Long getId() {
         return id;
     }

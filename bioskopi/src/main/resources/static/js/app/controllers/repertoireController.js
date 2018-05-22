@@ -140,7 +140,8 @@
 
             // sakrivanje forme za izmenu nove projekcije
             $scope.changeForms[$scope.repertoire[$scope.repertoire.length - 1].id] = true;
-            //$scope.changeProjection = true;
+            $scope.changeProjection = true;
+
 
         }
 
@@ -149,9 +150,5 @@
             repertoireService.save($scope.repertoire[indeks]);
             $scope.changeForms[$scope.repertoire[indeks].id] = true;
         }
-
-
     }
-
-
 })();

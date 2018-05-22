@@ -12,6 +12,7 @@ import org.apache.catalina.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,23 @@ public class FriendshipController {
         return new ResponseEntity<List<UserDTO>>(friendshipService.getAll(Long.parseLong(id)), HttpStatus.OK);
     }
 
-    @RequestMapping(method =RequestMethod.GET, value = "getAllNonFriends/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method =RequestMethod.GET, value = "/getAllNonFriends/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<UserDTO>> getAllNonFriends(@PathVariable String id){
         return new ResponseEntity<List<UserDTO>>(friendshipService.getAllNonFriends(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value = "/addFriend", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Boolean> addFriend(@RequestBody  List<UserDTO> users){
+        friendshipService.addFriendship(users.get(0), users.get(1));
+        return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method=RequestMethod.PUT, value = "/deleteFriend", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Boolean> deleteFriend(@RequestBody  List<UserDTO> users){
+        friendshipService.deleteFriendship(users.get(0), users.get(1));
+        return new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
     }
 }

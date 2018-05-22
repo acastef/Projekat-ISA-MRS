@@ -30,6 +30,12 @@ public class Friendship {
 
     }
 
+    public Friendship(RegisteredUser first, RegisteredUser second) {
+        this.first = first;
+        this.second = second;
+        this.status = FriendshipStatus.ACCEPTED;
+    }
+
     public Friendship(long id, RegisteredUser first, RegisteredUser second, FriendshipStatus status) {
         this.id = id;
         this.first = first;

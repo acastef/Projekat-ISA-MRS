@@ -86,7 +86,7 @@
         $scope.closeSeats = function(seatSegment)
         {
             viewingRoomsService.closeSegment($scope.selectedViewingRoom.id, seatSegment).success(function(data, status) {
-                toastr.success("Segment " + seatSegment +"closed");
+                toastr.success("Segment " + seatSegment +" closed");
                 for (let index = 0; index < $scope.seats.length; index++) {
                     if($scope.seats[index].segment == seatSegment)
                         $scope.seats[index].segment = "CLOSED";

@@ -70,7 +70,8 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public void deleteReservation(long id) {
         try{
-            ticketRepository.deleteReservation(id);
+            Ticket t = ticketRepository.getOne(id);
+            ticketRepository.delete(t);
         }catch (ValidationException e){
             throw new ValidationException("Reservation doesn't exists!");
         }

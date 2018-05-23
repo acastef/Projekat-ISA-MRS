@@ -6,14 +6,18 @@
     <table border="1">
         <tbody>
             <tr>
-                <td>Facility name</td>
-                <td>Projection</td>
-                <td>Date</td>
+                <td>Ticket</td>
+                <td>Seat Row</td>
+                <td>Seat Column</td>
+                <td>Segment</td>
+                <td></td>
             </tr>
             <tr ng-repeat="reservation in reservations">
-                <td>{{reservation.seatStatus}}</td>
-                <td>{{reservation.seatStatus}}</td>
-                <td>{{reservation.seatStatus}}</td>
+                <td>{{reservation.id}}</td>
+                <td>{{reservation.seat.seatRow}}</td>
+                <td>{{reservation.seat.seatColumn}}</td>
+                <td>{{reservation.seat.segment}}</td>
+                <td><button ng-click="delete(reservation.id)">Delete reservation</button></td>
             </tr>
         </tbody>
     </table>

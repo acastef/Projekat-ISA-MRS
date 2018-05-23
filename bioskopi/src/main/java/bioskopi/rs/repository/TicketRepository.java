@@ -20,9 +20,6 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
     @Query(value = "UPDATE Ticket SET taken = true WHERE id = ?1")
     void makeFastReservation(long id);
 
-    @Query(value = "DELETE FROM Ticket WHERE id = ?1")
-    void deleteReservation(long id);
-
     @Query(value = "SELECT * FROM Ticket t where t.owner_id = ?1", nativeQuery = true)
     List<Ticket> getAllTickets(long id);
 }

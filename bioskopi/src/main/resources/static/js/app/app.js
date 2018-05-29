@@ -48,7 +48,7 @@ app.config(function($routeProvider) {
         css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/ads',{
         templateUrl: 'partials/ads.html',
-        css: ['css/table.css', 'css/props.css']
+        css: ['css/lineSection.css', 'css/navigation.css']
     }).when('/usersProjections/:id', {
         templateUrl: 'partials/usersProjections.html',
         controller : 'usersProjectionsController'

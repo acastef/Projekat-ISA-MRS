@@ -54,4 +54,10 @@ public interface AdService {
      */
     Ad addBid(Bid bid);
 
+
+    /**
+     * @param bid that needs to be accepted
+     * @return updated ad
+     */
+    Ad acceptOffer(Bid bid);
 }

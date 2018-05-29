@@ -19,6 +19,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public void saveFeedBack(Feedback f) {
+        feedbackRepository.save(f);
+    }
+
+    @Override
     public List<Feedback> findByUserId(long id) {
         return feedbackRepository.findByUserId(id);
     }

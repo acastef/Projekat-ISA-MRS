@@ -56,8 +56,5 @@
                     console.log("Error in rating projection");
                 });
         }
-
-
-
     }
 })();

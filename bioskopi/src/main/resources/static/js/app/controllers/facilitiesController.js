@@ -16,11 +16,15 @@
         $scope.facilities = {};
         $scope.changeForms = {};
         $scope.fastTickets = {};
+        $scope.hideRateForm = true;
+        $scope.facility = {};
+        $scope.newScore = 0;
+        $scope.newScoreDescp = "";
+        $scope.userId = 1;
 
         activate();
 
         function activate() {
-
 
 
             facilitiesService.getAll().success(function(data, status) {
@@ -74,14 +78,14 @@
         //         }
         //       }
         //     });
-        
+
         //     modalInstance.result.then(function(selectedItem) {
         //       $scope.selected = selectedItem;
         //     }, function() {
         //       $log.info('Modal dismissed at: ' + new Date());
         //     });
         //   };
-        
+
         // $scope.toggleAnimation = function() {
         // $scope.animationsEnabled = !$scope.animationsEnabled;
         // };
@@ -132,9 +136,31 @@
             });
         }
 
+        $scope.showRateForm = function(facility) {
+            $scope.hideRateForm = false;
+            $scope.facility = facility;
+        }
 
 
-    };
+        $scope.rateFacility = function() {
+            var feedback = {};
+            feedback.score = $scope.newScore;
+            feedback.description = $scope.newScoreDescp;
+            feedback.registeredUser = {};
+            feedback.registeredUser.id = $scope.userId;
+            feedback.projection = -1;
+
+            // setting non-existent facility, because this is feedback for projection 
+            feedback.facility = $scope.facility;
+            feedback.facility.id = $scope.facility.id;
+            facilitiesService.rateFacility(feedback).success(function(data, status) {
+                $scope.hideRateForm = true;
+                toastr.success("Facility successfully rated")
+            }).error(function(data, status) {
+                console.log("Error in rating facility");
+            });
+        }
+    }
 
 
 })();

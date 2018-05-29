@@ -5,19 +5,18 @@
         .module('utopia')
         .factory('usersProjectionsService', usersProjectionsService);
 
-        usersProjectionsService.$inject = ['$http', '$routeParams'];
+    usersProjectionsService.$inject = ['$http', '$routeParams'];
+
     function usersProjectionsService($http, $routeParams) {
 
         var service = {};
 
 
-        service.getAllProjections = function(userId)
-        {
+        service.getAllProjections = function(userId) {
             return $http.get("/projections/getByUserId/" + userId);
         }
 
-        service.rateProjection = function(feedback)
-        {
+        service.rateProjection = function(feedback) {
             return $http.post("/feedback/save", feedback);
         }
 

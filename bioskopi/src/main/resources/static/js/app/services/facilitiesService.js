@@ -6,17 +6,19 @@
         .factory('facilitiesService', facilitiesService);
 
     facilitiesService.$inject = ['$http'];
+
     function facilitiesService($http) {
         var service = {};
-        var ajdi= 2;
-        service.getAll = function(){
+        var ajdi = 2;
+        service.getAll = function() {
             return $http.get('/facilities/all');
         };
 
-        service.getById = function(){
-            return $http.get("/facilities/2")}
+        service.getById = function() {
+            return $http.get("/facilities/2")
+        }
 
-        service.update = function(facility){
+        service.update = function(facility) {
 
             if (facility.type == "cinema")
                 return $http.put("/cinemas/save", facility);
@@ -24,14 +26,16 @@
                 return $http.put("/theaters/save", facility);
         };
 
-        service.getFastTickets = function(facId)
-        {
+        service.getFastTickets = function(facId) {
             return $http.get("/facilities/getFastTickets/" + facId);
         }
 
-        service.makeFastReservation = function(fastTicketId)
-        {
+        service.makeFastReservation = function(fastTicketId) {
             return $http.put("/tickets/makeFastReservation/" + fastTicketId)
+        }
+
+        service.rateFacility = function(feedback) {
+            return $http.put("/feedback/saveFeedback", feedback);
         }
 
         return service;

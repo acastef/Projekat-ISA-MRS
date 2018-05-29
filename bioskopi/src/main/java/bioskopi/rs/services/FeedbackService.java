@@ -15,6 +15,11 @@ public interface FeedbackService {
 
     /**
      *
+     */
+    void saveFeedBack(Feedback f);
+
+    /**
+     *
      * @param id of registered user
      * @return List of feedbacks from the user with given id
      */

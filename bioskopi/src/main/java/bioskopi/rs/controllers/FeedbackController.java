@@ -33,6 +33,13 @@ public class FeedbackController {
         return new ResponseEntity<>(feedBackService.save(f), HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/saveFeedback", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Boolean> saveFeedback(@RequestBody Feedback f){
+        feedBackService.saveFeedBack(f);
+        return new ResponseEntity<>(true, HttpStatus.CREATED);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/findByUserId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Feedback> >findByUserId(@PathVariable String userId) {

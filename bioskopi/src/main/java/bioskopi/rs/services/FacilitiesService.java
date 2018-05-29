@@ -71,6 +71,11 @@ public interface FacilitiesService {
      */
     HashMap<Long, Double> getProjectionsAverageScore(long id);
 
-
+    /**
+     *
+     * @param id of facility
+     * @return average score for facility
+     */
+    Double getAverageScore(long id);
 
 }

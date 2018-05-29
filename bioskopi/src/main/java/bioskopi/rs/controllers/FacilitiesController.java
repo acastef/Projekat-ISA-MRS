@@ -118,6 +118,16 @@ public class FacilitiesController {
         return new ResponseEntity<>(temp,  HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getAverageFacilityScore/{facilityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Double> getAverageScore(@PathVariable String facilityId)
+    {
+        logger.info("Getting average score for  facility with id: " + facilityId);
+        Double temp =  facilitiesService.getAverageScore(Long.parseLong(facilityId) );
+
+        return new ResponseEntity<>(temp,  HttpStatus.OK);
+    }
+
 
 
 }

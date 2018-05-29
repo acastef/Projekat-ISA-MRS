@@ -13,4 +13,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     @Query(value = "SELECT AVG(f.score) FROM Feedback f WHERE f.projection.id = ?1")
     Double getAverageScore(long projId);
+
+    @Query(value = "SELECT AVG(f.score) FROM Feedback f WHERE f.facility.id = ?1")
+    Double getFacilityAverageScore(long facId);
 }

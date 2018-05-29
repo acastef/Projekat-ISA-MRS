@@ -12,11 +12,16 @@
 
         service.getProjections = function(data){
             return $http.get("/facilities/getRepertoire/" + data);
-        }
+        };
 
         service.getAverageScore = function(facilityId)
         {
             return $http.get("/facilities/getAverageScore/" + facilityId);
+        };
+
+        service.getAverageFacilityScore = function(facilityId)
+        {
+            return $http.get("/facilities/getAverageFacilityScore/" + facilityId);
         }
 
         return service;

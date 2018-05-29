@@ -44,8 +44,6 @@ public class User implements Serializable {
     @Column
     private String address;
 
-    @Column
-    private Date lastPasswordReset;
 
     @Column
     private String authorities;
@@ -80,20 +78,7 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public User(long id, String name, String surname, String email, String username, String password, String avatar,
-                boolean firstLogin, String telephone, String address, Date lastPasswordReset) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.avatar = avatar;
-        this.firstLogin = firstLogin;
-        this.telephone = telephone;
-        this.address = address;
-        this.lastPasswordReset = lastPasswordReset;
-    }
+
 
     public String getUsername() {
         return username;
@@ -177,14 +162,6 @@ public class User implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public Date getLastPasswordReset() {
-        return lastPasswordReset;
-    }
-
-    public void setLastPasswordReset(Date lastPasswordReset) {
-        this.lastPasswordReset = lastPasswordReset;
     }
 
     public String getAuthorities() {

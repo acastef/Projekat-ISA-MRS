@@ -3,6 +3,8 @@
     <h1>Facility report</h1> 
     <h2 ng-show="projections.length ==0">There are no projectoins in this facility</h2>
 
+        <p>Average score for facility: {{facilityScore}}</p>
+        <p>Number of projections: {{projections.length}}</p>
     
         <table border="1" style="margin-top: 20px; margin-left: 20px">
                 <tbody>
@@ -16,7 +18,7 @@
                         <td>{{projection.name}}</td>
                         <td>{{projection.date}}</td>
                         <td>{{projection.price}}</td>
-                        <td>avgScores[{{projection.id}}]</td>
+                        <td>{{avgScores[projection.id]}}</td>
                     </tr>
                 </tbody>
             </table>

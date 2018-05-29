@@ -42,13 +42,9 @@ public class TicketController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> deleteTicket(@PathVariable String id) {
-        String message = ticketService.delete(Long.parseLong(id));
-
-        if (message.equals("Great Success!"))
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Boolean> deleteTicket(@PathVariable String id) {
+        ticketService.deleteReservation(Long.parseLong(id));
+        return new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
     }
 
     @ResponseBody
@@ -76,15 +72,15 @@ public class TicketController {
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public void deleteReservation(@PathVariable String id){
-        try{
-            ticketService.deleteReservation(Long.parseLong(id));
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
+//    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public void deleteReservation(@PathVariable String id){
+//        try{
+//            ticketService.deleteReservation(Long.parseLong(id));
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/all/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

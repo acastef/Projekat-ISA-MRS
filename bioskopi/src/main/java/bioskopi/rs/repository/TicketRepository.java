@@ -23,6 +23,7 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
     @Query(value = "DELETE FROM ticket WHERE id = ?1", nativeQuery = true)
     void deleteReservation(long id);
 
+
     @Query(value = "SELECT * FROM ticket t where t.owner_id = ?1", nativeQuery = true)
     List<Ticket> getAllTickets(long id);
 }

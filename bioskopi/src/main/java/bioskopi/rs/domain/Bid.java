@@ -29,23 +29,31 @@ public class Bid {
     @ManyToOne(optional = false)
     private Ad ad;
 
+    @Column(nullable =  false)
+    @Enumerated(EnumType.ORDINAL)
+    private BidState state;
+
     public Bid() {
     }
 
-    public Bid(long id, double offer, LocalDateTime date, RegisteredUser user, Ad ad) {
+    public Bid(long id, double offer, LocalDateTime date, RegisteredUser user, Ad ad, BidState state) {
         this.id = id;
         this.offer = offer;
         this.date = date;
         this.user = user;
         this.ad = ad;
+        this.state = state;
     }
 
-    public Bid( double offer, LocalDateTime date, RegisteredUser user, Ad ad) {
+    public Bid(double offer, LocalDateTime date, RegisteredUser user, Ad ad, BidState state) {
         this.offer = offer;
         this.date = date;
         this.user = user;
         this.ad = ad;
+        this.state = state;
     }
+
+
 
     public Long getId() {
         return id;
@@ -85,5 +93,13 @@ public class Bid {
 
     public void setAd(Ad ad) {
         this.ad = ad;
+    }
+
+    public BidState getState() {
+        return state;
+    }
+
+    public void setState(BidState state) {
+        this.state = state;
     }
 }

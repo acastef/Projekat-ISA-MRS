@@ -125,5 +125,10 @@ public class FacilitiesServiceImpl implements FacilitiesService {
         return avgScores;
     }
 
+    @Override
+    public Double getAverageScore(long id) {
+        return feedbackRepository.getFacilityAverageScore(id);
+    }
+
 
 }

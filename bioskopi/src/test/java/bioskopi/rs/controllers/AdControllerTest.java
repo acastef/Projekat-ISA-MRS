@@ -2,6 +2,7 @@ package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.Ad;
 import bioskopi.rs.domain.Bid;
+import bioskopi.rs.domain.BidState;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.repository.AdRepository;
 import bioskopi.rs.repository.RegisteredUserRepository;
@@ -166,7 +167,7 @@ public class AdControllerTest {
     @Test
     public void addBid() throws Exception {
         Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),RUSER2,
-                new Ad(NEW_IMG,NEW_NM,NEW_DS,NEW_DL,NEW_ST,new RegisteredUser(),new HashSet<>(),NEW_VR));
+                new Ad(NEW_IMG,NEW_NM,NEW_DS,NEW_DL,NEW_ST,new RegisteredUser(),new HashSet<>(),NEW_VR),BidState.WAIT);
         String json = TestUtil.json(bid);
 
         mockMvc.perform(post(URL_PREFIX + "/bid")

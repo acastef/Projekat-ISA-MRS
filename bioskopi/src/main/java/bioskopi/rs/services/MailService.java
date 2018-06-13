@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
@@ -24,6 +25,16 @@ public class MailService {
         mail.setSubject(subject);
         mail.setText(message);
 
+        mailSender.send(mail);
+    }
+
+    public void sendUserActivation(RegisteredUser regUser) throws MailException{
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(regUser.getEmail());
+        mail.setFrom("666.null.null.null@gmail.com");
+        mail.setSubject("Account activation");
+        mail.setText("Hello " + regUser.getUsername() + " " + regUser.getSurname() +"!\n" +
+                "Click on link to activate your account: " + "\n<a href='http://test.com'>Test.com</a>");
         mailSender.send(mail);
     }
 

@@ -59,6 +59,9 @@ app.config(function($routeProvider) {
     })
     .when('/viewingRooms',{
         templateUrl: 'partials/viewingRooms.html',
+    }).when('/report/:id', {
+        templateUrl: 'partials/report.html',
+        controller: 'reportController'
     })
 });
 

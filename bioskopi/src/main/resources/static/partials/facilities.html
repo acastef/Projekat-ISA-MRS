@@ -1,7 +1,7 @@
 <!-- <h1>Facilities</h1> -->
 
 <!-- style="background-color: #c2d1f0"  -->
-<div ng-controller="facilitiesController">
+<div  ng-controller = "facilitiesController" >
     <h2 ng-show="facilities.length ==0">There are no facilities records</h2>
 
     <div ng-repeat="fac in facilities" class="container" style="margin: 5px">
@@ -17,17 +17,19 @@
 
                             <div class="col-md-4">
                                 <!-- <span><p  class="text-white bg-dark">    Id: {{fac.id}}</p></span> -->
-                                <p class="text-white bg-dark"> Name: {{fac.name}}</p>
-                                <p class="text-white bg-dark"> Address: {{fac.address}}</p>
+                                <p  class="text-white bg-dark">    Name: {{fac.name}}</p>
+                                <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
 
                                 <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
-                                <a class="text-white bg-dark" ng-href="#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+                                <a  class="text-white bg-dark" ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+
+                                <a  class="text-white bg-dark" ng-href = "#report/{{fac.id}}">        Show report</a><br><br>
 
                                 <!-- every facility has form in which it can be changed -->
                                 <button class="btn btn-small btn-primary" ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
                                 <!-- <button class="btn btn-small btn-primary" ng-click="showModalForm('lg', fac)">Change facility</button><br><br> -->
 
-                                <form accept-charset="UTF-8" ng-hide=c hangeForms[{{fac.id}}] ng-submit="changeFacility($index)">
+                                <form accept-charset="UTF-8" ng-hide= changeForms[{{fac.id}}]  ng-submit="changeFacility($index)">
 
                                     <label>Name: </label>
                                     <input type="text" ng-model="fac.name"><br>
@@ -38,13 +40,13 @@
                                     <label>Description: </label>
                                     <input class="form-control" rows="10" type="text" ng-model="fac.description"><br>
 
-                                    <input type="submit" value="Change">
+                                    <input type = "submit" value = "Change">
 
 
                                 </form>
 
-                                <a class="text-white bg-dark" href="#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-                                <a class="text-white bg-dark" href="#configureSeats">Configure seats</a>
+                                <a  class="text-white bg-dark" href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
+                                <a  class="text-white bg-dark"href = "#configureSeats">Configure seats</a>
 
                             </div>
 
@@ -59,18 +61,10 @@
 
 
                     </div>
-                    <div class="row">
-                        <button ng-click="showRateForm(fac)">Rate facility</button>
-                        <form ng-hide="hideRateForm" ng-submit="rateFacility()">
-                            <label>Enter your rate (1-5): </label>
-                            <input type="text" ng-model="newScore"><br>
-                            <label>Describe your experience: </label>
-                            <input type="text" ng-model="newScoreDescp"><br>
-                            <button type="submit">Send your rate</button>
-                        </form>
 
-                    </div>
+
                 </div>
+
             </div>
             <!-- drugi -->
             <div class="col-md-4">
@@ -78,22 +72,24 @@
 
                     <div>
                         <div>
-                            <h1> Fast tickets</h1><br><br>
+                            <h1 > Fast tickets</h1><br><br>
                             <!-- <p ng-show="fastTickets[fac.id].length == 0">There are no fast tickets</p><br><br> -->
                         </div>
                         <div class="row">
-                            <div ng-repeat="fastTicket in fastTickets[fac.id]">
+                            <div ng-repeat="fastTicket in fastTickets[fac.id]" >
 
-                                <button class="btn btn-medium btn-primary" style="margin: 5px" ng-click="makeFastReservation(fastTicket, fac.id)">{{fastTicket.id}}</button>
+                                <button class="btn btn-medium btn-primary" style="margin: 5px"
+                                        ng-click="makeFastReservation(fastTicket, fac.id)"
+                                >{{fastTicket.id}}</button>
 
                                 <!-- <div class="card" style="width: 5rem; ">
-                                                <img class="card-img-top" src="..." alt="Card image cap">
-                                                <div class="card-block">
-                                                    <h4 class="card-title">{{fastTicket.id}}</h4>
-                                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                </div>
-                                                </div> -->
+                                    <img class="card-img-top" src="..." alt="Card image cap">
+                                    <div class="card-block">
+                                        <h4 class="card-title">{{fastTicket.id}}</h4>
+                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                    </div>
+                                    </div> -->
 
                             </div>
                         </div>
@@ -104,7 +100,13 @@
 
         </div>
 
+
+
+
+
         <!-- background:#3366cc !important -->
+
+
 
 
     </div>

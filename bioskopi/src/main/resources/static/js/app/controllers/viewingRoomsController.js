@@ -25,6 +25,8 @@
         $scope.myStyle["VIP"] = {color:'green'};
         $scope.myStyle["FUN"] = {color:'red'};
         $scope.myStyle["NORMAL"] = {color:'orange'};
+        $scope.myStyle["CLOSED"] = {color:'grey'};
+
         
 
 
@@ -66,14 +68,14 @@
 
                 for (let index = 0; index < $scope.seats.length; index++) {
                     $scope.selectedSeats[$scope.seats[index].id] = false; 
-                    if($scope.seats[index].segment == "VIP")
-                        $scope.myStyle[$scope.seats[index].id] = {color:'green'};
-                    else if($scope.seats[index].segment == "FUN")
-                        $scope.myStyle[$scope.seats[index].id] = {color:'red'};
-                    else if($scope.seats[index].segment == "NORMAL")
-                        $scope.myStyle[$scope.seats[index].id] = {color:'orange'};
-                    else
-                        $scope.myStyle[$scope.seats[index].id] = {color:'grey'};
+                    // if($scope.seats[index].segment == "VIP")
+                    //     $scope.myStyle[$scope.seats[index].id] = {color:'green'};
+                    // else if($scope.seats[index].segment == "FUN")
+                    //     $scope.myStyle[$scope.seats[index].id] = {color:'red'};
+                    // else if($scope.seats[index].segment == "NORMAL")
+                    //     $scope.myStyle[$scope.seats[index].id] = {color:'orange'};
+                    // else
+                    //     $scope.myStyle[$scope.seats[index].id] = {color:'grey'};
                 }
 
             }).error(function(data, status) {

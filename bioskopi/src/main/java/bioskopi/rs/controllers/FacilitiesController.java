@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -103,6 +104,26 @@ public class FacilitiesController {
     {
         logger.info("Getting fast tickets from facility with id: " + id);
         List<Ticket> temp =  facilitiesService.getFastTickets(Long.parseLong(id) );
+
+        return new ResponseEntity<>(temp,  HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getAverageScore/{facilityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<HashMap<Long, Double>> getAverageScoreForProjections(@PathVariable String facilityId)
+    {
+        logger.info("Getting average score for projections from facility with id: " + facilityId);
+        HashMap<Long, Double> temp =  facilitiesService.getProjectionsAverageScore(Long.parseLong(facilityId) );
+
+        return new ResponseEntity<>(temp,  HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getAverageFacilityScore/{facilityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Double> getAverageScore(@PathVariable String facilityId)
+    {
+        logger.info("Getting average score for  facility with id: " + facilityId);
+        Double temp =  facilitiesService.getAverageScore(Long.parseLong(facilityId) );
 
         return new ResponseEntity<>(temp,  HttpStatus.OK);
     }

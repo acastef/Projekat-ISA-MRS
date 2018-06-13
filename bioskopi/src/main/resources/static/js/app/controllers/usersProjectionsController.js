@@ -47,8 +47,6 @@
             feedback.projection = $scope.projection;
 
             // setting non-existent facility, because this is feedback for projection 
-            feedback.facility = {};
-            feedback.facility.id = -1;
             usersProjectionsService.rateProjection(feedback).success(function(data, status) {
                 $scope.hideRateForm = true;
                 toastr.success("Projection successfully rated")

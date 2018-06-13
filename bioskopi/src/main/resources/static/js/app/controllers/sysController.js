@@ -39,7 +39,7 @@
         $scope.address;
         $scope.selectedTypeCT = false;
 
-        $scope.showFacility = false;
+        $scope.showFacility = true;
         $scope.showPointScale = true;
         $scope.showAdmin = false;
 

@@ -24,4 +24,12 @@ public interface FeedbackService {
      * @return List of feedbacks from the user with given id
      */
     List<Feedback> findByUserId(long id);
+
+    /**
+     *
+     * @param projId id of projection
+     * @return average score for projection with given id
+     */
+    Double getAvgScoreForProjection(long projId);
+
 }

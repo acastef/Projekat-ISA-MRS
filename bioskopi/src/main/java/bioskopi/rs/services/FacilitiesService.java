@@ -5,6 +5,7 @@ import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,7 +64,18 @@ public interface FacilitiesService {
      */
     List<Ticket> getFastTickets(long id);
 
+    /**
+     *
+     * @param id of facility
+     * @return hash map where key is projection id and value is average score for that projection
+     */
+    HashMap<Long, Double> getProjectionsAverageScore(long id);
 
-
+    /**
+     *
+     * @param id of facility
+     * @return average score for facility
+     */
+    Double getAverageScore(long id);
 
 }

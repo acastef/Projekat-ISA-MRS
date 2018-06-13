@@ -6,16 +6,14 @@ import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.ViewingRoom;
 import bioskopi.rs.domain.util.ValidationException;
-import bioskopi.rs.repository.FacilityRepository;
-import bioskopi.rs.repository.SeatRepository;
-import bioskopi.rs.repository.TicketRepository;
-import bioskopi.rs.repository.ViewingRoomRepository;
+import bioskopi.rs.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bioskopi.rs.validators.FacilitiesValidator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,6 +34,9 @@ public class FacilitiesServiceImpl implements FacilitiesService {
 
     @Autowired
     private SeatRepository seatRepository;
+
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
     @Override
     public List<FacilityDTO> findAllFacilities() {
@@ -107,6 +108,26 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     public List<Ticket> getFastTickets(long id) {
         List<Ticket> temp = ticketRepository.getFastTickets(id);
         return temp;
+    }
+
+    @Override
+    public HashMap<Long, Double> getProjectionsAverageScore(long id) {
+
+        HashMap<Long, Double> avgScores = new HashMap<>();
+
+        List<Projection> projections = facilityRepository.findRepertoireById(id);
+
+        for (Projection p: projections) {
+            Double avg = feedbackRepository.getAverageScore(p.getId());
+            avgScores.put(p.getId(), avg);
+        }
+
+        return avgScores;
+    }
+
+    @Override
+    public Double getAverageScore(long id) {
+        return feedbackRepository.getFacilityAverageScore(id);
     }
 
 

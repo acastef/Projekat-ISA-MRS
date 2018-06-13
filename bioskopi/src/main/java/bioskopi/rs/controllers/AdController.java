@@ -215,7 +215,6 @@ public class AdController {
             logger.info("Error message:" + e.getMessage());
             return new ResponseEntity<>("Failed to send email notification",HttpStatus.NOT_FOUND);
         }
-
     }
 
 

@@ -27,4 +27,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     public List<Feedback> findByUserId(long id) {
         return feedbackRepository.findByUserId(id);
     }
+
+    @Override
+    public Double getAvgScoreForProjection(long projId) {
+        return feedbackRepository.getAverageScore(projId);
+    }
 }

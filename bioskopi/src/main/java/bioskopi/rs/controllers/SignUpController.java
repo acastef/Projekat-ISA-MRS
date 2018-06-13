@@ -1,6 +1,8 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.services.MailService;
 import bioskopi.rs.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Repository
 @RequestMapping("/signup")
@@ -22,26 +26,28 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private MailService mailService;
+    @Autowired
+    private MailService mailService;
 
 
     /***
      * @return message with action result
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUser> add(@RequestBody RegisteredUser regUser){
-        logger.info("Adding new registered user to database...");
-        return new ResponseEntity<RegisteredUser>(userService.add(regUser), HttpStatus.CREATED);
+    public ResponseEntity<Object> add(@RequestBody RegisteredUser regUser){
+        try{
+            RegisteredUser registered = userService.add(regUser);
+            if(registered != null){
+                mailService.sendUserActivation(registered);
+                logger.info("Adding new registered user to database...");
+            }
+            return new ResponseEntity<Object>("Successfully registered", HttpStatus.CREATED);
+        }catch(ValidationException e) {
+            return new ResponseEntity<Object>("Already exists!", HttpStatus.BAD_REQUEST);
+        }catch(MailException me){
+            return new ResponseEntity<Object>("Mail is not valid!", HttpStatus.BAD_REQUEST);
+        }
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/success")
-//    public void sendMail() throws Exception{
-//        try {
-//            mailService.sendMail();
-//        }catch(MailException e){
-//            System.out.print(e.getMessage());
-//        }
-//    }
 
 }

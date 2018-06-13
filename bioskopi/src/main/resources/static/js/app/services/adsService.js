@@ -42,7 +42,11 @@
         }
 
         service.addBid = function(data){
-            return $http.post("ads/bid",data);
+            return $http.post("/ads/bid",data);
+        }
+
+        service.acceptBid = function(data){
+            return $http.put("/ads/bid/accept",data);
         }
 
         return service;

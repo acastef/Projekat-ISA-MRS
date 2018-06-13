@@ -72,7 +72,7 @@
                     <td>{{bid.user.username}}</td>
                     <td>{{bid.date | date: "medium"}}</td>
                     <td>{{bid.offer}}$</td>
-                    <td><button ng-click="" class="btn btn-info lineSectionButton">
+                    <td><button ng-click="acceptBid(bid.id)" class="btn btn-info lineSectionButton">
                         Accept</button> </td>
                 </tr>
 

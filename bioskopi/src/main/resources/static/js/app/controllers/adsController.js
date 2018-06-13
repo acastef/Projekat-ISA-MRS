@@ -180,29 +180,67 @@
                     date : new Date(),
                     offer: $scope.bidValue,
                     user: {
-                        id: 1,
-                        name: "nesto",
-                        surname: "nesto",
-                        email: "nesto@nesto",
-                        avatar: "avatar.jpg",
-                        password: "nesto",
-                        username: "nesto",
-                        firstLogin: true,
-                        telephone: "nesto",
-                        address: "nesto",
-                        propsReservations: [],
-                        tickets: [],
-                        friends: []
+                        id: 2,
+                        // name: "drugi",
+                        // surname: "drugi",
+                        // email: "drugi@drugi",
+                        // avatar: "drugi.jpg",
+                        // password: "drugi",
+                        // username: "drugi",
+                        // firstLogin: true,
+                        // telephone: "drugi",
+                        // address: "drugi",
+                        // propsReservations: [],
+                        // tickets: [],
+                        // friends: []
                     },
-                    ad: $scope.selected
+                    ad: {id: $scope.selected.id}
                 }).success(function (data) {
                     toastr.success("Biding was successfull","OK");
                     $scope.selected = data;
+                    for (let index = 0; index < $scope.ads.length; index++) {
+                        const element = $scope.ads[index];
+                        if (element.id == $scope.selected.id) {
+                            $scope.ads[index] = $scope.selected;
+                            break;
+                        }
+                    }
                 }).error(function (data, status) {
                     toastr.error("Error. " + data, "Error");
                 });
             }
             
         }
+
+        $scope.acceptBid = function(id) {
+            var selectedBid;
+            var index;
+            for (let i = 0; i < $scope.ads.length; i++) {
+                index = i;
+                var found = false;
+                const ad = $scope.ads[i];
+                for (let j = 0; j < ad.bids.length; j++) {
+                    const bid = ad.bids[j];
+                    if (bid.id == id) {
+                        selectedBid = bid;
+                        found = true;
+                        break;
+                    }
+                }
+                if(found){
+                    break;
+                }
+            }
+            selectedBid.ad = {id: $scope.selected.id};
+            adsService.acceptBid(selectedBid).success(function(data){
+                toastr.success("Offer was successfully accepted","OK");
+                $scope.ads.splice(index,1);
+                $scope.showAds = true;
+                $scope.details = false;
+            }).error(function(data,status){
+                toastr.error("Error. " + data, "Error");
+            });
+    }
+
     }
 })();

@@ -1,11 +1,9 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.Ad;
-import bioskopi.rs.domain.AdState;
-import bioskopi.rs.domain.Bid;
-import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.AdRepository;
+import bioskopi.rs.repository.BidRepository;
 import bioskopi.rs.repository.RegisteredUserRepository;
 import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.junit.Before;
@@ -21,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static bioskopi.rs.constants.AdConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,6 +40,8 @@ public class AdServiceImplTest {
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
 
+    @Autowired
+    private BidRepository bidRepository;
 
     @Before
     @Transactional
@@ -141,7 +142,6 @@ public class AdServiceImplTest {
         long version = ad.getVersion();
         adService.accept(ad);
         ad = adRepository.findById(AD.getId()).get();
-        //assertThat(ad.getVersion()).isEqualTo(version+1);
         assertThat(ad.getState()).isEqualTo(AdState.ACTIVE);
     }
 
@@ -167,7 +167,7 @@ public class AdServiceImplTest {
     @Test
     @Transactional
     public void addBid(){
-        Bid bid = new Bid(25.36,LocalDateTime.now().minusMinutes(12),RUSER2,AD);
+        Bid bid = new Bid(25.36,LocalDateTime.now().minusMinutes(12),RUSER2,AD,BidState.WAIT);
         int count = AD.getBids().size();
         Ad ad = adService.addBid(bid);
         assertThat(ad.getBids()).hasSize(count + 1);
@@ -179,7 +179,7 @@ public class AdServiceImplTest {
     @Test(expected = ValidationException.class)
     @Transactional
     public void addBidNotValidDate() {
-        Bid bid = new Bid(25.36,AD.getDeadline().plusHours(2),RUSER2,AD);
+        Bid bid = new Bid(25.36,AD.getDeadline().plusHours(2),RUSER2,AD,BidState.WAIT);
         adService.addBid(bid);
     }
 
@@ -189,7 +189,7 @@ public class AdServiceImplTest {
     @Test(expected = ValidationException.class)
     @Transactional
     public void addBidNotValidUser() {
-        Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),RUSER1,AD);
+        Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),RUSER1,AD,BidState.WAIT);
         adService.addBid(bid);
     }
 
@@ -199,7 +199,7 @@ public class AdServiceImplTest {
     @Test(expected = ValidationException.class)
     @Transactional
     public void addBidNotValidBidUser() {
-        Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),new RegisteredUser(),AD);
+        Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),new RegisteredUser(),AD,BidState.WAIT);
         adService.addBid(bid);
     }
 
@@ -210,8 +210,41 @@ public class AdServiceImplTest {
     @Transactional
     public void addBidNotValidAd() {
         Bid bid = new Bid(25.36,AD.getDeadline().minusMinutes(12),RUSER2,
-                new Ad(NEW_IMG,NEW_NM,NEW_DS,NEW_DL,NEW_ST,new RegisteredUser(),new HashSet<>(),NEW_VR));
+                new Ad(NEW_IMG,NEW_NM,NEW_DS,NEW_DL,NEW_ST,new RegisteredUser(),new HashSet<>(),NEW_VR),BidState.WAIT);
         adService.addBid(bid);
     }
 
+    @Test
+    @Transactional
+    public void acceptOffer() {
+        Bid bid1 = new Bid(25.36,LocalDateTime.now().minusMinutes(7),RUSER2,AD,BidState.WAIT);
+        Bid bid2 = new Bid(47.21,LocalDateTime.now().minusMinutes(12),RUSER2,AD,BidState.WAIT);
+        adService.addBid(bid1);
+        Set<Bid> bids = adService.addBid(bid2).getBids();
+        Bid temp = bids.iterator().next();
+        Ad ad = adService.acceptOffer(temp);
+        for (Bid b :
+                ad.getBids()) {
+            if(b.getId().equals(temp.getId())){
+                assertThat(b.getState()).isEqualTo(BidState.ACCEPT);
+            }else{
+                assertThat(b.getState()).isEqualTo(BidState.REJECT);
+            }
+        }
+        assertThat(ad.getState()).isEqualTo(AdState.INACTIVE);
+    }
+
+    @Test(expected = ValidationException.class)
+    @Transactional
+    public void acceptOfferWrongBid() {
+        Bid bid1 = new Bid(25.36,LocalDateTime.now().minusMinutes(7),RUSER2,AD,BidState.WAIT);
+        adService.addBid(bid1);
+        Ad ad3 = new Ad(NEW_IMG,NEW_NM,NEW_DS,NEW_DL,NEW_ST,RUSER1,new HashSet<>(),NEW_VR);
+        Bid bid2 = new Bid(47.21,LocalDateTime.now().minusMinutes(12),RUSER2,ad3,BidState.WAIT);
+        ad3.getBids().add(bid2);
+        ad3 = adService.add(ad3);
+        Bid temp = ad3.getBids().iterator().next();
+        temp.setAd(AD);
+        adService.acceptOffer(temp);
+    }
 }

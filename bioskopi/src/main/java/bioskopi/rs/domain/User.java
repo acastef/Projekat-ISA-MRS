@@ -44,9 +44,9 @@ public class User implements Serializable {
     @Column
     private String address;
 
-
     @Column
-    private String authorities;
+    @Enumerated(EnumType.ORDINAL)
+    private AuthorityEnum authorities;
 
     public User() {
     }
@@ -66,7 +66,7 @@ public class User implements Serializable {
     }
 
     public User(String name, String surname, String email, String username, String password, String avatar,
-                boolean firstLogin, String telephone, String address) {
+                 boolean firstLogin, String telephone, String address) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -78,7 +78,19 @@ public class User implements Serializable {
         this.address = address;
     }
 
-
+    public User(String name, String surname, String email, String username, String password, String avatar,
+                boolean firstLogin, String telephone, String address, AuthorityEnum auth) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.avatar = avatar;
+        this.firstLogin = firstLogin;
+        this.telephone = telephone;
+        this.address = address;
+        this.authorities = auth;
+    }
 
     public String getUsername() {
         return username;
@@ -164,11 +176,11 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public String getAuthorities() {
+    public AuthorityEnum getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(String authorities) {
+    public void setAuthorities(AuthorityEnum authorities) {
         this.authorities = authorities;
     }
 }

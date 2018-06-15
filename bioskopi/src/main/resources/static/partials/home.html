@@ -2,26 +2,35 @@
     <h1>Home page</h1>
     <div>
         <ul class="nav nav-tabs">
-            <li class="nav-item">
+            <li ng-show="propsVis" class="nav-item">
                 <a class="nav-link" href="#props">Props</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="facilitiesVis" class="nav-item">
                 <a class="nav-link" href="#facilities">Facilities</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="friendsVis" class="nav-item">
                 <a class="nav-link" href="#friends">Friends</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="profileVis" class="nav-item">
                 <a class="nav-link" href="#profile">Profile</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="reservationsVis" class="nav-item">
                 <a class="nav-link" href="#reservations">My tickets</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="usersProjectionsVis" class="nav-item">
                 <a class="nav-link" href="#usersProjections/1">My projections</a>
             </li>
-            <li class="nav-item">
+            <li ng-show="viewingRoomsVis" class="nav-item">
                 <a class="nav-link" href="#viewingRooms">Viewing room</a>
+            </li>
+            <li ng-show="resPropsVis" class="nav-item">
+                <a class="nav-link">Reserved props</a>
+            </li>
+            <li ng-show=adsVis "" class="nav-item">
+                <a class="nav-link">Ads</a>
+            </li>
+            <li ng-show="systemAdminVis" class="nav-item">
+                <a class="nav-link">System administration</a>
             </li>
         </ul>
     </div>
@@ -45,7 +54,7 @@
             </tr>
         </table>
     </div><br>
-    <div class="visits">
+    <div ng-show="visitsVis" class="visits">
         <p>VISITS</p>
         <table border="1">
             <tbody>

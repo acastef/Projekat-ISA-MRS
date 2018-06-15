@@ -30,28 +30,20 @@
         }
 
         $scope.check = function() {
-            loginService.checkUser($scope.username).success(function(data, status) {
+            loginService.checkUser($scope.username, $scope.password).success(function(data, status) {
                 if (data) {
-                    $scope.user = data;
-                    if ($scope.user.password == $scope.password) {
-                        $scope.valid = true;
-                        $scope.redirect("/home");
-                    } else {
-                        $scope.valid = false;
-                    }
+                    $scope.valid = true;
+                    $scope.redirect("/home");
                 } else {
-
                     $scope.valid = false;
                 }
             }).error(function(data, status) {
-                console.log("Nema kurca smrdljivog");
                 $scope.valid = false;
             });
         }
 
         $scope.redirect = function(path) {
             $location.path(path);
-
         }
     }
 })();

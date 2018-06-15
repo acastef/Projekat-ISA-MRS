@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RegisteredUser findByUsername(String username) {return userRepository.findByUsername(username);}
+    public User findByUsername(String username) {return userRepository.findByUsername(username);}
 
     @Override
     public RegisteredUser add(RegisteredUser registeredUser) throws ValidationException {

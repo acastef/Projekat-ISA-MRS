@@ -44,15 +44,15 @@ public class LoginController {
      * @return user with given username
      */
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUser> findUserWithUsername(@PathVariable String username, HttpSession session) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findUserWithUsernameAndPassword(@PathVariable String username, @PathVariable String password, HttpSession session) {
         logger.info("Fetching user with username...");
-        RegisteredUser user = userService.findByUsername(username);
-        if (user.isFirstLogin()) {
+        User user = userService.findByUsername(username);
+        if (user.isFirstLogin() && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
-            return new ResponseEntity<RegisteredUser>(userService.findByUsername(username), HttpStatus.OK);
+            return new ResponseEntity<Object>(userService.findByUsername(username), HttpStatus.OK);
         }
-        return new ResponseEntity<RegisteredUser>(new RegisteredUser(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>("Incorrect username or password, or user is not activated.", HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getLogged", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,4 +69,5 @@ public class LoginController {
             return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
         }
     }
+
 }

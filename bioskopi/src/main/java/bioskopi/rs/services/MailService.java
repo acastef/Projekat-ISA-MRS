@@ -7,8 +7,11 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Properties;
 
 @Service
@@ -29,12 +32,25 @@ public class MailService {
     }
 
     public void sendUserActivation(RegisteredUser regUser) throws MailException{
+//        MimeMessagePreparator messagePreparator = mimeMessage -> {
+//            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+//            messageHelper.setFrom("666.null.null.null@gmail.com");
+//
+//            String text = "Click: http";
+//            messageHelper.setTo(regUser.getEmail());
+//            messageHelper.setSubject("Account activation");
+//            messageHelper.setText(text, true);
+//        };
+//        try{
+//            mailSender.send(messagePreparator);
+//        }catch(MailException e){
+//            e.printStackTrace();
+//        }
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(regUser.getEmail());
         mail.setFrom("666.null.null.null@gmail.com");
         mail.setSubject("Account activation");
-        mail.setText("Hello " + regUser.getUsername() + " " + regUser.getSurname() +"!\n" +
-                "Click on link to activate your account: " + "\n<a href='http://test.com'>Test.com</a>");
+        mail.setText("Click: http://localhost:8080/signup/"+regUser.getUsername());
         mailSender.send(mail);
     }
 

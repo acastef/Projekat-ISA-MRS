@@ -1,13 +1,15 @@
-<div ng-controller = "viewingRoomsController">
+<div ng-controller="viewingRoomsController">
 
-    
+
     <label>Select Viewing Room: </label>
-    <select ng-model="selectedViewingRoom" ng-options="v.name for v in viewingRooms"
-        ng-change="setViewingRoom()" ></select><br>
-
-    <div ng-repeat = "seat in seats" style="margin: 20px">
+    <select ng-model="selectedViewingRoom" ng-options="v.name for v in viewingRooms" ng-change="setViewingRoom()"></select><br>
+    <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
+        <canvas width="500" height="500" id="canvasId"></canvas>
+    </keruc-seatpicker>
+    <div ng-repeat="seat in seats" style="margin: 20px">
 
         <div>
+
             <input type="checkbox" ng-model="selectedSeats[seat.id]">
             <!-- <input style="margin: 5px" type="radio"  ng-checked="selectedSeats[seat.id]" ng-click="seatSelected()"> -->
         </div>
@@ -18,44 +20,54 @@
     </div>
 
     <div>
-        <button ng-hide = hideButtons ng-click="changeSelected('VIP')">Change selected to "VIP" zone</button>
-        <button ng-hide = hideButtons ng-click="changeSelected('FUN')">Change selected to "FUN" zone</button>
-        <button ng-hide = hideButtons ng-click="changeSelected('NORMAL')">Change selected to "NORMAL" zone</button>
+        <button ng-hide=h ideButtons ng-click="changeSelected('VIP')">Change selected to "VIP" zone</button>
+        <button ng-hide=h ideButtons ng-click="changeSelected('FUN')">Change selected to "FUN" zone</button>
+        <button ng-hide=h ideButtons ng-click="changeSelected('NORMAL')">Change selected to "NORMAL" zone</button>
 
     </div>
 
-    
+
 
 
     <div>
 
         <div style="float: left;">
             <!-- <img ng-src= "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg" alt="Description" > -->
-        
-            
-        
+
+
+
         </div>
 
         <div>
             <table>
-                <tr ng-hide="hideVIP"> <td><label class="text-success">VIP</label>
-                     <td><button ng-click="closeSeats('VIP') ">Close</button><br></td></td></tr>
-                <tr ng-hide="hideFUN"> <td><label class="text-danger">FUN</label>
-                      <td><button  ng-click="closeSeats('FUN') ">Close</button><br></td></td></tr>
-                <tr  ng-hide="hideNORMAL"> <td><label class = "text-warning">NORMAL</label>
-                     <td><button  ng-click="closeSeats('NORMAL') ">Close</button><br></td></td></tr>
-                <tr  ng-hide="hideCLOSED"> <td> <label class="text-secondary">CLOSED</label>
+                <tr ng-hide="hideVIP">
+                    <td><label class="text-success">VIP</label>
+                        <td><button ng-click="closeSeats('VIP') ">Close</button><br></td>
+                    </td>
+                </tr>
+                <tr ng-hide="hideFUN">
+                    <td><label class="text-danger">FUN</label>
+                        <td><button ng-click="closeSeats('FUN') ">Close</button><br></td>
+                    </td>
+                </tr>
+                <tr ng-hide="hideNORMAL">
+                    <td><label class="text-warning">NORMAL</label>
+                        <td><button ng-click="closeSeats('NORMAL') ">Close</button><br></td>
+                    </td>
+                </tr>
+                <tr ng-hide="hideCLOSED">
+                    <td> <label class="text-secondary">CLOSED</label>
 
             </table>
         </div>
 
     </div>
 
-        
 
 
-     
-    
+
+
+
 
 
 
@@ -63,4 +75,3 @@
 
 
 </div>
-

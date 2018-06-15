@@ -5,9 +5,10 @@
         .module('utopia')
         .controller('homeController', homeController);
 
-    homeController.$inject = ['$scope', '$location'];
-    function homeController($scope, $location) {
+    homeController.$inject = ['$scope', '$location', 'homeService'];
+    function homeController($scope, $location, homeService) {
         var vm = this;
+        $scope.logged = {};
 
         activate();
 
@@ -17,6 +18,12 @@
                 {'facility': 'Sprsko Narodno Pozoriste', 'city': 'Novi Sad'},
                 {'facility': 'Arena Cineplex', "city": "Novi Sad"}
             ];
+            homeService.getLogged().success(function(data, status){
+                $scope.logged = data;
+                console.log($scope.logged.name);
+            }).error(function(data, status){
+                toastr.error("Something went wrong...");
+            });
             //console.log("pozvan home contoller");
         };
         

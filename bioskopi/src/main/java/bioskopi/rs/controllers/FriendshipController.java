@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,16 +42,28 @@ public class FriendshipController {
 //    }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getAll/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<UserDTO>> getAll(@PathVariable String id){
-        return new ResponseEntity<List<UserDTO>>(friendshipService.getAll(Long.parseLong(id)), HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getAll(HttpSession session) {
+
+        try {
+            RegisteredUser reg = (RegisteredUser) session.getAttribute("user");
+            return new ResponseEntity<List<UserDTO>>(friendshipService.getAll(reg.getId()), HttpStatus.OK);
+        }catch(NullPointerException e){
+            return new ResponseEntity<List<UserDTO>>(new ArrayList<UserDTO>(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @RequestMapping(method =RequestMethod.GET, value = "/getAllNonFriends/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(method =RequestMethod.GET, value = "/getAllNonFriends", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<UserDTO>> getAllNonFriends(@PathVariable String id){
-        return new ResponseEntity<List<UserDTO>>(friendshipService.getAllNonFriends(Long.parseLong(id)), HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getAllNonFriends(HttpSession session){
+        try {
+            RegisteredUser registered = (RegisteredUser)session.getAttribute("user");
+            return new ResponseEntity<List<UserDTO>>(friendshipService.getAllNonFriends(registered.getId()), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<List<UserDTO>>(new ArrayList<UserDTO>(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method=RequestMethod.POST, value = "/addFriend", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

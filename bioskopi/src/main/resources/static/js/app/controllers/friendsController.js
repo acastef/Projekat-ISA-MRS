@@ -5,39 +5,39 @@
         .module('utopia')
         .controller('friendsController', friendsController);
 
-    friendsController.$inject = ['$scope', '$location', 'friendsService', 'userService'];
+    friendsController.$inject = ['$scope', '$location', 'friendsService', 'userService', 'homeService'];
 
-    function friendsController($scope, location, friendsService, userService) {
-        $scope.id = 1;
+    function friendsController($scope, $location, friendsService, userService, homeService) {
         $scope.user = {};
-        $scope.users = [];
         $scope.friends = [];
         $scope.nonFriends = [];
 
         activate();
 
         function activate() {
-            userService.getUsers().success(function(data, status) {
-                $scope.users = data;
+            homeService.getLogged().success(function(data, status) {
+                $scope.user = data;
             }).error(function(data, status) {
-                console.log("Failed to fetch data!");
+                toastr.error("Log In!");
+                $scope.redirect('/');
             });
-            friendsService.getFriends($scope.id).success(function(data, status) {
+            friendsService.getFriends().success(function(data, status) {
                 $scope.friends = data;
             }).error(function(data, status) {
                 console.log("Failed to fetch data!");
             });
-            friendsService.getNonFriends($scope.id).success(function(data, status) {
+            friendsService.getNonFriends().success(function(data, status) {
                 $scope.nonFriends = data;
             }).error(function(data, status) {
                 console.log("Failed to fetch data!");
             });
         }
 
-
+        $scope.redirect = function(path) {
+            $location.path(path);
+        }
 
         $scope.addFriend = function(id) {
-            $scope.user = $scope.users[0];
             var i;
             for (i = 0; $scope.nonFriends.length; i++) {
                 if (id == $scope.nonFriends[i].id) {
@@ -56,7 +56,6 @@
         }
 
         $scope.deleteFriend = function(id) {
-            $scope.user = $scope.users[0];
             var i;
             for (i = 0; $scope.friends.length; i++) {
                 if (id == $scope.friends[i].id) {

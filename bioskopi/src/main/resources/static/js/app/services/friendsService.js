@@ -9,11 +9,11 @@
         var service = {};
 
         service.getFriends = function(id) {
-            return $http.get("/friends/getAll/" + id);
+            return $http.get("/friends/getAll");
         };
 
         service.getNonFriends = function(id) {
-            return $http.get("/friends/getAllNonFriends/" + id);
+            return $http.get("/friends/getAllNonFriends");
         };
 
         service.addFriend = function(first, second) {

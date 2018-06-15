@@ -41,4 +41,15 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.saveAndFlush(registeredUser);
     }
+
+    @Override
+    public void activateUser(String username) {
+        RegisteredUser toChange = userRepository.findByUsername(username);
+        RegisteredUser changed = toChange;
+        if(!toChange.isFirstLogin()) {
+            changed.setFirstLogin(true);
+            userRepository.delete(toChange);
+            userRepository.save(changed);
+        }
+    }
 }

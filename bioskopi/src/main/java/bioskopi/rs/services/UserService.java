@@ -27,6 +27,10 @@ public interface UserService{
 
     RegisteredUser add(RegisteredUser registeredUser);
 
-
+    /***
+     *
+     * @param username of user who activated account
+     */
+    void activateUser(String username);
 
 }

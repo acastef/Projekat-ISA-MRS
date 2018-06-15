@@ -58,7 +58,7 @@
                 username: $scope.username,
                 password: $scope.password,
                 avatar: $scope.avatar,
-                firstLogin: true,
+                firstLogin: false,
                 telephone: $scope.phone_num,
                 address: $scope.address,
                 propsReservations: [],

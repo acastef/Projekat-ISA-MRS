@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.User;
 import bioskopi.rs.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -43,9 +45,28 @@ public class LoginController {
      */
 
     @RequestMapping(method = RequestMethod.GET, value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUser> findUserWithUsername(@PathVariable String username){
+    public ResponseEntity<RegisteredUser> findUserWithUsername(@PathVariable String username, HttpSession session) {
         logger.info("Fetching user with username...");
         RegisteredUser user = userService.findByUsername(username);
-        return new ResponseEntity<RegisteredUser>(userService.findByUsername(username), HttpStatus.OK);
+        if (user.isFirstLogin()) {
+            session.setAttribute("user", user);
+            return new ResponseEntity<RegisteredUser>(userService.findByUsername(username), HttpStatus.OK);
+        }
+        return new ResponseEntity<RegisteredUser>(new RegisteredUser(), HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getLogged", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> findLoggedUser(HttpSession session){
+        try{
+            User u = (User)session.getAttribute("user");
+            if (u != null) {
+                return new ResponseEntity<User>((User) session.getAttribute("user"), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

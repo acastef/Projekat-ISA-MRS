@@ -49,6 +49,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Transactional
     public FanZoneAdmin addFanZoneAdmin(FanZoneAdmin admin) {
         try {
+            admin.setAuthorities("FANZONE");
             return fanZoneAdminRepository.save(admin);
         }catch (DataIntegrityViolationException e){
             throw new ValidationException("User name or email is already taken");
@@ -75,6 +76,7 @@ public class AdminsServiceImpl implements AdminsService {
                 throw new ValidationException("Facility does not exist");
             }
             admin.setFacility(facility.get());
+            admin.setAuthorities("CAT");
             return caTAdminRepository.save(admin);
         }catch (DataIntegrityViolationException e){
 

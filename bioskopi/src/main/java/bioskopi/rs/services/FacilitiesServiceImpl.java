@@ -78,7 +78,12 @@ public class FacilitiesServiceImpl implements FacilitiesService {
               throw new ValidationException("Facility with given name already exists");
             }
         }
-        return facilityRepository.saveAndFlush(facility);
+        Facility temp = facilityRepository.saveAndFlush(facility);
+        for (ViewingRoom vm:
+             temp.getViewingRooms()) {
+            seatRepository.saveAll(vm.getSeats());
+        }
+        return temp;
     }
 
     @Override
@@ -96,10 +101,10 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     public Facility save(Facility facility) {
         Facility temp = facilityRepository.saveAndFlush(facility);
         temp.setViewingRooms(new HashSet<>(viewingRoomRepository.saveAll(temp.getViewingRooms())));
-        /*for (ViewingRoom vm :
+        for (ViewingRoom vm :
                 temp.getViewingRooms()) {
             seatRepository.saveAll(vm.getSeats());
-        }*/
+        }
         return temp;
 
     }

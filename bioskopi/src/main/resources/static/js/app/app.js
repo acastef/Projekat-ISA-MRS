@@ -62,6 +62,9 @@ app.config(function($routeProvider) {
         }).when('/report/:id', {
             templateUrl: 'partials/report.html',
             controller: 'reportController'
+        }).when('/reservedProps',{
+            templateUrl: 'partials/reservedProps.html',
+            css: ['css/lineSection.css', 'css/navigation.css']
         })
 });
 

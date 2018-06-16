@@ -33,8 +33,7 @@
         function activate() {
 
             $scope.visits = [
-                { 'facility': 'Sprsko Narodno Pozoriste', 'city': 'Novi Sad' },
-                { 'facility': 'Arena Cineplex', "city": "Novi Sad" }
+                
             ];
             homeService.getLogged().success(function(data, status) {
                 $scope.logged = data;

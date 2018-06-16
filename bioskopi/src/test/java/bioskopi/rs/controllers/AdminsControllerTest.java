@@ -117,7 +117,8 @@ public class AdminsControllerTest {
 
         mockMvc.perform(post(URL_PREFIX + "/fan_zone/add")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
 
@@ -131,7 +132,8 @@ public class AdminsControllerTest {
 
         mockMvc.perform(put(URL_PREFIX + "/fan_zone/change")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
    /* @Test
@@ -179,7 +181,8 @@ public class AdminsControllerTest {
 
         mockMvc.perform(post(URL_PREFIX + "/ct/add")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
     @Test
@@ -191,7 +194,8 @@ public class AdminsControllerTest {
 
         mockMvc.perform(put(URL_PREFIX + "/ct/change")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
   /*  @Test

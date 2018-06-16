@@ -1,10 +1,13 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.AuthorityEnum;
 import bioskopi.rs.domain.CaTAdmin;
 import bioskopi.rs.domain.FanZoneAdmin;
+import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.util.UploadResponse;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.AdminsService;
+import bioskopi.rs.validators.AuthorityValidator;
 import bioskopi.rs.validators.ImageValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Null;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +70,21 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/fan_zone/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addFanZone(@RequestBody FanZoneAdmin admin) {
+    public ResponseEntity<Object> addFanZone(@RequestBody FanZoneAdmin admin, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             return new ResponseEntity<>(adminsService.addFanZoneAdmin(admin), HttpStatus.CREATED);
         } catch (ValidationException e) {
@@ -79,7 +98,21 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @ResponseBody
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         if (image.isEmpty()) {
             return new ResponseEntity<>("Please select file to upload", HttpStatus.NO_CONTENT);
         }
@@ -105,7 +138,21 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/fan_zone/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> changeFanZone(@RequestBody FanZoneAdmin admin) {
+    public ResponseEntity<Object> changeFanZone(@RequestBody FanZoneAdmin admin, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         try{
             String[] tokens = admin.getAvatar().split("/");
             admin.setAvatar(tokens[tokens.length - 1]);
@@ -142,7 +189,21 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ct/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addCT(@RequestBody CaTAdmin admin) {
+    public ResponseEntity<Object> addCT(@RequestBody CaTAdmin admin, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             return new ResponseEntity<>(adminsService.addCaTAdmin(admin), HttpStatus.CREATED);
         } catch (ValidationException e) {
@@ -156,7 +217,21 @@ public class AdminsController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/ct/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> changeCT(@RequestBody CaTAdmin admin) {
+    public ResponseEntity<Object> changeCT(@RequestBody CaTAdmin admin, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             String[] tokens = admin.getAvatar().split("/");
             admin.setAvatar(tokens[tokens.length - 1]);

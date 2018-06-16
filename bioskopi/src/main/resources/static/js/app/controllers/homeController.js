@@ -11,6 +11,7 @@
         var vm = this;
         $scope.logged = {};
         $scope.propsVis = true;
+        $scope.propsAdminVis = true;
         $scope.facilitiesVis = true;
         $scope.friendsVis = true;
         $scope.profileVis = true;
@@ -38,6 +39,7 @@
                 $scope.userType = $scope.logged.authorities;
                 if ($scope.userType == "SYS") {
                     $scope.propsVis = false;
+                    $scope.propsAdminVis = false;
                     $scope.facilitiesVis = false;
                     $scope.friendsVis = false;
                     $scope.profileVis = false;
@@ -52,18 +54,28 @@
                     $scope.visitsVis = false;
                     $scope.friendsVis = false;
                     $scope.systemAdminVis = false;
+                    $scope.resPropsVis = false;
+                    $scope.adsVis = false;
+                    $scope.reservationsVis = false;
+                    $scope.propsAdminVis = false;
                 } else if ($scope.userType == "FUN") {
                     $scope.usersProjectionsVis = false;
                     $scope.visitsVis = false;
                     $scope.friendsVis = false;
                     $scope.systemAdminVis = false;
+                    $scope.resPropsVis = false;
+                    $scope.adsVis = false;
+                    $scope.reservationsVis = false;
+                    $scope.propsVis = false;
                 } else if ($scope.userType == "USER") {
                     $scope.systemAdminVis = false;
+                    $scope.propsAdminVis = false;
                 }
             }).error(function(data, status) {
                 toastr.error("Something went wrong...");
             });
         };
+
 
         $scope.logout = function() {
             homeService.logout().success(function(data, status) {

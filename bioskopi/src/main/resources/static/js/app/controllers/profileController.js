@@ -5,13 +5,11 @@
         .module('utopia')
         .controller('profileController', profileController);
 
-    profileController.$inject = ['$scope', '$location', 'profileService'];
-    function profileController($scope, $location, profileService) {
+    profileController.$inject = ['$scope', '$location', 'profileService', 'homeService'];
+    function profileController($scope, $location, profileService,homeService) {
         var vm = this;
 
-        var username = "nesto";
-        const type = "353";
-        const id = 353;
+        
         $scope.logged = false;
         $scope.changePassword = false;
         var user = {};
@@ -20,8 +18,9 @@
         ////////////////
 
         function activate() {
-            profileService.getUser(username, type).success(function (data) {
+            homeService.getLogged().success(function(data, status) {
                 user = data;
+                $scope.userType = user.authorities;
                 $scope.name = user.name;
                 $scope.surname = user.surname;
                 $scope.email = user.email;
@@ -37,9 +36,29 @@
                     $scope.changePassword = false;
                     $scope.password = data.password;
                 }
-            }).error(function (data, status) {
-                toastr.error("Can not get user data", "Error");
+            }).error(function(data, status) {
+                $location.path("/login");
             });
+            // profileService.getUser(username, type).success(function (data) {
+            //     user = data;
+            //     $scope.name = user.name;
+            //     $scope.surname = user.surname;
+            //     $scope.email = user.email;
+            //     $scope.telephone = user.telephone;
+            //     $scope.address = user.address;
+            //     $scope.repeatPassword = "";
+            //     if (!data.firstLogin) {
+            //         $scope.logged = false;
+            //         $scope.changePassword = true;
+            //         $scope.password = "";
+            //     } else {
+            //         $scope.logged = true;
+            //         $scope.changePassword = false;
+            //         $scope.password = data.password;
+            //     }
+            // }).error(function (data, status) {
+            //     toastr.error("Can not get user data", "Error");
+            // });
         }
 
         $scope.save = function(){
@@ -51,7 +70,7 @@
                 user.email = $scope.email;
                 user.telephone = $scope.telephone;
                 user.address = $scope.address;
-                profileService.change(user,type).success(function(data){
+                profileService.change(user,$scope.userType).success(function(data){
                     user = data;
                     toastr.success("Profile successfully changed", "OK");
                 }).error(function(data,status){
@@ -71,7 +90,7 @@
                 }
                 user.password = $scope.password;
                 user.lastPasswordReset = new Date();
-                profileService.change(user,type).success(function(data){
+                profileService.change(user,$scope.userType).success(function(data){
                     user = data;
                     toastr.success("Profile successfully changed", "OK");
                 }).error(function(data,status){

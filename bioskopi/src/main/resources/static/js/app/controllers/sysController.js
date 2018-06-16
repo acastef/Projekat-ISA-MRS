@@ -5,8 +5,8 @@
         .module('utopia')
         .controller('sysController', sysController);
 
-    sysController.$inject = ['$scope','$location','sysService'];
-    function sysController($scope,$location,sysService) {
+    sysController.$inject = ['$scope','$location','sysService','homeService'];
+    function sysController($scope,$location,sysService,homeService) {
         var vm = this;
         $scope.facilities = {};
         $scope.categories = {}
@@ -39,7 +39,7 @@
         $scope.address;
         $scope.selectedTypeCT = false;
 
-        $scope.showFacility = true;
+        $scope.showFacility = false;
         $scope.showPointScale = true;
         $scope.showAdmin = false;
 
@@ -49,6 +49,16 @@
         ////////////////
 
         function activate() {
+            homeService.getLogged().success(function(data, status) {
+                $scope.logged = data;
+                $scope.userType = $scope.logged.authorities;
+                if ($scope.userType != "SYS") {
+                    $location.path("/home");
+                }
+            }).error(function(data, status) {
+                $location.path("/login");
+            });
+
             sysService.getAllFacilities().success(function(data,status){
                 $scope.facilities = data;
             }).error(function(data,status){

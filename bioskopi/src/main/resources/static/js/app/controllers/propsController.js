@@ -16,6 +16,7 @@
         ////////////////
 
         function activate() {
+            
             propsService.getAll().success(function (data, status) {
                 $scope.props = data;
 
@@ -37,30 +38,20 @@
                     break;
                 }
             }
-            var user = {
-                id: 1,
-                name: "nesto",
-                surname: "nesto",
-                email: "nesto@nesto",
-                avatar: "avatar.jpg",
-                password: "nesto",
-                username: "nesto",
-                firstLogin: true,
-                telephone: "nesto",
-                address: "nesto",
-                propsReservations: [],
-                tickets: [],
-                friends: []
-            }
             propsService.makeReservation({
                 props: props,
-                registeredUser: user,
+                registeredUser: null,
                 quantity: 1
             }).success(function (data, status) {
                 toastr.success("Reservation successfully made", "Ok")
 
             }).error(function (data, status) {
-                toastr.error("Reservation failed. " + data, "Error");
+                if(status == 403){
+                    $location.path("/login");
+                }else{
+                    toastr.error("Reservation failed. " + data, "Error");
+                }
+                
             });
         }
 

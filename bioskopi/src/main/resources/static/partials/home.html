@@ -3,7 +3,10 @@
     <div>
         <ul class="nav nav-tabs">
             <li ng-show="propsVis" class="nav-item">
-                <a class="nav-link" href="#props">Props</a>
+                <a class="nav-link" href="#props">Fan Zone</a>
+            </li>
+            <li ng-show="propsAdminVis" class="nav-item">
+                <a class="nav-link" href="#fan_zone_admin">Fan Zone</a>
             </li>
             <li ng-show="facilitiesVis" class="nav-item">
                 <a class="nav-link" href="#facilities">Facilities</a>
@@ -30,7 +33,7 @@
                 <a class="nav-link">Ads</a>
             </li>
             <li ng-show="systemAdminVis" class="nav-item">
-                <a class="nav-link">System administration</a>
+                <a class="nav-link" href="#sys">System administration</a>
             </li>
         </ul>
     </div>
@@ -71,5 +74,5 @@
             </tbody>
         </table>
     </div>
-    <button ng-click="redirect('/')" class="logout">Log Out</button>
+    <button ng-click="logout()" class="logout">Log Out</button>
 </div>

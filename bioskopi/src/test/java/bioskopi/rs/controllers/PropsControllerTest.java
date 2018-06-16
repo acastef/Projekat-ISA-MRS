@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,6 +55,10 @@ public class PropsControllerTest {
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
 
+    protected MockHttpSession session;
+
+    protected MockHttpServletRequest request;
+
     @Before
     @Transactional
     public void setUp() throws Exception {
@@ -70,8 +77,9 @@ public class PropsControllerTest {
         Props props3 = new Props("sticker", DB_IMG3, DB_FAC);
 
         RegisteredUser user = new RegisteredUser("test", "test", "test","user",
-                "user", "user",false,"user1","user1",new HashSet<>(),
+                "user", "user",true,"user1","user1",new HashSet<>(),
                 new HashSet<>(), new ArrayList<>());
+        user.setAuthorities(AuthorityEnum.USER);
 
         facilityRepository.saveAll(new ArrayList<Facility>() {{
             add(DB_FAC);
@@ -85,6 +93,7 @@ public class PropsControllerTest {
         }});
 
         registeredUser = registeredUserRepository.save(user);
+
 
     }
 
@@ -124,6 +133,7 @@ public class PropsControllerTest {
     @Test
     @Transactional
     public void addReservation() throws Exception {
+
         PropsReservation propsReservation = new PropsReservation(propsList.get(0), registeredUser, 1);
         String json = TestUtil.json(propsReservation);
         int index = json.lastIndexOf("}");
@@ -131,7 +141,7 @@ public class PropsControllerTest {
                 + "}";
         mockMvc.perform(post(URL_PREFIX + "/reserve")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -143,7 +153,8 @@ public class PropsControllerTest {
         json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(props.getFacility()) + "}";
         mockMvc.perform(post(URL_PREFIX + "/add")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
     @Test
@@ -155,7 +166,8 @@ public class PropsControllerTest {
         json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(props.getFacility()) + "}";
         mockMvc.perform(post(URL_PREFIX + "/add")
                 .contentType(contentType).content(json))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -167,7 +179,8 @@ public class PropsControllerTest {
         json = json.substring(0,index) + ",\"facility\":" +  TestUtil.json(DB_PROP.getFacility()) + "}";
         mockMvc.perform(put(URL_PREFIX + "/change")
                 .contentType(contentType).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isCreated());
     }
 
     @Test
@@ -177,7 +190,8 @@ public class PropsControllerTest {
         String json = TestUtil.json(DB_PROP);
         mockMvc.perform(put(URL_PREFIX + "/delete")
                 .contentType(contentType).content(json))
-                .andExpect(status().isOk());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isOk());
     }
 
     @Test
@@ -187,6 +201,7 @@ public class PropsControllerTest {
         String json = TestUtil.json(new Props());
         mockMvc.perform(put(URL_PREFIX + "/delete")
                 .contentType(contentType).content(json))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isBadRequest());
     }
 }

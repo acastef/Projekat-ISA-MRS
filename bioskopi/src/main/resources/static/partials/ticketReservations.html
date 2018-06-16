@@ -1,21 +1,17 @@
 <h1>GET YOUR TICKETS NOW!!!</h1>
 
-<div ng-controller = "ticketReservationsController">
+<div ng-controller="ticketReservationsController">
 
 
     <h1></h1>
-    <p>    Number of seats: {{numberOfSeats}}</p>
-
-    <div ng-repeat = "seat in seats" style="float:left">
-
-        <div>
-            <input style="margin: 5px" type="radio"  ng-checked="seatsStatuses[seat.id]" ng-click="seatSelected()">
-        </div>
-        <div>
-            <button ng-hide="seatsStatuses[seat.id]" ng-click="makeReservation(seat)" style="margin-right: 5px">{{seat.id}}</button>
-        </div>
-
+    <p> Number of seats: {{numberOfSeats}}</p>
+    <div>
+        <keruc-seatpicker  data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)"
+            class="ng-isolate-scope">
+            <canvas width="500" height="500" id="canvasId"></canvas>
+        </keruc-seatpicker>
     </div>
+
 
 
 </div>

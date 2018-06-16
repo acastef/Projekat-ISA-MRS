@@ -2,6 +2,7 @@ package bioskopi.rs.services;
 
 import bioskopi.rs.domain.Ad;
 import bioskopi.rs.domain.Bid;
+import bioskopi.rs.domain.RegisteredUser;
 
 import java.util.List;
 
@@ -59,5 +60,5 @@ public interface AdService {
      * @param bid that needs to be accepted
      * @return updated ad
      */
-    Ad acceptOffer(Bid bid);
+    Ad acceptOffer(Bid bid, RegisteredUser currentUser);
 }

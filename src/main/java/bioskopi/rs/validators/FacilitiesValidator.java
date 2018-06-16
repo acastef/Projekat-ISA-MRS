@@ -2,7 +2,6 @@ package bioskopi.rs.validators;
 
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.util.ValidationException;
-import sun.invoke.util.VerifyAccess;
 
 public class FacilitiesValidator {
 

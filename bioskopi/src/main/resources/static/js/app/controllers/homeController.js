@@ -65,6 +65,14 @@
             });
         };
 
+        $scope.logout = function() {
+            homeService.logout().success(function(data, status) {
+                $scope.redirect('/');
+            }).error(function(data, status) {
+                toastr.error("Failed to logout");
+            });
+        }
+
         $scope.redirect = function(path) {
             $location.path(path);
         }

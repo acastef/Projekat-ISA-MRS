@@ -70,4 +70,10 @@ public class LoginController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value="/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> logout(HttpSession session){
+        session.invalidate();
+        return new ResponseEntity<Object>("Successfully logged out", HttpStatus.OK);
+    }
+
 }

@@ -12,6 +12,10 @@
             return $http.get("/login/getLogged");
         }
 
+        service.logout = function(){
+            return $http.get("/login/logout");
+        }
+
         return service;
 
     }

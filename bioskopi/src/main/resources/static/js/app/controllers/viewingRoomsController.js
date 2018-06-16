@@ -5,7 +5,7 @@
         .module('utopia')
         .controller('viewingRoomsController', viewingRoomsController);
 
-    viewingRoomsController.$inject = ['$scope', '$location', '$routeParams', 'viewingRoomsService', 'keruC'];
+    viewingRoomsController.$inject = ['$scope', '$location', '$routeParams', 'viewingRoomsService'];
 
     function viewingRoomsController($scope, $location, $routeParams, viewingRoomsService) {
         var vm = this;

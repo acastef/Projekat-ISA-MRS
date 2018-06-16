@@ -9,25 +9,14 @@
     function profileService($http) {
         var service = {};
 
-        service.getUser = function(data,type){
-            if (type == "FANZONE"){
-                return $http.get("/admins/fan_zone/get/" + data);
-            }
-            else if (type == "CT"){
-                return $http.get("/admins/ct/get/" + data);
-            }else{
-                return $http.get("/login/" + data);
-            }
-        }
-
         service.change = function (data, type) {
-            if (type == "FANZONE") {
-                return $http.put("/admins/fan_zone/change", data);
+            if (type == "FUN") {
+                return $http.put("/profile/fan_zone", data);
             }
-            else if (type == "CT") {
-                return $http.put("/admins/ct/change", data);
+            else if (type == "CAT") {
+                return $http.put("/profile/ct", data);
             } else {
-                return $http.put("/signup/addUser", data);
+                return $http.put("/profile/user", data);
             }
 
         }

@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.AuthorityEnum;
 import bioskopi.rs.domain.CaTAdmin;
 import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.FanZoneAdmin;
@@ -49,7 +50,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Transactional
     public FanZoneAdmin addFanZoneAdmin(FanZoneAdmin admin) {
         try {
-            admin.setAuthorities("FANZONE");
+            admin.setAuthorities(AuthorityEnum.FUN);
             return fanZoneAdminRepository.save(admin);
         }catch (DataIntegrityViolationException e){
             throw new ValidationException("User name or email is already taken");
@@ -76,7 +77,7 @@ public class AdminsServiceImpl implements AdminsService {
                 throw new ValidationException("Facility does not exist");
             }
             admin.setFacility(facility.get());
-            admin.setAuthorities("CAT");
+            admin.setAuthorities(AuthorityEnum.CAT);
             return caTAdminRepository.save(admin);
         }catch (DataIntegrityViolationException e){
 

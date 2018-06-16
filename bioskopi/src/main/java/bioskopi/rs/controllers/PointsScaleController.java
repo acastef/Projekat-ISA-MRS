@@ -1,8 +1,11 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.AuthorityEnum;
 import bioskopi.rs.domain.PointsScale;
+import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.PointsScaleServiceImpl;
+import bioskopi.rs.validators.AuthorityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,8 +57,22 @@ public class PointsScaleController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<PointsScale> save(@RequestBody PointsScale scale) throws ValidationException{
+    public ResponseEntity<Object> save(@RequestBody PointsScale scale, HttpSession session) throws ValidationException{
         logger.info("Saving points scale with id {}", scale.getId());
+
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
 
         PointsScale temp = pointsScaleService.getById(scale.getId());
         temp.setUserCategories(scale.getUserCategories());

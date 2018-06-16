@@ -102,21 +102,7 @@
                 description: $scope.description,
                 deadline: $scope.deadline,
                 state: "WAIT",
-                owner: {
-                    id: 1,
-                    name: "nesto",
-                    surname: "nesto",
-                    email: "nesto@nesto",
-                    avatar: "avatar.jpg",
-                    password: "nesto",
-                    username: "nesto",
-                    firstLogin: true,
-                    telephone: "nesto",
-                    address: "nesto",
-                    propsReservations: [],
-                    tickets: [],
-                    friends: []
-                },
+                owner: null,
                 bids: []
             }
 
@@ -179,21 +165,7 @@
                 adsService.addBid({
                     date : new Date(),
                     offer: $scope.bidValue,
-                    user: {
-                        id: 2,
-                        // name: "drugi",
-                        // surname: "drugi",
-                        // email: "drugi@drugi",
-                        // avatar: "drugi.jpg",
-                        // password: "drugi",
-                        // username: "drugi",
-                        // firstLogin: true,
-                        // telephone: "drugi",
-                        // address: "drugi",
-                        // propsReservations: [],
-                        // tickets: [],
-                        // friends: []
-                    },
+                    user: null,
                     ad: {id: $scope.selected.id}
                 }).success(function (data) {
                     toastr.success("Biding was successfull","OK");
@@ -206,7 +178,11 @@
                         }
                     }
                 }).error(function (data, status) {
+                    if(status == 403){
+                        $location.path("/login");
+                    }else{
                     toastr.error("Error. " + data, "Error");
+                    }
                 });
             }
             
@@ -238,7 +214,11 @@
                 $scope.showAds = true;
                 $scope.details = false;
             }).error(function(data,status){
+                if(status == 403){
+                    $location.path("/login");
+                }else{
                 toastr.error("Error. " + data, "Error");
+                }
             });
     }
 

@@ -34,4 +34,16 @@ public interface UserService{
      */
     void activateUser(String username);
 
+    /***
+     * @param username of user
+     * @return User with given username
+     */
+
+    RegisteredUser getByUsername(String username);
+
+    /**
+     * @param registeredUser that needs to be saved
+     * @return saved user in database
+     */
+    User save(RegisteredUser registeredUser);
 }

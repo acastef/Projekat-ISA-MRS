@@ -5,8 +5,8 @@
         .module('utopia')
         .controller('fanZoneAdminController', fanZoneAdminController);
 
-    fanZoneAdminController.$inject = ['$scope', '$location', '$route', 'fanZoneAdminService', 'adsService'];
-    function fanZoneAdminController($scope, $location, $route, fanZoneAdminService, adsService) {
+    fanZoneAdminController.$inject = ['$scope', '$location', '$route', 'fanZoneAdminService', 'adsService', 'homeService'];
+    function fanZoneAdminController($scope, $location, $route, fanZoneAdminService, adsService, homeService) {
         var vm = this;
 
         $scope.props = {};
@@ -34,6 +34,16 @@
         ////////////////
 
         function activate() {
+            homeService.getLogged().success(function(data, status) {
+                $scope.logged = data;
+                $scope.userType = $scope.logged.authorities;
+                if ($scope.userType != "FUN") {
+                    $location.path("/home");
+                }
+            }).error(function(data, status) {
+                $location.path("/login");
+            });
+
             fanZoneAdminService.getAll().success(function (data, status) {
                 $scope.props = data;
             }).error(function (data, status) {
@@ -174,6 +184,7 @@
 
         $scope.cancel = function () {
             $scope.enableEdit = false;
+            $scope.showProps = true;
         }
 
         $scope.enable = function (id) {
@@ -191,6 +202,7 @@
                         $('#imageChange').attr('src', element.image)
                             .width(250).height(250);
                         $scope.enableEdit = true;
+                        $scope.showProps = false;
                     }
 
                 }
@@ -288,8 +300,9 @@
                     }).error(function (data, status) {
                         toastr.error("Failed to delete props. " + data, "Error");
                     });
+                    break;
                 }
-                break;
+                
             }
         }
 

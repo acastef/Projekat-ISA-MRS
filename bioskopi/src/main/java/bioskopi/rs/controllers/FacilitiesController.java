@@ -3,6 +3,7 @@ package bioskopi.rs.controllers;
 import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.services.FacilitiesService;
+import bioskopi.rs.validators.AuthorityValidator;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,8 +78,22 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addCinema", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Facility> addCinema(@RequestBody Cinema facility){
+    public ResponseEntity<Object> addCinema(@RequestBody Cinema facility, HttpSession session){
         logger.info("Inserting facility with name {}", facility.getName());
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
 
@@ -86,8 +103,22 @@ public class FacilitiesController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addTheater", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Facility> addTheater(@RequestBody Theater facility) {
+    public ResponseEntity<Object> addTheater(@RequestBody Theater facility, HttpSession session) {
         logger.info("Inserting facility with name {}", facility.getName());
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
 

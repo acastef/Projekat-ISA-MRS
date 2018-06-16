@@ -222,7 +222,7 @@ public class AdServiceImplTest {
         adService.addBid(bid1);
         Set<Bid> bids = adService.addBid(bid2).getBids();
         Bid temp = bids.iterator().next();
-        Ad ad = adService.acceptOffer(temp);
+        Ad ad = adService.acceptOffer(temp,RUSER1);
         for (Bid b :
                 ad.getBids()) {
             if(b.getId().equals(temp.getId())){
@@ -245,6 +245,6 @@ public class AdServiceImplTest {
         ad3 = adService.add(ad3);
         Bid temp = ad3.getBids().iterator().next();
         temp.setAd(AD);
-        adService.acceptOffer(temp);
+        adService.acceptOffer(temp,RUSER1);
     }
 }

@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {return userRepository.findByUsername(username);}
 
     @Override
+    public RegisteredUser getByUsername(String username) {return userRepository.findByUsername(username);}
+
+    @Override
     public RegisteredUser add(RegisteredUser registeredUser) throws ValidationException {
         List<User> regUsers = userRepository.findAll();
         for(User ru : regUsers){
@@ -51,5 +54,10 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(toChange);
             userRepository.save(changed);
         }
+    }
+
+    @Override
+    public User save(RegisteredUser registeredUser) {
+        return userRepository.save(registeredUser);
     }
 }

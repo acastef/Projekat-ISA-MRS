@@ -42,13 +42,18 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<Ad> getAllActive() {
         Optional<List<Ad>> temp = adRepository.findAllActive();
+        ArrayList<Ad> filtered = new ArrayList<>();
         if(temp.isPresent()){
             List<Ad> ads = temp.get();
             for (Ad ad :
                     ads) {
-                ad.setImage(IMAGE_PATH + ad.getImage());
+                if(ad.getDeadline().isBefore(LocalDateTime.now())){
+                    ad.setImage(IMAGE_PATH + ad.getImage());
+                    filtered.add(ad);
+                }
+
             }
-            return ads;
+            return filtered;
         }else{
             return new ArrayList<>();
         }
@@ -57,13 +62,18 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<Ad> getAllWait() {
         Optional<List<Ad>> temp = adRepository.findAllWait();
+        ArrayList<Ad> filtered = new ArrayList<>();
         if(temp.isPresent()){
             List<Ad> ads = temp.get();
             for (Ad ad :
                     ads) {
-                ad.setImage(IMAGE_PATH + ad.getImage());
+                if(ad.getDeadline().isBefore(LocalDateTime.now())){
+                    ad.setImage(IMAGE_PATH + ad.getImage());
+                    filtered.add(ad);
+                }
+
             }
-            return ads;
+            return filtered;
         }else{
             return new ArrayList<>();
         }
@@ -184,8 +194,18 @@ public class AdServiceImpl implements AdService {
             if(bid.getUser().getId() == temp.getOwner().getId()){
                 throw new ValidationException("You can not add offer to your ad");
             }
-
-            temp.getBids().add(bid);
+            boolean exist = false;
+            for (Bid b :
+                    temp.getBids()) {
+                if(b.getUser().getId() == bid.getUser().getId()){
+                    b.setOffer(bid.getOffer());
+                    exist = true;
+                    break;
+                }
+            }
+            if(!exist){
+                temp.getBids().add(bid);
+            }
             return adRepository.save(temp);
         } catch (NullPointerException e){
             throw new ValidationException("Corrupted data received");
@@ -196,7 +216,7 @@ public class AdServiceImpl implements AdService {
 
     @Override
     @Transactional
-    public Ad acceptOffer(Bid bid) {
+    public Ad acceptOffer(Bid bid,RegisteredUser currentUser) {
         try {
             Optional<Ad> ad = adRepository.findById(bid.getAd().getId());
             if(!ad.isPresent()){
@@ -221,9 +241,9 @@ public class AdServiceImpl implements AdService {
             if(!found){
                 throw new ValidationException("Corrupted data received");
             }
-//            if(bid.getUser().getId() != temp.getOwner().getId()){
-//                throw new ValidationException("You are not the owner of Ad. You can not accept offer");
-//            }
+            if(currentUser.getId() != temp.getOwner().getId()){
+                throw new ValidationException("You are not the owner of Ad. You can not accept offer");
+            }
             for (Bid b :
                     temp.getBids()) {
                 if(b.getId().equals(bid.getId()) ){

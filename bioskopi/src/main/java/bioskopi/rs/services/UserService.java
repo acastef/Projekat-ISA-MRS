@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.RegisteredUser;
+import bioskopi.rs.domain.User;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface UserService{
      * @return User with given username
      */
 
-    RegisteredUser findByUsername(String username);
+    User findByUsername(String username);
 
     /***
      * @params New User

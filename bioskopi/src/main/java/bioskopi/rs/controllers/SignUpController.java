@@ -1,5 +1,6 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.AuthorityEnum;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.MailService;
@@ -38,6 +39,7 @@ public class SignUpController {
     @RequestMapping(method = RequestMethod.POST, value = "/addUser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> add(@RequestBody RegisteredUser regUser){
         try{
+            regUser.setAuthorities(AuthorityEnum.USER);
             RegisteredUser registered = userService.add(regUser);
             if(registered != null){
                 mailService.sendUserActivation(registered);

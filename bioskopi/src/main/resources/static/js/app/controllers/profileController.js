@@ -39,26 +39,7 @@
             }).error(function(data, status) {
                 $location.path("/login");
             });
-            // profileService.getUser(username, type).success(function (data) {
-            //     user = data;
-            //     $scope.name = user.name;
-            //     $scope.surname = user.surname;
-            //     $scope.email = user.email;
-            //     $scope.telephone = user.telephone;
-            //     $scope.address = user.address;
-            //     $scope.repeatPassword = "";
-            //     if (!data.firstLogin) {
-            //         $scope.logged = false;
-            //         $scope.changePassword = true;
-            //         $scope.password = "";
-            //     } else {
-            //         $scope.logged = true;
-            //         $scope.changePassword = false;
-            //         $scope.password = data.password;
-            //     }
-            // }).error(function (data, status) {
-            //     toastr.error("Can not get user data", "Error");
-            // });
+            
         }
 
         $scope.save = function(){
@@ -92,6 +73,7 @@
                 user.lastPasswordReset = new Date();
                 profileService.change(user,$scope.userType).success(function(data){
                     user = data;
+                    $scope.logged = true;
                     toastr.success("Profile successfully changed", "OK");
                 }).error(function(data,status){
                     toastr.error("Failed to change profile data.", "Error");

@@ -1,12 +1,14 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.*;
+import bioskopi.rs.domain.DTO.CaTAdminDTO;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.AdminsService;
 import bioskopi.rs.services.RegisteredUserService;
 import bioskopi.rs.services.RegisteredUserServiceImpl;
 import bioskopi.rs.services.UserService;
 import bioskopi.rs.validators.AuthorityValidator;
+import jdk.nashorn.internal.ir.CatchNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,7 @@ public class ProfileController {
         }
 
         try {
+            admin.setFirstLogin(true);
             FanZoneAdmin temp = adminsService.addFanZoneAdmin(admin);
             session.setAttribute("user",temp);
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
@@ -73,7 +76,7 @@ public class ProfileController {
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/ct", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> addCTZone(@RequestBody CaTAdmin admin, HttpSession session) {
+    public ResponseEntity<Object> addCTZone(@RequestBody CaTAdminDTO admin, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
             if(user == null){
@@ -85,21 +88,29 @@ public class ProfileController {
                 add(AuthorityEnum.CAT);}})){
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
+            CaTAdmin ca = (CaTAdmin) user;
+            ca.setName(admin.getName());
+            ca.setAddress(admin.getAddress());
+            ca.setAvatar(admin.getAvatar());
+            ca.setEmail(admin.getEmail());
+            ca.setFirstLogin(true);
+            ca.setPassword(admin.getPassword());
+            ca.setUsername(admin.getUsername());
+            ca.setSurname(admin.getSurname());
+            ca.setTelephone(admin.getTelephone());
+            ca.setFacility(adminsService.getByIdCaTAdmins(ca.getId()).getFacility());
+            CaTAdmin temp = adminsService.addCaTAdmin(ca);
+            session.setAttribute("user",temp);
+            return new ResponseEntity<>(temp, HttpStatus.CREATED);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
         }catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
-
-        try {
-            admin.setFacility(adminsService.getByIdCaTAdmins(admin.getId()).getFacility());
-            CaTAdmin temp = adminsService.addCaTAdmin(admin);
-            session.setAttribute("user",temp);
-            return new ResponseEntity<>(temp, HttpStatus.CREATED);
-
-        } catch (ValidationException e) {
+        }catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
+
     }
 
     /**

@@ -31,6 +31,10 @@
 
         $scope.check = function() {
             loginService.checkUser($scope.username, $scope.password).success(function(data, status) {
+                if(status == 307){
+                    $scope.redirect("/profile");
+                    return;
+                }
                 if (data) {
                     $scope.valid = true;
                     $scope.redirect("/home");
@@ -38,6 +42,10 @@
                     $scope.valid = false;
                 }
             }).error(function(data, status) {
+                if(status == 307){
+                    $scope.redirect("/profile");
+                    return;
+                }
                 $scope.valid = false;
             });
         }

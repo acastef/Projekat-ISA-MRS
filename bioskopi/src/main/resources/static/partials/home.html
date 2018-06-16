@@ -29,11 +29,14 @@
             <li ng-show="resPropsVis" class="nav-item">
                 <a class="nav-link">Reserved props</a>
             </li>
-            <li ng-show=adsVis "" class="nav-item">
-                <a class="nav-link">My Ads</a>
-            </li>
             <li ng-show="systemAdminVis" class="nav-item">
                 <a class="nav-link" href="#sys">System administration</a>
+            </li>
+            <li ng-show="LogInVis" class="nav-item">
+                <a class="nav-link" href="#login">Log in</a>
+            </li>
+            <li ng-show="SingUpVis" class="nav-item">
+                <a class="nav-link" href="#signup">Sing up</a>
             </li>
         </ul>
     </div>
@@ -74,5 +77,5 @@
             </tbody>
         </table>
     </div>
-    <button ng-click="redirect('/')" class="logout">Log Out</button>
+    <button ng-show="LogOutVis"  ng-click="redirect('/')" class="logout">Log Out</button>
 </div>

@@ -2,7 +2,7 @@ var app = angular.module('utopia', ['ngRoute', 'angularCSS', 'keruC']);
 
 app.config(function($routeProvider) {
     $routeProvider.when('/', {
-            templateUrl: 'partials/startpage.html',
+            templateUrl: 'partials/home.html',
             //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
         }).when('/login', {
             templateUrl: 'partials/login.html',

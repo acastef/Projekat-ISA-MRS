@@ -19,9 +19,11 @@
         $scope.usersProjectionsVis = true;
         $scope.viewingRoomsVis = true;
         $scope.resPropsVis = true;
-        $scope.adsVis = true;
         $scope.systemAdminVis = true;
         $scope.visitsVis = true;
+        $scope.LogInVis = true;
+        $scope.SingUpVis = true;
+        $scope.LogOutVis = true;
 
         $scope.userType = "";
 
@@ -47,32 +49,55 @@
                     $scope.usersProjectionsVis = false;
                     $scope.viewingRoomsVis = false;
                     $scope.resPropsVis = false;
-                    $scope.adsVis = false;
                     $scope.visitsVis = false;
+                    $scope.LogInVis = false;
+                    $scope.SingUpVis = false;
                 } else if ($scope.userType == "CAT") {
                     $scope.usersProjectionsVis = false;
                     $scope.visitsVis = false;
                     $scope.friendsVis = false;
                     $scope.systemAdminVis = false;
                     $scope.resPropsVis = false;
-                    $scope.adsVis = false;
                     $scope.reservationsVis = false;
                     $scope.propsAdminVis = false;
+                    $scope.LogInVis = false;
+                    $scope.SingUpVis = false;
                 } else if ($scope.userType == "FUN") {
                     $scope.usersProjectionsVis = false;
                     $scope.visitsVis = false;
                     $scope.friendsVis = false;
                     $scope.systemAdminVis = false;
                     $scope.resPropsVis = false;
-                    $scope.adsVis = false;
                     $scope.reservationsVis = false;
                     $scope.propsVis = false;
+                    $scope.LogInVis = false;
+                    $scope.SingUpVis = false;
                 } else if ($scope.userType == "USER") {
                     $scope.systemAdminVis = false;
                     $scope.propsAdminVis = false;
+                    $scope.LogInVis = false;
+                    $scope.SingUpVis = false;
                 }
             }).error(function(data, status) {
-                toastr.error("Something went wrong...");
+                if((status == 403) || (status == 400)){
+                    $scope.propsVis = true;
+                    $scope.propsAdminVis = false;
+                    $scope.facilitiesVis = true;
+                    $scope.friendsVis = false;
+                    $scope.profileVis = false;
+                    $scope.reservationsVis = false;
+                    $scope.usersProjectionsVis = false;
+                    $scope.viewingRoomsVis = false;
+                    $scope.resPropsVis = false;
+                    $scope.systemAdminVis = false;
+                    $scope.visitsVis = false;
+                    $scope.LogInVis = true;
+                    $scope.SingUpVis = true;
+                    $scope.LogOutVis = false;
+                }else{
+                    toastr.error("Something went wrong...");
+                }
+                
             });
         };
 

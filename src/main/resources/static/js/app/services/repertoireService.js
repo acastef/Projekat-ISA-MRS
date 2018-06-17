@@ -43,6 +43,10 @@
             return $http.get("viewingRooms/getVRsForFacility/" + id);
         }
 
+        service.getLogged = function(){
+            return $http.get("/login/getLogged");
+        }
+
         return service;
     }
 })();

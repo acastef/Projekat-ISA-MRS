@@ -54,42 +54,42 @@
         function activate() {
 
 
-//            homeService.getLogged().success(function(data, status) {
-//                $scope.logged = data;
-//                $scope.userType = $scope.logged.authorities;
-//                if ($scope.userType == "SYS") {
-//                    $scope.showDeleteProj = true;
-//                    $scope.showChangeProj = true;
-//                    $scope.showReservation = true;
-//                    $scope.showAddProj = true;
-//                } else if ($scope.userType == "CAT") {
-//                    $scope.showDeleteProj = true;
-//                    $scope.showChangeProj = true;
-//                    $scope.showReservation = true;
-//                    $scope.showAddProj = true;
-//                } else if ($scope.userType == "FUN") {
-//                    $scope.showDeleteProj = true;
-//                    $scope.showChangeProj = true;
-//                    $scope.showReservation = true;
-//                    $scope.showAddProj = true;
-//                } else if ($scope.userType == "USER") {
-//                    $scope.showDeleteProj = true;
-//                    $scope.showChangeProj = true;
-//                    $scope.showReservation = true;
-//                    $scope.showAddProj = true;
-//                }
-//
-//            }).error(function(data, status) {
-//                if((status == 403) || (status == 400)){
-//                    $scope.showDeleteProj = false;
-//                    $scope.showChangeProj = false;
-//                    $scope.showReservation = false;
-//                    $scope.showAddProj = false;
-//                }else{
-//                    toastr.error("Something went wrong...");
-//                }
-//
-//            });
+            repertoireService.getLogged().success(function(data, status) {
+               $scope.logged = data;
+               $scope.userType = $scope.logged.authorities;
+               if ($scope.userType == "SYS") {
+                   $scope.showDeleteProj = true;
+                   $scope.showChangeProj = true;
+                   $scope.showReservation = true;
+                   $scope.showAddProj = true;
+               } else if ($scope.userType == "CAT") {
+                   $scope.showDeleteProj = true;
+                   $scope.showChangeProj = true;
+                   $scope.showReservation = true;
+                   $scope.showAddProj = true;
+               } else if ($scope.userType == "FUN") {
+                   $scope.showDeleteProj = true;
+                   $scope.showChangeProj = true;
+                   $scope.showReservation = true;
+                   $scope.showAddProj = true;
+               } else if ($scope.userType == "USER") {
+                   $scope.showDeleteProj = true;
+                   $scope.showChangeProj = true;
+                   $scope.showReservation = true;
+                   $scope.showAddProj = true;
+               }
+
+           }).error(function(data, status) {
+               if((status == 403) || (status == 400)){
+                   $scope.showDeleteProj = false;
+                   $scope.showChangeProj = false;
+                   $scope.showReservation = false;
+                   $scope.showAddProj = false;
+               }else{
+                   toastr.error("Something went wrong...");
+               }
+
+           });
 
             repertoireService.getByFacilityId($scope.id).success(function(data, status) {
                 $scope.repertoire = data;

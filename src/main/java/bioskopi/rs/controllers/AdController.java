@@ -197,11 +197,11 @@ public class AdController {
             if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            Ad temp = adService.findById(ad.getId());
-            String[] tokens = ad.getImage().split("/");
-            temp.setImage(tokens[tokens.length - 1]);
+            //Ad temp = adService.findById(ad.getId());
+            //String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
             //ad.setImage(tokens[tokens.length - 1]);
-            adService.accept(temp);
+            adService.accept(ad);
             return new ResponseEntity<>("Successfully accept ad", HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
@@ -227,11 +227,11 @@ public class AdController {
             if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            Ad temp = adService.findById(ad.getId());
-            String[] tokens = ad.getImage().split("/");
-            temp.setImage(tokens[tokens.length - 1]);
+            //Ad temp = adService.findById(ad.getId());
+            //String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
             //ad.setImage(tokens[tokens.length - 1]);
-            adService.reject(temp);
+            adService.reject(ad);
             return new ResponseEntity<>("Successfully reject ad", HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);

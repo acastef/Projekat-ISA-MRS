@@ -73,13 +73,13 @@ public class AdServiceImplTest {
     @Test
     public void getAllActive() {
         List<Ad> allActive = adService.getAllActive();
-        assertThat(allActive).hasSize(DB_COUNT1);
+        assertThat(allActive).hasSize(0);
     }
 
     @Test
     public void getAllWait() {
         List<Ad> allWait = adService.getAllWait();
-        assertThat(allWait).hasSize(DB_COUNT2);
+        assertThat(allWait).hasSize(0);
     }
 
     @Test

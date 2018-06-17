@@ -4,6 +4,7 @@ import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.SegmentEnum;
 import bioskopi.rs.domain.ViewingRoom;
+import bioskopi.rs.services.SeatService;
 import bioskopi.rs.services.ViewingRoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.swing.text.View;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -28,6 +32,9 @@ public class ViewingRoomController {
 
     @Autowired
     ViewingRoomService viewingRoomService;
+
+    @Autowired
+    SeatService seatService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -70,5 +77,19 @@ public class ViewingRoomController {
     public  ResponseEntity<Facility> getFacility(@PathVariable String id)
     {
         return new ResponseEntity<>(viewingRoomService.getFacility(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getTakenSeats/{VRId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Long>> getTakenSeats(@PathVariable String VRId)
+    {
+
+        List<Long> temp = viewingRoomService.getTakenSeats(Long.parseLong(VRId));
+        List<Long> takenSeats = new LinkedList<Long>();
+        for (Number id: temp) {
+            takenSeats.add(id.longValue());
+        }
+        
+        return new ResponseEntity<>(takenSeats, HttpStatus.OK);
     }
 }

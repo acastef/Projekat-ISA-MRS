@@ -1,6 +1,5 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.DTO.ReservedPropsDTO;
 import bioskopi.rs.domain.Props;
 import bioskopi.rs.domain.PropsReservation;
 import bioskopi.rs.domain.util.ValidationException;
@@ -10,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +23,6 @@ public class PropsReservationServiceImpl implements PropsReservationService {
 
     @Autowired
     private PropsRepository propsRepository;
-
-    private final String IMAGE_PATH = Paths.get("img", "props").toString()
-            + File.separator;
 
     @Override
     @Transactional
@@ -54,17 +47,5 @@ public class PropsReservationServiceImpl implements PropsReservationService {
     public PropsReservation getByUserIdAndPropsId(long userId, long propsId) {
         return propsReservationRepository.findByUserAndProps(userId, propsId).orElse(
                 new PropsReservation(-1, null, null, -1));
-    }
-
-    @Override
-    public List<ReservedPropsDTO> getByUserId(long userId) {
-        List<PropsReservation> reservations =  propsReservationRepository.findByUser(userId).orElse(new ArrayList<>());
-        List<ReservedPropsDTO> result = new ArrayList<>();
-        for (PropsReservation prop :
-                reservations) {
-            prop.getProps().setImage(IMAGE_PATH + prop.getProps().getImage());
-            result.add(new ReservedPropsDTO(prop));
-        }
-        return result;
     }
 }

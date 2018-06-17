@@ -13,8 +13,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import static bioskopi.rs.constants.ProjectionsConstants.*;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -47,26 +49,34 @@ public class ProjectionServiceTest {
         cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);
 
-        Projection p = new Projection( "name2", LocalDate.now(), 222, new HashSet<String>(),
-                "genre2", "director2", 22, "picture2", "description2",
-                new ViewingRoom(), new HashSet<Ticket>(), new HashSet<Feedback>() );
+        Facility fac = facilityRepository.save(cin1);
+        DB_FAC = fac;
+        DB_FAC_ID = fac.getId();
 
-//        RegisteredUser user = new RegisteredUser("user3", "user", "user", new HashSet<>(),
-//                new Person("test", "test", "test3"));
+        facilityRepository.save(cin2);
 
-        facilityRepository.saveAll(new ArrayList<Facility>() {{
-            add(cin1);
-            add(cin2);
-        }});
+        Projection p = new Projection("name1", LocalDateTime.now(), 111, new HashSet<String>(),
+                "genre1", "director1", 11, "picture1", "description1",
+                viewingRoom, new HashSet<Ticket>(), DB_FAC, new HashSet<Feedback>());
 
-        projection = projectionRepository.save(p);
-
+        projectionRepository.save(p);
     }
 
 
     @Test
     @Transactional
     public void add() {
-        projectionService.add(projection);
+
+        Projection p2 = new Projection("name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), DB_FAC, new HashSet<Feedback>());
+
+        Long idP2 = projectionRepository.save(p2).getId();
+
+        Projection newP2 = projectionRepository.getOne(idP2);
+        assertThat(newP2.getName()).isEqualTo(p2.getName());
+        assertThat(newP2.getDescription()).isEqualTo(p2.getDescription());
+        assertThat(newP2.getGenre()).isEqualTo(p2.getGenre());
+
     }
 }

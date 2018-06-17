@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OptimisticLockException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,9 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
 
     @Autowired
     SeatRepository seatRepository;
+
+    @Autowired
+    TicketService ticketService;
 
     @Override
     public ViewingRoom getById(Long id) {
@@ -64,5 +68,23 @@ public class ViewingRoomServiceImpl implements ViewingRoomService {
         catch (Exception e){
             return false;
         }
+    }
+
+    @Override
+    public List<Long> getTakenSeats(long VrId) {
+
+        List<Seat> allSeats = viewingRoomRepository.getSeats(VrId);
+        List<Long> takenSeats = ticketService.getTakenSeats(VrId);
+
+//        for (Seat s: allSeats) {
+//            if (isTaken(s, VrId))
+//                takenSeats.add(s);
+//        }
+
+        return takenSeats;
+    }
+
+    private boolean isTaken(Seat s, long VrId) {
+        return true;
     }
 }

@@ -66,6 +66,7 @@ public class Ticket implements Serializable {
         this.projection = projection;
         this.facility = facility;
         this.fastReservation = false;
+        this.version = 0;
     }
 
     public Ticket(int discount, long id, SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection, Facility facility) {
@@ -78,6 +79,21 @@ public class Ticket implements Serializable {
         this.projection = projection;
         this.facility = facility;
         this.fastReservation = false;
+        this.version = 0;
+    }
+
+    public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection,
+                  Facility facility)
+    {
+        this.discount = 0;
+        this.seatStatus = seatStatus;
+        this.taken = taken;
+        this.owner = owner;
+        this.seat = seat;
+        this.projection = projection;
+        this.facility = facility;
+        this.fastReservation = false;
+        this.version = 0;
     }
 
     public Ticket(SeatStatus seatStatus, boolean taken, RegisteredUser owner, Seat seat, Projection projection,

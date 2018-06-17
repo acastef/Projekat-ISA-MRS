@@ -3,7 +3,7 @@ package bioskopi.rs.services;
 import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.DTO.FacilityDTO;
 import bioskopi.rs.domain.util.ValidationException;
-import bioskopi.rs.repository.FacilityRepository;
+import bioskopi.rs.repository.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static bioskopi.rs.constants.FacilitiesConstants.*;
+import static bioskopi.rs.constants.FacilityConstants.DB_UNKNOWN_ID;
 import static bioskopi.rs.domain.Privilege.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,6 +33,21 @@ public class FacilitiesServiceImplTest {
 
     @Autowired
     private FacilityRepository facilityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectionRepository projectionRepository;
+
+    @Autowired
+    private ViewingRoomRepository viewingRoomRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Before
     @Transactional
@@ -65,6 +80,24 @@ public class FacilitiesServiceImplTest {
                 }
             }
         }
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName("VRn");
+        viewingRoom.setFacility(cinema);
+        viewingRoomRepository.save(viewingRoom);
+
+        Projection p = new Projection("name1", LocalDateTime.now(), 111, new HashSet<String>(),
+                "genre1", "director1", 11, "picture1", "description1",
+                viewingRoom, new HashSet<Ticket>(), cinema, new HashSet<Feedback>());
+
+        projectionRepository.save(p);
+
+        Projection p2 = new Projection("name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), cinema, new HashSet<Feedback>());
+
+        projectionRepository.save(p2);
+
     }
 
     @Test
@@ -269,11 +302,20 @@ public class FacilitiesServiceImplTest {
     public void getRepertoireById() {
         List<Projection> projections = facilitiesService.getRepertoireById(DB_FAC_ID);
         assertThat(!projections.isEmpty());
+        assertThat(projections).hasSize(2);
 
-        for (Projection p : projections) {
-            //assertThat(p.getFacility().getId() == DB_FAC_ID);
+        for (Projection p: projections) {
+            assertThat(p.getFacility().getId()).isEqualTo(DB_FAC_ID);
         }
 
+
+    }
+
+    @Test
+    public void getRepertoireByIdUnknowID() {
+        List<Projection> projections = facilitiesService.getRepertoireById(DB_UNKNOWN_ID);
+        assertThat(projections.isEmpty());
+        assertThat(projections).hasSize(0);
     }
 
     @Test
@@ -283,4 +325,156 @@ public class FacilitiesServiceImplTest {
         assertThat(!theaters.isEmpty());
         assertThat(!cinemas.isEmpty());
     }
+
+    @Test
+    @Transactional
+    public void save()
+    {
+        Facility cinema = facilitiesService.getFacilityById(DB_FAC_ID);
+
+        String newAdress = "newAddress2";
+        String newDescription = "This is a new description for cinema";
+        String newName = "newName";
+        cinema.setAddress(newAdress);
+        cinema.setDescription(newDescription);
+        cinema.setName(newName);
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
+
+        viewingRoomRepository.save(viewingRoom);
+        seatRepository.save(seat);
+
+
+        RegisteredUser user = new RegisteredUser("Name", "SurName", "email@gmail.com", "username", "pass", "pic1",
+                false, "0104041", "UsersAddress", new HashSet<PropsReservation>(),
+                new HashSet<Ticket>(), new ArrayList<Friendship>());
+
+
+        userRepository.save(user);
+
+
+        Projection p = new Projection( "name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), cinema, new HashSet<Feedback>() );
+
+        projectionRepository.save(p);
+
+        Set<Ticket> tickets = cinema.getTickets();
+        Ticket t = new Ticket(1L, SeatStatus.FREE, false, user, seat, p, cinema);
+        tickets.add(t);
+
+        cinema.setTickets(tickets);
+
+
+        facilitiesService.save(cinema);
+
+        cinema = facilitiesService.getFacilityById(DB_FAC_ID);
+        assertThat(cinema.getAddress()).isEqualTo(newAdress);
+        assertThat(cinema.getDescription()).isEqualTo(newDescription);
+        assertThat(cinema.getName()).isEqualTo(newName);
+        assertThat(cinema.getTickets()).hasSize(1);
+    }
+
+
+    @Test
+    public void getFastTickets()
+    {
+        Facility cinema = facilitiesService.getFacilityById(DB_FAC_ID);
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(cinema);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
+
+        viewingRoomRepository.save(viewingRoom);
+        seatRepository.save(seat);
+
+
+        RegisteredUser user = new RegisteredUser("Name", "SurName", "email@gmail.com", "username", "pass", "pic1",
+                false, "0104041", "UsersAddress", new HashSet<PropsReservation>(),
+                new HashSet<Ticket>(), new ArrayList<Friendship>());
+
+
+        userRepository.save(user);
+
+
+        Projection p = new Projection( "name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), cinema, new HashSet<Feedback>() );
+
+        projectionRepository.save(p);
+
+
+
+        Set<Ticket> tickets = cinema.getTickets();
+        Ticket t = new Ticket(1L, SeatStatus.FREE, false, user, seat, p, cinema);
+        t.setFastReservation(true);
+
+
+
+        List<Ticket> ticks = ticketRepository.getFastTickets(cinema.getId());
+        assertThat(ticks).hasSize(0);
+
+        tickets.add(t);
+
+        ticketRepository.saveAll(tickets);
+        cinema.setTickets(tickets);
+
+        ticks = ticketRepository.getFastTickets(cinema.getId());
+        assertThat(ticks).hasSize(1);
+
+
+    }
+
+
+//    @Test
+//    public void getFastTicketsUnknownUser()
+//    {
+//        Facility cinema = facilitiesService.getFacilityById(DB_FAC_ID);
+//
+//        ViewingRoom viewingRoom = new ViewingRoom();
+//        viewingRoom.setName(NEW_VM_NAME);
+//        viewingRoom.setFacility(cinema);
+//        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
+//
+//        viewingRoomRepository.save(viewingRoom);
+//        seatRepository.save(seat);
+//
+//
+//        RegisteredUser user = new RegisteredUser("Name", "SurName", "email@gmail.com", "username", "pass", "pic1",
+//                false, "0104041", "UsersAddress", new HashSet<PropsReservation>(),
+//                new HashSet<Ticket>(), new ArrayList<Friendship>());
+//
+//
+//
+//        Projection p = new Projection( "name2", LocalDate.now(), 222, new HashSet<String>(),
+//                "genre2", "director2", 22, "picture2", "description2",
+//                viewingRoom, new HashSet<Ticket>(), cinema, new HashSet<Feedback>() );
+//
+//        projectionRepository.save(p);
+//
+//
+//
+//        Set<Ticket> tickets = cinema.getTickets();
+//        Ticket t = new Ticket(1L, SeatStatus.FREE, false, user, seat, p, cinema);
+//        t.setFastReservation(true);
+//
+//        DB_INIT = false;
+//
+//        List<Ticket> ticks = ticketRepository.getFastTickets(cinema.getId());
+//        assertThat(ticks).hasSize(0);
+//
+//        tickets.add(t);
+//
+//        ticketRepository.saveAll(tickets);
+//        cinema.setTickets(tickets);
+//
+//        ticks = ticketRepository.getFastTickets(cinema.getId());
+//        assertThat(ticks).hasSize(1);
+//
+//
+//    }
 }

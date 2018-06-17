@@ -24,6 +24,21 @@
             return $http.get("/facilities/getAverageFacilityScore/" + facilityId);
         }
 
+        service.getVisitsByWeeks = function(facilityId)
+        {
+            return $http.get("/tickets/getVisitsByWeeks/" + facilityId);
+        }; 
+
+        service.getVisitsByMonths = function(facilityId)
+        {
+            return $http.get("/tickets/getVisitsByMonths/" + facilityId);
+        }; 
+
+        service.getPricePerPeriod = function(facilityId, date1, date2)
+        {
+            return $http.get("/tickets/getPriceForFacility/" + facilityId + "/" + date1 + "/" + date2);
+        }
+
         return service;
     }
 })();

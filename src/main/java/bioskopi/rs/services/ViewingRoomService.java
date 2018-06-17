@@ -24,8 +24,7 @@ public interface ViewingRoomService {
     List<Seat> getSeatsById(Long id);
 
     /**
-     * @param id of a viewing room
-     * @return list of all seats in viewing room with given id
+     * @return list of all seats in viewing rooms
      */
     List<ViewingRoom> getAll();
 
@@ -49,4 +48,11 @@ public interface ViewingRoomService {
      * @param segmentType type of segment that needs to be closed in viewing room with given id
      */
     public Boolean closeSegment(Long VrId, SegmentEnum segmentType);
+
+    /**
+     *
+     * @param VrId id of a viewing room
+     * @return list of all taken seats in that viewing room
+     */
+    public List<Long> getTakenSeats (long VrId);
 }

@@ -13,13 +13,9 @@
         }
 
         service.makeReservation = function(data){
-            return $http.post("/props/reserve/",data);
+            return $http.post("/props/reserve/",data)
         }
         
-        service.getAllReserved = function(){
-            return $http.get("/props/reserved");
-        }
-
         return service;
 
         ////////////////

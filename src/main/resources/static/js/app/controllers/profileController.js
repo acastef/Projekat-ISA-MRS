@@ -9,7 +9,10 @@
     function profileController($scope, $location, profileService,homeService) {
         var vm = this;
 
-        
+        var username = "qwe";
+        const type = "353";
+        const id = 353;
+
         $scope.logged = false;
         $scope.changePassword = false;
         var user = {};

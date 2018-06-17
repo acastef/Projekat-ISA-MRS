@@ -20,6 +20,11 @@
             return $http.post("/feedback/save", feedback);
         }
 
+        service.getAllFeedback = function(userId)
+        {
+            return $http.get("/feedback/findByUserId/" + userId);
+        }
+
         return service;
 
     }

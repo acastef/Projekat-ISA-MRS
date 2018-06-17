@@ -1,5 +1,9 @@
 package bioskopi.rs.constants;
 
+import bioskopi.rs.domain.Cinema;
+import bioskopi.rs.domain.Facility;
+import bioskopi.rs.domain.Seat;
+
 public class FacilitiesConstants {
 
     public static  Long DB_FAC_ID = 0L;
@@ -15,4 +19,7 @@ public class FacilitiesConstants {
     public static final String NEW_THA_NAME = "THA_TEMP";
 
     public static boolean DB_INIT = false;
+
+    public static Facility DB_FAC_CIN = new Facility();
+    public static Seat DB_SEAT = new Seat();
 }

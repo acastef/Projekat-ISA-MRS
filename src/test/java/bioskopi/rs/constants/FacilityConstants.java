@@ -8,6 +8,7 @@ public class FacilityConstants {
             + File.separator;
 
     public static final Long DB_ID = 1L;
+    public static final Long DB_UNKNOWN_ID = 999L;
     public static final String DB_DESCRIPTION = "hat";
     public static final String DB_IMG = IMAGE_PATH +"img1";
     public static final String DB_LOC = "Cineplex";

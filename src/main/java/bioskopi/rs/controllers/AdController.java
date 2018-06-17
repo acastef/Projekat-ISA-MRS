@@ -322,26 +322,7 @@ public class AdController {
             return new ResponseEntity<>("Failed to send email notification",HttpStatus.NOT_FOUND);
         }
 
-//        try {
-//            Ad temp = adService.acceptOffer(bid);
-//            Bid accepted = new Bid();
-//            for (Bid b :
-//                    temp.getBids()) {
-//                if(b.getState() == BidState.ACCEPT){
-//                    accepted = b;
-//                }
-//            }
-//            mailService.sendNotification("Report for ad: " + temp.getName(),
-//                    "Description:" + temp.getDescription() + "\n" +
-//                             "Accepted bid from: " + accepted.getUser().getUsername() + " for: " +
-//                               accepted.getOffer() + "$");
-//            return new ResponseEntity<>("Offer successfully accepted", HttpStatus.OK);
-//        } catch (ValidationException e){
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        } catch (MailException e){
-//            logger.info("Error message:" + e.getMessage());
-//            return new ResponseEntity<>("Failed to send email notification",HttpStatus.NOT_FOUND);
-//        }
+
     }
 
 

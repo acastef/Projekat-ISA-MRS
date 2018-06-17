@@ -2,6 +2,7 @@ package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.DTO.CaTAdminDTO;
+import bioskopi.rs.domain.DTO.RegisteredUserDTO;
 import bioskopi.rs.services.FacilitiesService;
 import bioskopi.rs.services.UserService;
 import org.slf4j.Logger;
@@ -56,7 +57,11 @@ public class LoginController {
             //facilitiesService.getFacilityById()
             session.setAttribute("user", user);
             return new ResponseEntity<Object>(userService.findByUsername(username), HttpStatus.OK);
-        }else if(!user.isFirstLogin() && user.getPassword().equals(password)){
+        }else if(user.getAuthorities().equals(AuthorityEnum.USER) && user.getPassword().equals(password)){
+            session.setAttribute("user",user);
+            return new ResponseEntity<>("Redirect",HttpStatus.OK);
+        }
+        else if(!user.isFirstLogin() && user.getPassword().equals(password)){
             session.setAttribute("user",user);
             return new ResponseEntity<>("Redirect",HttpStatus.TEMPORARY_REDIRECT);
         }
@@ -75,7 +80,12 @@ public class LoginController {
                             admin.getFacility().getId(),admin.getAuthorities(),admin.getPassword());
 
                     return new ResponseEntity<>(dto,HttpStatus.OK);
+                }else if(u.getAuthorities() == AuthorityEnum.USER){
+                    RegisteredUser registeredUser = (RegisteredUser) u;
+                    RegisteredUserDTO dto = new RegisteredUserDTO(registeredUser,registeredUser.getPassword());
+                    return new ResponseEntity<>(dto,HttpStatus.OK);
                 }
+
                 return new ResponseEntity<>(u, HttpStatus.OK);
             }
             else{

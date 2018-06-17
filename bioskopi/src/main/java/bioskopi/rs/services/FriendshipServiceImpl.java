@@ -5,6 +5,7 @@ import bioskopi.rs.domain.Friendship;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.User;
 import bioskopi.rs.repository.FriendshipRepository;
+import bioskopi.rs.repository.RegisteredUserRepository;
 import bioskopi.rs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
     @Override
     public List<BigInteger> getFriends(long id) {
@@ -64,8 +68,8 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public void addFriendship(UserDTO first, UserDTO second) {
-        RegisteredUser firstReg = userRepository.findByUsername(first.getUsername());
-        RegisteredUser secondReg = userRepository.findByUsername(second.getUsername());
+        RegisteredUser firstReg = registeredUserRepository.getByUserName(first.getUsername());
+        RegisteredUser secondReg = registeredUserRepository.getByUserName(second.getUsername());
         Friendship newFriends = new Friendship(firstReg, secondReg);
         Friendship newFriends2 = new Friendship(secondReg, firstReg);
         friendshipRepository.saveAndFlush(newFriends);

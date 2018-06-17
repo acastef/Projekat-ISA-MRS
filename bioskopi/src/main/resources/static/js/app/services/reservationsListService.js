@@ -13,6 +13,14 @@
             return $http.get("/tickets/all/" + id);
         };
 
+        service.deleteTicket = function(id) {
+            return $http.put("/tickets/delete/" + id);
+        }
+
+        service.getLogged = function() {
+            return $http.get("/login/getLogged");
+        }
+
         return service;
     }
 

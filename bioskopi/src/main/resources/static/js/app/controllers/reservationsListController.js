@@ -9,16 +9,22 @@
 
     function reservationsListController($scope, $location, reservationsListService) {
 
-        $scope.id = 1;
+        $scope.logged = {};
         $scope.reservations = [];
         activate();
 
         function activate() {
-            reservationsListService.getAll($scope.id).success(function(data, status) {
-                $scope.reservations = data;
+            reservationsListService.getLogged().success(function(data, status) {
+                $scope.logged = data;
+                reservationsListService.getAll($scope.logged.id).success(function(data, status) {
+                    $scope.reservations = data;
+                }).error(function(data, status) {
+                    toastr.error("Failed to fetch data");
+                });
             }).error(function(data, status) {
-                toastr.error("Failed to fetch data");
+                toastr.error("Error while fetching data");
             });
+
         }
 
         $scope.delete = function(id) {

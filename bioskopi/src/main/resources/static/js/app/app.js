@@ -2,7 +2,7 @@ var app = angular.module('utopia', ['ngRoute', 'angularCSS', 'keruC']);
 
 app.config(function($routeProvider) {
     $routeProvider.when('/', {
-            templateUrl: 'partials/startpage.html',
+            templateUrl: 'partials/home.html',
             //css: ['css/home.css' , 'css/workarea.css', 'css/table.css']
         }).when('/login', {
             templateUrl: 'partials/login.html',
@@ -62,6 +62,9 @@ app.config(function($routeProvider) {
         }).when('/report/:id', {
             templateUrl: 'partials/report.html',
             controller: 'reportController'
+        }).when('/reservedProps',{
+            templateUrl: 'partials/reservedProps.html',
+            css: ['css/lineSection.css', 'css/navigation.css']
         })
 });
 

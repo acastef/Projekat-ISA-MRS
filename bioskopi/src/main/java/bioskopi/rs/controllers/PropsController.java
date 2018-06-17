@@ -243,6 +243,27 @@ public class PropsController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/reserved", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getReservedProps(HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.USER);}})){
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+
+            return new ResponseEntity<>(propsReservationService.getByUserId(user.getId()), HttpStatus.OK);
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
+    }
+
 
 }
 

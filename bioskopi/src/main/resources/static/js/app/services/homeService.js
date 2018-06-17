@@ -8,11 +8,11 @@
     function homeService($http) {
         var service = {};
 
-        service.getLogged = function(){
+        service.getLogged = function() {
             return $http.get("/login/getLogged");
         }
 
-        service.logout = function(){
+        service.logout = function() {
             return $http.get("/login/logout");
         }
 

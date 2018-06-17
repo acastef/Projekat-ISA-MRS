@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM user u WHERE u.username = :username", nativeQuery = true)
-    RegisteredUser findByUsername(@Param("username") String username);
+    User findByUsername(@Param("username") String username);
 
     @Query(value = "SELECT * FROM user u WHERE u.type = 'registered'", nativeQuery = true)
     List<User> findAll();

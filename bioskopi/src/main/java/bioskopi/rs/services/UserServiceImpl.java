@@ -3,6 +3,7 @@ package bioskopi.rs.services;
 import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.repository.RegisteredUserRepository;
 import bioskopi.rs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
     @Override
     public List<RegisteredUser> findAllUsers(){
@@ -32,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {return userRepository.findByUsername(username);}
 
     @Override
-    public RegisteredUser getByUsername(String username) {return userRepository.findByUsername(username);}
+    public RegisteredUser getByUsername(String username) {return registeredUserRepository.getByUserName(username);}
 
     @Override
     public RegisteredUser add(RegisteredUser registeredUser) throws ValidationException {
@@ -47,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void activateUser(String username) {
-        RegisteredUser toChange = userRepository.findByUsername(username);
+        RegisteredUser toChange = registeredUserRepository.getByUserName(username);
         RegisteredUser changed = toChange;
         if(!toChange.isFirstLogin()) {
             changed.setFirstLogin(true);

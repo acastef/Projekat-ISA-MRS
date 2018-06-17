@@ -27,36 +27,19 @@
                 <a class="nav-link" href="#viewingRooms">Viewing room</a>
             </li>
             <li ng-show="resPropsVis" class="nav-item">
-                <a class="nav-link">Reserved props</a>
-            </li>
-            <li ng-show="adsVis" class="nav-item">
-                <a class="nav-link">Ads</a>
+                <a class="nav-link" href="#reservedProps">Reserved props</a>
             </li>
             <li ng-show="systemAdminVis" class="nav-item">
                 <a class="nav-link" href="#sys">System administration</a>
             </li>
+            <li ng-show="LogInVis" class="nav-item">
+                <a class="nav-link" href="#login">Log in</a>
+            </li>
+            <li ng-show="SingUpVis" class="nav-item">
+                <a class="nav-link" href="#signup">Sing up</a>
+            </li>
         </ul>
     </div>
-    <div class="userData">
-        <table>
-            <tr>
-                <td>Name: </td>
-                <td>{{logged.name}}</td>
-            </tr>
-            <tr>
-                <td>Last name: </td>
-                <td>{{logged.surname}}</td>
-            </tr>
-            <tr>
-                <td>E-mail: </td>
-                <td>{{logged.email}}</td>
-            </tr>
-            <tr>
-                <td>Phone number: </td>
-                <td>{{logged.telephone}}</td>
-            </tr>
-        </table>
-    </div><br>
     <div ng-show="visitsVis" class="visits">
         <p>VISITS</p>
         <table border="1">
@@ -74,5 +57,6 @@
             </tbody>
         </table>
     </div>
-    <button ng-click="logout()" class="logout">Log Out</button>
+
+    <button ng-show="LogOutVis"  ng-click="redirect('/')" class="logout">Log Out</button>
 </div>

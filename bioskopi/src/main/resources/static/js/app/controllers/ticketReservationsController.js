@@ -16,8 +16,8 @@
         $scope.seatsStatuses = {};
         $scope.seatRow = 0;
         $scope.seatsData = {};
-        $scope.height = 0;
-        $scope.width = 0;
+        $scope.selectedNodes = [];
+        $scope.logged = {};
 
 
         activate();
@@ -28,16 +28,16 @@
                     $scope.projection = data;
                     ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status) {
                         $scope.seats = data;
-                        $scope.setRoomDimensions();
-                        console.log($scope.height);
-                        $scope.makeSeatLayout();
-
-
-                        //$scope.seatRow = $scope.seats[0].seatRow;
                         $scope.numberOfSeats = data.length;
 
                         ticketReservationsService.getSeatsStatuses($scope.projectionId).success(function(data, status) {
                             $scope.seatsStatuses = data;
+                            $scope.makeSeatLayout();
+                            ticketReservationsService.getLogged().success(function(data, status) {
+                                $scope.logged = data;
+                            }).error(function(data, status) {
+                                console.log("Error while fetching data");
+                            });
                         }).error(function(data, status) {
                             console.log("Error while getting data");
                         });
@@ -54,6 +54,29 @@
 
         $scope.seatSelected = function() {
             console.log("ASDASDASD");
+        };
+
+        $scope.userEvent = '--';
+
+        $scope.nodeSelected = function(node) {
+            $scope.userEvent = 'user selected ' + node.displayName;
+            $scope.$apply();
+
+            //console.log('User selected ' + node.displayName);
+        };
+
+        $scope.nodeDeselected = function(node) {
+            $scope.userEvent = 'user deselected ' + node.displayName;
+            $scope.$apply();
+
+            //console.log($scope.userEvent = 'User deselected ' + node.displayName);
+        };
+
+        $scope.nodeDisallowedSelected = function(node) {
+            $scope.userEvent = 'user attempted to select occupied seat ' + node.displayName;
+            $scope.$apply();
+
+            //console.log('User attempted to select occupied seat : ' + node.displayName);
         };
 
         $scope.calculateSeatRows = function() {
@@ -78,11 +101,6 @@
             return columnMax;
         };
 
-        $scope.setRoomDimensions = function() {
-            $scope.height = $scope.calculateSeatRows() * 25;
-            $scope.width = $scope.calculateSeatColumns() * 25;
-        }
-
 
         $scope.makeSeatLayout = function() {
             $scope.seatsData = { "rows": [] };
@@ -98,11 +116,17 @@
                 for (j = 0; j < $scope.seats.length; j++) {
                     if ((i + 1) == parseInt($scope.seats[j].seatRow)) {
                         var nodeName = rowName.concat($scope.seats[j].seatColumn);
+                        var select;
+                        if ($scope.seatsStatuses[$scope.seats[j].id]) {
+                            select = 1;
+                        } else {
+                            select = 0;
+                        }
                         var node = {
                             "type": 1,
                             "uniqueName": nodeName,
                             "displayName": nodeName,
-                            "selected": 1
+                            "selected": select
                         };
                         row["nodes"].push(node);
                     }
@@ -111,10 +135,40 @@
             }
         };
 
-        $scope.makeReservation = function(seat) {
+        $scope.makeReservation = function() {
+            var i;
+            var selectSeats = [];
+            console.log($scope.selectedNodes.length);
+            if ($scope.selectedNodes.length > 0) {
+                for (i = 0; i < $scope.selectedNodes.length; i++) {
+                    var rowAt = $scope.selectedNodes[i].uniqueName.substring(0, 1).charCodeAt(0) - 64;
+                    console.log("Trazeni red" + rowAt);
+                    var columnAt = parseInt($scope.selectedNodes[i].uniqueName.substring(1));
+                    console.log("Trazeni column" + columnAt);
+                    var j;
+                    var found = false;
+                    for (j = 0; j < $scope.seats.length; j++) {
+                        if (!found) {
+
+                            if ($scope.seats[j].seatRow == rowAt && $scope.seats[j].seatColumn == columnAt) {
+                                found = true;
+                                $scope.writeTickets($scope.seats[j]);
+                            }
+                        }
+                    }
+                }
+                toastr.success("Successfully reserved!");
+            } else {
+                toastr.error("You didn't reserved any ticket!");
+            }
+        };
+
+
+        $scope.writeTickets = function(seat) {
+
+            var id = seat.id;
             var ticket = {};
             ticket.facility = {};
-
             ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
                 ticket.facility.id = data.id;
                 ticket.fastReservation = 0;
@@ -122,20 +176,17 @@
                 ticket.taken = 0;
 
                 ticket.owner = {};
-                ticket.owner.id = 1;
+                ticket.owner.id = $scope.logged.id;
                 ticket.projection = $scope.projection;
-                ticket.seat = seat;
-
-                $scope.seatsStatuses[seat.id] = true;
-
+                ticket.seat = {};
+                ticket.seat.id = id;
                 ticketReservationsService.addTicket(ticket);
-
-                toastr.success("Successful reservation for projection " + $scope.projection.name + " in " +
-                    $scope.projection.viewingRoom.name);
+                return;
 
             }).error(function(data, status) {
                 console.log("Error while getting data");
             });
+
         };
 
     }

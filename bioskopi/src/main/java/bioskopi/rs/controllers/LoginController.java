@@ -1,7 +1,8 @@
 package bioskopi.rs.controllers;
 
-import bioskopi.rs.domain.RegisteredUser;
-import bioskopi.rs.domain.User;
+import bioskopi.rs.domain.*;
+import bioskopi.rs.domain.DTO.CaTAdminDTO;
+import bioskopi.rs.services.FacilitiesService;
 import bioskopi.rs.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FacilitiesService facilitiesService;
+
     /***
      * @return all registered users
      */
@@ -49,24 +53,36 @@ public class LoginController {
         logger.info("Fetching user with username...");
         User user = userService.findByUsername(username);
         if (user.isFirstLogin() && user.getPassword().equals(password)) {
+            //facilitiesService.getFacilityById()
             session.setAttribute("user", user);
             return new ResponseEntity<Object>(userService.findByUsername(username), HttpStatus.OK);
+        }else if(!user.isFirstLogin() && user.getPassword().equals(password)){
+            session.setAttribute("user",user);
+            return new ResponseEntity<>("Redirect",HttpStatus.TEMPORARY_REDIRECT);
         }
         return new ResponseEntity<Object>("Incorrect username or password, or user is not activated.", HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getLogged", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> findLoggedUser(HttpSession session){
+    public ResponseEntity<Object> findLoggedUser(HttpSession session){
         try{
             User u = (User)session.getAttribute("user");
             if (u != null) {
-                return new ResponseEntity<User>((User) session.getAttribute("user"), HttpStatus.OK);
+                if(u.getAuthorities() == AuthorityEnum.CAT){
+                    CaTAdmin admin = (CaTAdmin) u;
+                    CaTAdminDTO dto = new CaTAdminDTO(admin.getId(),admin.getName(),admin.getSurname(),admin.getEmail(),
+                            admin.getUsername(), admin.getAvatar(),admin.getTelephone(),admin.getAddress(),
+                            admin.getFacility().getId(),admin.getAuthorities(),admin.getPassword());
+
+                    return new ResponseEntity<>(dto,HttpStatus.OK);
+                }
+                return new ResponseEntity<>(u, HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new User(), HttpStatus.BAD_REQUEST);
             }
         }catch(Exception e){
-            return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new User(), HttpStatus.FORBIDDEN);
         }
     }
 

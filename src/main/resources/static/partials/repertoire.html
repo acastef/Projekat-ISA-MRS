@@ -1,0 +1,111 @@
+<h1>Repertoire</h1>
+
+<div ng-controller = "repertoireController">
+
+    <div ng-repeat="projection in repertoire">
+
+        <!-- <p>    Id: {{projection.id}}</p> -->
+        <p>    Name: {{projection.name}}</p>
+        <p>    Date: {{projectionDate[projection.id]}}</p>
+        <p>    Time: {{projectionTime[projection.id]}}</p>
+        <p>    Price: {{projection.price}}</p>
+        <p>    Duration: {{projection.duration}} minutes</p>
+        <p>    VR: {{projection.viewingRoom.name}}</p>
+        
+        <p>    Director: {{projection.director}}</p>
+        <p>    Genre: {{projection.genre}}</p>
+        <img src="{{projection.picture}}">
+
+
+        <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
+            Avaliable seats</a><br><br>
+
+        <button  ng-show="showDeleteProj" ng-click="deleteProjection(repertoire, $index)">Delete projection</button><br><br>
+
+        <button ng-show="showChangeProj" ng-click="showChangeForm(projection.id)">Change projection</button><br><br>
+
+        <!-- every projection has form in which it can be changed -->
+        <form accept-charset="UTF-8" ng-hide= changeForms[projection.id]  ng-submit="changeProjection($index)">
+
+            <label>Date: </label>
+            <input type="text" ng-model="projectionDate[projection.id]"><br>
+
+            <label>Time: </label>
+            <input type="text" ng-model="projectionTime[projection.id]"><br>
+    
+            <label>Description: </label>
+            <input type="text" ng-model="projection.description"><br>
+    
+            <label>Director: </label>
+            <input type="text" ng-model="projection.director"><br>
+    
+            <label>Duration: </label>
+            <input type="text" ng-model="projection.duration"><br>
+    
+            <label>Genre: </label>
+            <input type="text" ng-model="projection.genre"><br>
+    
+            <label>Name: </label>
+            <input type="text" ng-model="projection.name"><br>
+    
+            <label>Price: </label>
+            <input type="text" ng-model="projection.price"><br>
+    
+            <label>Select Viewing Room: </label>
+            <select ng-model="projection.viewingRoom" ng-options="v.name for v in viewingRooms"
+                ng-change="setViewingRoom()" ></select><br>
+                
+        
+    
+            <input type = "submit" value = "Change">
+
+
+        </form>
+
+        <!-- <p>==============================================================================</p> -->
+
+    </div>
+
+    <button ng-show="showAddProj" ng-click="showNewProjectionForm()">Add new projection</button><br><br>
+
+    <form accept-charset="UTF-8" ng-hide= newProjectionForm ng-submit="addProjection()">
+
+        <label>Date: </label>
+        <input type="text" ng-model="newProjection.date"><br>
+
+        <label>Description: </label>
+        <input type="text" ng-model="newProjection.description"><br>
+
+        <label>Director: </label>
+        <input type="text" ng-model="newProjection.director"><br>
+
+        <label>Duration: </label>
+        <input type="text" ng-model="newProjection.duration"><br>
+
+        <label>Genre: </label>
+        <input type="text" ng-model="newProjection.genre"><br>
+
+        <label>Name: </label>
+        <input type="text" ng-model="newProjection.name"><br>
+
+        <label>Price: </label>
+        <input type="text" ng-model="newProjection.price"><br>
+
+        <!--<p>Fac: {{newProjection.facility.name}}</p><br>-->
+
+        <!-- <label>Select Facility: </label>
+        <select ng-model="selectedFacility" ng-options="f.name for f in facilities"
+            ng-change="setFacility(-1, -1)"></select><br> -->
+
+
+        <label>Select Viewing Room: </label>
+        <select ng-model="selectedVR" ng-options="v.name for v in viewingRooms"
+            ng-change="setViewingRoom()"></select><br>
+    
+
+        <input type = "submit" value = "Add Projection">
+
+
+    </form>
+
+</div>

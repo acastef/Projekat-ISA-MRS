@@ -1,0 +1,32 @@
+<div ng-controller="usersProjectionsController">
+
+    <table border="1">
+        <tbody>
+        <tr>
+            <td>Projection name</td>
+            <td>Viewing room</td>
+            <td>Date</td>
+            <td>Rate</td>
+            <td>Your rating</td>
+        </tr>
+        <tr ng-repeat="proj in projections">
+            <td>{{proj.name}}</td>
+            <td>{{proj.viewingRoom.id}}</td>
+            <td>{{proj.date}}</td>
+            <td ><button ng-show= "showButton[proj.id]" ng-click="showRateForm(proj)">Rate</button></td>
+            <td ><label  ng-show="showRate[proj.id]"></label>{{projRate[proj.id]}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <form ng-hide="hideRateForm" ng-submit="rateProjection()">
+        <label>Enter your rate (1-5): </label>
+        <input type="text" ng-model="newScore"><br>
+        <label>Describe your experience: </label>
+        <input type="text" ng-model="newScoreDescp"><br>
+        <button type="submit">Send your rate</button>
+    </form>
+
+
+</div>

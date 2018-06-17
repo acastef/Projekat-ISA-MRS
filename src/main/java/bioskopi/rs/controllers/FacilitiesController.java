@@ -80,19 +80,19 @@ public class FacilitiesController {
     @ResponseBody
     public ResponseEntity<Object> addCinema(@RequestBody Cinema facility, HttpSession session){
         logger.info("Inserting facility with name {}", facility.getName());
-        try {
-            User user = (User) session.getAttribute("user");
-            if(user == null){
-                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-            }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
-                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-            }
-        }catch (NullPointerException e){
-            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
+//        try {
+//            User user = (User) session.getAttribute("user");
+//            if(user == null){
+//                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+//            }
+//            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+//                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//            }
+//        }catch (NullPointerException e){
+//            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+//        }catch (ClassCastException e) {
+//            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//        }
 
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }
@@ -105,19 +105,19 @@ public class FacilitiesController {
     @ResponseBody
     public ResponseEntity<Object> addTheater(@RequestBody Theater facility, HttpSession session) {
         logger.info("Inserting facility with name {}", facility.getName());
-        try {
-            User user = (User) session.getAttribute("user");
-            if(user == null){
-                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-            }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
-                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-            }
-        }catch (NullPointerException e){
-            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
+//        try {
+//            User user = (User) session.getAttribute("user");
+//            if(user == null){
+//                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+//            }
+//            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.SYS);}})){
+//                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//            }
+//        }catch (NullPointerException e){
+//            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+//        }catch (ClassCastException e) {
+//            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//        }
 
         return new ResponseEntity<>(facilitiesService.add(facility), HttpStatus.CREATED);
     }

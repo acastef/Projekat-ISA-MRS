@@ -49,15 +49,15 @@
         ////////////////
 
         function activate() {
-            homeService.getLogged().success(function(data, status) {
-                $scope.logged = data;
-                $scope.userType = $scope.logged.authorities;
-                if ($scope.userType != "SYS") {
-                    $location.path("/home");
-                }
-            }).error(function(data, status) {
-                $location.path("/login");
-            });
+            // homeService.getLogged().success(function(data, status) {
+            //     $scope.logged = data;
+            //     $scope.userType = $scope.logged.authorities;
+            //     if ($scope.userType != "SYS") {
+            //         $location.path("/home");
+            //     }
+            // }).error(function(data, status) {
+            //     $location.path("/login");
+            // });
 
             sysService.getAllFacilities().success(function(data,status){
                 $scope.facilities = data;

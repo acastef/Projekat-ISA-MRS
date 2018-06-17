@@ -123,7 +123,7 @@ INSERT INTO `props_reservation` (`id`, `quantity`, `props_id`, `registered_user_
 INSERT INTO `props_reservation` (`id`, `quantity`, `props_id`, `registered_user_id`) VALUES ('2', '2', '2', '2');
 
 INSERT INTO `ad` (`id`, `deadline`, `description`, `image`, `name`, `state`, `version`, `owner_id`) VALUES ('1', '2018-06-30 12:14:00', '35', 'no-image-found.jpg', 'Keys', '0', '2', '4');
-INSERT INTO `ad` (`id`, `deadline`, `description`, `image`, `name`, `state`, `version`, `owner_id`) VALUES ('2', '2018-06-30 12:14:00', '70', 'no-image-foung.jpg', 'Statue', '0', '2', '3');
+INSERT INTO `ad` (`id`, `deadline`, `description`, `image`, `name`, `state`, `version`, `owner_id`) VALUES ('2', '2018-06-30 12:14:00', '70', 'no-image-found.jpg', 'Statue', '0', '2', '3');
 
 INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('1', '2018-06-18 03:27:11', '38', '0', '1', '2');
 INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('2', '2018-06-18 03:29:17', '40', '0', '1', '3');

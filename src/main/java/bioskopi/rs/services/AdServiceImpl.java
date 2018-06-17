@@ -188,6 +188,9 @@ public class AdServiceImpl implements AdService {
             }
             bid.setUser(user.get());
             Ad temp = ad.get();
+            if(temp.getState() == AdState.INACTIVE){
+                throw  new ValidationException("Offer is not active");
+            }
             if(bid.getDate().isAfter(temp.getDeadline())){
                 throw new ValidationException("Offer date is after deadline");
             }

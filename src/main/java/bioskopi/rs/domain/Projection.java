@@ -7,6 +7,7 @@ import org.springframework.data.util.Lazy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class Projection implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private int price;
@@ -72,7 +73,7 @@ public class Projection implements Serializable {
     public Projection() {
     }
 
-    public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+    public Projection(String name, LocalDateTime date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
                       ViewingRoom viewingRoom, Set<Ticket> tickets, Set<Feedback> feedback) {
         this.name = name;
@@ -89,7 +90,7 @@ public class Projection implements Serializable {
         this.feedback = feedback;
     }
 
-    public Projection(String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+    public Projection(String name, LocalDateTime date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
                       ViewingRoom viewingRoom, Set<Ticket> tickets, Facility facility, Set<Feedback> feedback) {
         this.name = name;
@@ -107,7 +108,7 @@ public class Projection implements Serializable {
         this.feedback = feedback;
     }
 
-    public Projection(long id, String name, LocalDate date, int price, Set<String> listOfActors, String genre,
+    public Projection(long id, String name, LocalDateTime date, int price, Set<String> listOfActors, String genre,
                       String director, int duration, String picture, String description,
                       ViewingRoom viewingRoom, Set<Ticket> tickets, Set<Feedback> feedback) {
         this.id = id;
@@ -125,11 +126,11 @@ public class Projection implements Serializable {
         this.feedback = feedback;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

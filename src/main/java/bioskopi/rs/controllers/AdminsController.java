@@ -162,6 +162,20 @@ public class AdminsController {
         }
     }
 
+//    /**
+//     * @param admin CaT that needs to be updated
+//     * @return updated admin
+//     */
+//    @RequestMapping(method = RequestMethod.PUT, value = "/CaT/change", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public ResponseEntity<Object> changeFanZone(@RequestBody  CaTAdmin admin) {
+//        try{
+//            return new ResponseEntity<>(adminsService.addCaTAdmin(admin), HttpStatus.CREATED);
+//        } catch (NullPointerException e){
+//            return new ResponseEntity<>("Wrong data received", HttpStatus.BAD_REQUEST);
+//        }
+//    }
+
     /**
      * @return collection of all available cinema or theater admins in database
      */

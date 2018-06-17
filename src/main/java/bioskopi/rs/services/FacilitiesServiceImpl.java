@@ -100,6 +100,7 @@ public class FacilitiesServiceImpl implements FacilitiesService {
     @Transactional
     public Facility save(Facility facility) {
         Facility temp = facilityRepository.saveAndFlush(facility);
+
         temp.setViewingRooms(new HashSet<>(viewingRoomRepository.saveAll(temp.getViewingRooms())));
         for (ViewingRoom vm :
                 temp.getViewingRooms()) {

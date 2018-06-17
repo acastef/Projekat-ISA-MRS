@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.SegmentEnum;
 import bioskopi.rs.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class SeatServiceImpl implements SeatService {
             }
         }
         return true;
+    }
+
+    @Override
+    public Seat getSeatById(long seatId) {
+        return seatRepository.getOne(seatId);
     }
 }

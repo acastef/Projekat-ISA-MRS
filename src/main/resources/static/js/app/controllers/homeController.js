@@ -33,7 +33,7 @@
         function activate() {
 
             $scope.visits = [
-                
+               
             ];
             homeService.getLogged().success(function(data, status) {
                 $scope.logged = data;
@@ -77,6 +77,7 @@
                     $scope.LogInVis = false;
                     $scope.SingUpVis = false;
                 }
+               
             }).error(function(data, status) {
                 if((status == 403) || (status == 400)){
                     $scope.propsVis = true;

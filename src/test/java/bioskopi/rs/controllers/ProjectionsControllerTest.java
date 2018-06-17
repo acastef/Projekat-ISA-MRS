@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 
+import bioskopi.rs.constants.ProjectionsConstants;
 import bioskopi.rs.domain.*;
 import bioskopi.rs.repository.*;
 import bioskopi.rs.util.TestUtil;
@@ -27,6 +28,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static bioskopi.rs.constants.ProjectionsConstants.*;
@@ -74,79 +76,27 @@ public class ProjectionsControllerTest {
     @Before
     public void setUp() throws Exception {
 
-        DB_FAC = new Cinema("name1", "addr1", "cinema",
+        Cinema cin1 = new Cinema("loc1", "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
-        cin2 = new Cinema("Arena", "addr2", "cinema",
+        Cinema cin2 = new Cinema("PRESERVATION", "addr2", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
-        DB_FAC.getPointsScales().setFacility(DB_FAC);
+        cin1.getPointsScales().setFacility(cin1);
         cin2.getPointsScales().setFacility(cin2);
 
-        facilityRepository.saveAll(new ArrayList<Facility>() {{
-            add(DB_FAC);
-            add(cin2);
-        }});
+        Facility fac = facilityRepository.save(cin1);
+        ProjectionsConstants.DB_FAC = fac;
+        DB_FAC_ID = fac.getId();
 
+        facilityRepository.save(cin2);
 
-        viewingRoom = new ViewingRoom();
-        viewingRoom.setName("nameVR");
-        viewingRoom.setFacility(cin2);
-        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
-        Seat seat2 = new Seat("2", "2", SegmentEnum.NORMAL, viewingRoom);
-        Seat seat3 = new Seat("3", "3", SegmentEnum.NORMAL, viewingRoom);
+        Projection p = new Projection("name1", LocalDateTime.now(), 111, new HashSet<String>(),
+                "genre1", "director1", 11, "picture1", "description1",
+                viewingRoom, new HashSet<Ticket>(), ProjectionsConstants.DB_FAC, new HashSet<Feedback>());
 
-        seats = new HashSet<>();
-        seats.add(seat);
-        seats.add(seat2);
-        seats.add(seat3);
+        projectionRepository.save(p);
 
-        //Person person = new Person();
-
-//        personRepository.saveAll(new ArrayList<Person>() {{
-//            add(person);
-//        }});
-//
-//
-//        RegisteredUser user = new RegisteredUser("username1", "pwd1", "picture1", new HashSet<>(), person);
-//        registeredUserRepository.saveAll(new ArrayList<RegisteredUser>(){{
-//            add(user);
-//        }});
-//
-//        Ticket t = new Ticket(SeatStatus.TAKEN, false, user, seat, p, cin2);
-//        Ticket t2 = new Ticket(SeatStatus.TAKEN, false, user, seat2, p, cin2);
-//        //Ticket t3 = new Ticket(SeatStatus.TAKEN, false, user, seat, p, cin2);
-
-        viewingRoom.setSeats(seats);
-        cin2.getViewingRooms().add(viewingRoom);
-
-        viewingRoomRepository.saveAll(new ArrayList<ViewingRoom>() {{
-            add(viewingRoom);
-        }});
-
-        LocalDate today = LocalDate.now();
-
-        p = new Projection( DB_PROJ_ID, DB_PROJ_NAME, today, DB_PROJ_PRICE, new HashSet<String>(),
-                "genre1", "director1", 2, "picture1", "description1",
-                new ViewingRoom(), new HashSet<Ticket>(),  new HashSet<Feedback>() );
-
-        p.setFacility(cin2);
-        p.setViewingRoom(viewingRoom);
-
-        List<Projection> temp = projectionRepository.saveAll(new ArrayList<Projection>() {{
-            add(p);
-        }});
-
-
-
-        if (!temp.isEmpty()) {
-            for (Projection proj :
-                    temp) {
-                if (proj.getName().compareTo(DB_PROJ_NAME) == 0) {
-                    DB_PROJ_ID = proj.getId();
-                }
-            }
-        }
     }
 
     @Test
@@ -192,11 +142,11 @@ public class ProjectionsControllerTest {
     @Transactional
     public void addProjection() throws Exception
     {
-        Projection p2 = new Projection( "name2", LocalDate.now(), 222, new HashSet<String>(),
+        Projection p2 = new Projection("name2", LocalDateTime.now(), 222, new HashSet<String>(),
                 "genre2", "director2", 22, "picture2", "description2",
-                new ViewingRoom(), new HashSet<Ticket>(), new HashSet<Feedback>() );
+                viewingRoom, new HashSet<Ticket>(), ProjectionsConstants.DB_FAC, new HashSet<Feedback>());
 
-        p2.setFacility(DB_FAC);
+        Long idP2 = projectionRepository.save(p2).getId();
 
         String json = TestUtil.json(p2);
         int index = json.lastIndexOf("}");

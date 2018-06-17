@@ -1,6 +1,5 @@
 package bioskopi.rs.controllers;
 
-import bioskopi.rs.domain.Facility;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.TicketService;
@@ -10,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -44,7 +44,7 @@ public class TicketController {
     @RequestMapping(method = RequestMethod.PUT, value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deleteTicket(@PathVariable String id) {
         ticketService.deleteReservation(Long.parseLong(id));
-        return new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @ResponseBody
@@ -71,7 +71,6 @@ public class TicketController {
         }
     }
 
-
 //    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseBody
 //    public void deleteReservation(@PathVariable String id){
@@ -87,6 +86,30 @@ public class TicketController {
     @ResponseBody
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
         return new ResponseEntity<List<Ticket>>(ticketService.getTickets(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getVisitsByWeeks/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<HashMap<String, Integer>> getVisitsByWeeks(@PathVariable String id)
+    {
+        return new ResponseEntity<HashMap<String, Integer>>(ticketService.getVisitsByWeeks(Long.parseLong(id) ), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getVisitsByMonths/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<HashMap<String, Integer>> getVisitsByMonths(@PathVariable String id)
+    {
+        return new ResponseEntity<HashMap<String, Integer>>(ticketService.getVisitsByMonths(Long.parseLong(id) ), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getPriceForFacility/{id}/{d1}/{d2}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Integer> getPriceForFacility(@PathVariable String id, @PathVariable String d1,
+                                                       @PathVariable String d2)
+    {
+        return new ResponseEntity<Integer>(ticketService.getPricePerPeriod(Long.parseLong(id), LocalDateTime.parse(d1),
+                LocalDateTime.parse(d2) ), HttpStatus.OK);
     }
 
 }

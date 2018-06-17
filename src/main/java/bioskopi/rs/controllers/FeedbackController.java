@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 
+import bioskopi.rs.domain.DTO.FeedbackDTO;
 import bioskopi.rs.domain.Feedback;
 import bioskopi.rs.services.FeedbackService;
 import org.slf4j.Logger;
@@ -42,7 +43,8 @@ public class FeedbackController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/findByUserId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<Feedback> >findByUserId(@PathVariable String userId) {
-        return new ResponseEntity<>(feedBackService.findByUserId(Long.parseLong(userId)), HttpStatus.OK);
+    public ResponseEntity<List<FeedbackDTO> >findByUserId(@PathVariable String userId) {
+        List<FeedbackDTO> temp = feedBackService.findByUserId(Long.parseLong(userId));
+        return new ResponseEntity<>(temp, HttpStatus.OK);
     }
 }

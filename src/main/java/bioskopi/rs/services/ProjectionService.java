@@ -60,4 +60,10 @@ public interface ProjectionService {
      * @return
      */
     List<Projection> findByUserId(long id);
+
+    /**
+     *
+     * @return
+     */
+    Projection getEarliest(long id);
 }

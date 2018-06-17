@@ -6,9 +6,9 @@
         .controller('facilitiesController', facilitiesController);
 
 
-    facilitiesController.$inject = ['$scope', '$location', 'facilitiesService'];
+    facilitiesController.$inject = ['$scope', '$location',  'NgMap', 'GeoCoder', 'facilitiesService'];
 
-    function facilitiesController($scope, $location, facilitiesService) {
+    function facilitiesController($scope, $location, NgMap, GeoCoder, facilitiesService) {
         var vm = this;
 
         // otvaranje modala
@@ -22,9 +22,28 @@
         $scope.newScoreDescp = "";
         $scope.userId = 1;
 
+        $scope.showFTDiv = true;
+        $scope.showConfgSeats = true;
+        $scope.showFTickets = true;
+        $scope.showChange = true;
+        $scope.showReport = true;
+        $scope.showRepertorire = true;
+       
+
+        $scope.location;
+
         activate();
 
         function activate() {
+
+            NgMap.getMap("map").then(function () {
+
+                GeoCoder.geocode()
+                    .then(function (result) {
+                        $scope.location = result[0].geometry.location;
+                    });
+
+            });
 
 
             facilitiesService.getAll().success(function(data, status) {

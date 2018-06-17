@@ -27,7 +27,7 @@
                 <a class="nav-link" href="#viewingRooms">Viewing room</a>
             </li>
             <li ng-show="resPropsVis" class="nav-item">
-                <a class="nav-link" href="#reservedProps">Reserved props</a>
+                <a class="nav-link">Reserved props</a>
             </li>
             <li ng-show="systemAdminVis" class="nav-item">
                 <a class="nav-link" href="#sys">System administration</a>
@@ -40,7 +40,8 @@
             </li>
         </ul>
     </div>
-    <div ng-show="visitsVis" class="visits">
+    
+    <!-- <div ng-show="visitsVis" class="visits">
         <p>VISITS</p>
         <table border="1">
             <tbody>
@@ -56,6 +57,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> -->
     <button ng-show="LogOutVis"  ng-click="redirect('/')" class="logout">Log Out</button>
 </div>

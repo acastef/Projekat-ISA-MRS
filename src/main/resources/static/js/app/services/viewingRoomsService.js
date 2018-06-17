@@ -9,23 +9,11 @@
     function viewingRoomsService($http) {
         var service = {};
 
-        // service.getAll = function(){
-        //     return $http.get('/facilities/getRepertoires');
-        // };
+       service.getVRsForFacility = function(facId)
+       {
+           return $http.get("/viewingRooms/getVRsForFacility/" + facId)
+       };
 
-        // service.getByFacilityId = function(data){
-        //     return $http.get("/facilities/getRepertoire/" + data);
-        // }
-
-        // service.save = function(data){
-        //     return $http.put("/projections/save",data);
-        // }
-
-        // service.deleteProjection = function(id)
-        // {
-        //     return $http.put("/projections/delete/" + id);
-        // }
-        
         service.getSeats = function(data)
         {
             return $http.get("/viewingRooms/getSeatsById/" + data)
@@ -43,6 +31,11 @@
         service.changeSeats = function(listOfIds, segment)
         {
             return $http.put("/seats/changeSegment/" + segment, listOfIds);
+        }
+
+        service.getTakenSeats = function(VrId)
+        {
+            return $http.get("/viewingRooms/getTakenSeats/" + VrId);
         }
 
         return service;

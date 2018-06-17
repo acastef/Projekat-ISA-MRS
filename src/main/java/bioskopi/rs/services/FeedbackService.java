@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.DTO.FeedbackDTO;
 import bioskopi.rs.domain.Feedback;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface FeedbackService {
      * @param id of registered user
      * @return List of feedbacks from the user with given id
      */
-    List<Feedback> findByUserId(long id);
+    List<FeedbackDTO> findByUserId(Long id);
 
     /**
      *

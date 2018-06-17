@@ -12,6 +12,7 @@ public class ProjectionsConstants {
     public static final String DB_PROJ_NAME = "FAC_FAC1";
     public static final String DB_PROJ_ADR = "FAC_ADDR1";
     public static final int DB_PROJ_PRICE = 350;
+    public static Long DB_FAC_ID = 99L;
 
     public static ViewingRoom viewingRoom;
     public static Cinema cin2;

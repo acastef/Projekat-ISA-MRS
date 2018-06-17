@@ -121,4 +121,10 @@ public class ProjectionServiceImpl implements ProjectionService {
 
         return projectionsList;
     }
+
+    @Override
+    public Projection getEarliest(long facId) {
+        return projectionRepository.getEarliest(facId).get(0);
+
+    }
 }

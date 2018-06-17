@@ -1,7 +1,8 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.*;
-import bioskopi.rs.repository.FacilityRepository;
+import bioskopi.rs.repository.*;
+import bioskopi.rs.services.FacilitiesService;
 import bioskopi.rs.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,15 +20,17 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static bioskopi.rs.constants.FacilitiesConstants.*;
+import static bioskopi.rs.constants.FacilityConstants.DB_ID;
+import static bioskopi.rs.constants.FacilityConstants.DB_UNKNOWN_ID;
 import static bioskopi.rs.domain.Privilege.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,24 +47,44 @@ public class FacilitiesControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
+    private FacilitiesService facilitiesService;
+
+    @Autowired
     private FacilityRepository facilityRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectionRepository projectionRepository;
+
+    @Autowired
+    private ViewingRoomRepository viewingRoomRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
     @Before
     public void setUp() throws Exception {
 
-        Cinema cinema = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+//        DB_FAC_CIN = new Cinema(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
+//                new PointsScale(), new HashSet<>(),  new HashSet<>());
+
+        DB_FAC_CIN = new Facility(DB_FAC_NAME, DB_FAC_ADR, "cinema", new HashSet<>(), new HashSet<>(),
                 new PointsScale(), new HashSet<>(),  new HashSet<>());
+
 
         Theater theater = new Theater("FAC_FAC2", "FAC_ADDR2", "theater",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
-        cinema.getPointsScales().setFacility(cinema);
+        DB_FAC_CIN.getPointsScales().setFacility(DB_FAC_CIN);
         theater.getPointsScales().setFacility(theater);
 
-        //Projection projection1
 
         List<Facility> temp = facilityRepository.saveAll(new ArrayList<Facility>() {{
-            add(cinema);
+            add(DB_FAC_CIN);
             add(theater);
         }});
         if (!temp.isEmpty()) {
@@ -72,6 +95,23 @@ public class FacilitiesControllerTest {
                 }
             }
         }
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName("VRn");
+        viewingRoom.setFacility(DB_FAC_CIN);
+        viewingRoomRepository.save(viewingRoom);
+
+        Projection p = new Projection("name1", LocalDateTime.now(), 111, new HashSet<String>(),
+                "genre1", "director1", 11, "picture1", "description1",
+                viewingRoom, new HashSet<Ticket>(), DB_FAC_CIN, new HashSet<Feedback>());
+
+        projectionRepository.save(p);
+
+        Projection p2 = new Projection("name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), DB_FAC_CIN, new HashSet<Feedback>());
+
+        projectionRepository.save(p2);
     }
 
     @Autowired
@@ -102,6 +142,14 @@ public class FacilitiesControllerTest {
     @Test
     public void getRepertoireById() throws Exception{
         mockMvc.perform(get(URL_PREFIX + "/getRepertoire/" + DB_FAC_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void getRepertoireByUnknownId() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/getRepertoire/" + DB_UNKNOWN_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -228,4 +276,58 @@ public class FacilitiesControllerTest {
                 //.andExpect(status().isBadRequest());
     }
 
+    @Test
+    @Transactional
+    public void save() throws Exception
+    {
+        Facility newFac = facilityRepository.getOne(DB_ID);
+
+        newFac.setDescription("newDescription");
+        String json = TestUtil.json(newFac);
+
+        mockMvc.perform(put(URL_PREFIX + "/save")
+                .contentType(contentType).content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void getFastTickets() throws Exception
+    {
+
+        ViewingRoom viewingRoom = new ViewingRoom();
+        viewingRoom.setName(NEW_VM_NAME);
+        viewingRoom.setFacility(DB_FAC_CIN);
+        Seat seat = new Seat("1", "1", SegmentEnum.NORMAL, viewingRoom);
+
+        viewingRoomRepository.save(viewingRoom);
+        seatRepository.save(seat);
+
+
+        RegisteredUser user = new RegisteredUser("Name", "SurName", "email@gmail.com", "username", "pass", "pic1",
+                false, "0104041", "UsersAddress", new HashSet<PropsReservation>(),
+                new HashSet<Ticket>(), new ArrayList<Friendship>());
+
+
+        userRepository.save(user);
+
+
+        Projection p = new Projection( "name2", LocalDateTime.now(), 222, new HashSet<String>(),
+                "genre2", "director2", 22, "picture2", "description2",
+                viewingRoom, new HashSet<Ticket>(), DB_FAC_CIN, new HashSet<Feedback>() );
+
+        projectionRepository.save(p);
+
+
+
+        Set<Ticket> tickets = DB_FAC_CIN.getTickets();
+        Ticket t = new Ticket(1L, SeatStatus.FREE, false, user, seat, p, DB_FAC_CIN);
+        t.setFastReservation(true);
+        tickets.add(t);
+        ticketRepository.saveAll(tickets);
+
+        mockMvc.perform(get(URL_PREFIX + "/getFastTickets/" + DB_FAC_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
 }

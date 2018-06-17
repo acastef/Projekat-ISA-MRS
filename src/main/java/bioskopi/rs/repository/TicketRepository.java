@@ -1,5 +1,6 @@
 package bioskopi.rs.repository;
 
+import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,4 +27,19 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
 
     @Query(value = "SELECT * FROM ticket t where t.owner_id = ?1", nativeQuery = true)
     List<Ticket> getAllTickets(long id);
+
+    @Query(value = "SELECT * FROM ticket t Where t.projection.date =" +
+            " (Select projection.date FROM ticket Order By projection.date ASC)", nativeQuery = true)
+    Ticket getEarliest();
+
+    @Query(value = "SELECT * FROM ticket  where projection = ?1", nativeQuery = true)
+    Ticket getByProjectionId(long projId);
+
+    @Query(value = "SELECT * FROM ticket t where t.facility_id = ?1", nativeQuery = true)
+    List<Ticket> getTicketsForFacility(long id);
+
+    @Query(value = "SELECT t.seat_id FROM ticket t WHERE t.projection_id IN " +
+            "(SELECT p.id FROM projection p WHERE p.viewing_room_id = ?1) ", nativeQuery = true)
+    List<Long> getTakenSeats(long VrId);
+
 }

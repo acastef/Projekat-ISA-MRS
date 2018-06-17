@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.SegmentEnum;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface SeatService {
      * @return true if operation is successful, false otherwise
      */
     Boolean changeSegment(List<Long> listOfIds, SegmentEnum segment);
+
+    Seat getSeatById(long seatId);
 }

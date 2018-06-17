@@ -85,11 +85,13 @@ public class PropsController {
     public ResponseEntity<Object> addReservation(@RequestBody PropsReservation propsReservation, HttpSession session) {
         logger.info("Adding reservation");
         try {
-            User user =  (User) session.getAttribute("user");
-            if(user == null){
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
                 return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
             }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.USER);}})){
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.USER);
+            }})) {
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
             PropsDTO temp = propsService.findById(propsReservation.getProps().getId());
@@ -101,11 +103,11 @@ public class PropsController {
             }
             props.setQuantity(props.getQuantity() + propsReservation.getQuantity());
             return new ResponseEntity<>(propsReservationService.add(props), HttpStatus.CREATED);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>("Props do not exist", HttpStatus.BAD_REQUEST);
         }
     }
@@ -119,15 +121,17 @@ public class PropsController {
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
-            if(user == null){
+            if (user == null) {
                 return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
             }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.FUN);
+            }})) {
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
@@ -161,15 +165,17 @@ public class PropsController {
     public ResponseEntity<Object> addProps(@RequestBody Props props, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
-            if(user == null){
+            if (user == null) {
                 return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
             }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.FUN);
+            }})) {
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
@@ -193,15 +199,17 @@ public class PropsController {
     public ResponseEntity<Object> changeProps(@RequestBody Props props, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
-            if(user == null){
+            if (user == null) {
                 return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
             }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.FUN);
+            }})) {
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
@@ -221,15 +229,17 @@ public class PropsController {
     public ResponseEntity<Object> deleteProps(@RequestBody Props props, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
-            if(user == null){
+            if (user == null) {
                 return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
             }
-            if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.FUN);
+            }})) {
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
@@ -241,6 +251,29 @@ public class PropsController {
         } catch (NullPointerException e) {
             return new ResponseEntity<>("Props does not exist", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/reserved", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getReservedProps(HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            if (!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>() {{
+                add(AuthorityEnum.USER);
+            }})) {
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+
+            return new ResponseEntity<>(propsReservationService.getByUserId(user.getId()), HttpStatus.OK);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        } catch (ClassCastException e) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
 

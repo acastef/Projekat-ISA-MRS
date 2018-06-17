@@ -47,7 +47,7 @@ public class AdServiceImpl implements AdService {
             List<Ad> ads = temp.get();
             for (Ad ad :
                     ads) {
-                if(ad.getDeadline().isBefore(LocalDateTime.now())){
+                if(ad.getDeadline().isAfter(LocalDateTime.now())){
                     ad.setImage(IMAGE_PATH + ad.getImage());
                     filtered.add(ad);
                 }
@@ -67,7 +67,7 @@ public class AdServiceImpl implements AdService {
             List<Ad> ads = temp.get();
             for (Ad ad :
                     ads) {
-                if(ad.getDeadline().isBefore(LocalDateTime.now())){
+                if(ad.getDeadline().isAfter(LocalDateTime.now())){
                     ad.setImage(IMAGE_PATH + ad.getImage());
                     filtered.add(ad);
                 }

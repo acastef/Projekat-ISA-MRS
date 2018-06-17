@@ -231,7 +231,7 @@ public class AdController {
             String[] tokens = ad.getImage().split("/");
             temp.setImage(tokens[tokens.length - 1]);
             //ad.setImage(tokens[tokens.length - 1]);
-            adService.accept(temp);
+            adService.reject(temp);
             return new ResponseEntity<>("Successfully reject ad", HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);

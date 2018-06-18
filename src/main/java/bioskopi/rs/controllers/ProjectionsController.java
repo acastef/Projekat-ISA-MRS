@@ -1,5 +1,6 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.DTO.ProjectionDTO;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
@@ -62,17 +63,18 @@ public class ProjectionsController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/add",  consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-
     public ResponseEntity<Object> addProjectection(@RequestBody Projection p){
+
+        //logger.info(p);
         try{
             Projection temp = projectionService.add(p);
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
+       // return new ResponseEntity<>(p, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

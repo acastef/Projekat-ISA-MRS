@@ -43,7 +43,9 @@
             return $http.put("tickets/update", ticket);
         }
 
-
+        service.getLogged = function() {
+            return $http.get("/login/getLogged");
+        }
 
 
 

@@ -61,6 +61,8 @@
                     $scope.propsAdminVis = false;
                     $scope.LogInVis = false;
                     $scope.SingUpVis = false;
+                    $scope.LogInVis = false;
+                    $scope.SingUpVis = false;
                 } else if ($scope.userType == "FUN") {
                     $scope.usersProjectionsVis = false;
                     $scope.visitsVis = false;

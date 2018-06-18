@@ -34,16 +34,15 @@
         $scope.date = "2016-01-01";
 
         $scope.newProjection = {
-            date: (new Date()).toLocaleString(),
-            description: "default description",
-            director: "default director",
-            genre: "default genre",
+            date: new Date(),
+            description: "Description",
+            director: "Director",
+            genre: "Genre",
             duration: 0,
-            name: "default name",
+            name: "Name",
             price: 0,
-            picture: "default picture",
+            picture: "https://cdn.psychologytoday.com/sites/default/files/styles/image-article_inline_full/public/field_blog_entry_images/2017-06/movie_projector.jpg?itok=zD-doWcz",
             listOfActors: [],
-            tickets: [],
             facility: {},
             viewingRoom: {}
         };
@@ -120,7 +119,8 @@
                         $scope.viewingRooms = data;
 
                         for (let i = 0; i < $scope.viewingRooms.length; i++) {
-                            $scope.viewingRooms[i].facility = $scope.facility;
+                            $scope.viewingRooms[i].facility = {};
+                            $scope.viewingRooms[i].facility.id = $scope.facilitiy.id;
                         }
 
                     }).error(function(data, status) {
@@ -189,7 +189,8 @@
             for (let index = 0; index < $scope.viewingRooms.length; index++) {
                 const element = $scope.viewingRooms[index];
                 if (element.name == $scope.selectedVR.name) {
-                    $scope.newProjection.viewingRoom = element;
+                    $scope.newProjection.viewingRoom = element;//{};
+                    //$scope.newProjection.viewingRoom.id = element.id;
                     break;
                 }
             }
@@ -197,14 +198,23 @@
 
         $scope.addProjection = function() {
             $scope.newProjectionForm = true;
-            $scope.repertoire.push($scope.newProjection);
-            repertoireService.addProjection($scope.newProjection);
-            toastr.success("Projection successfully added");
+            // var tempDateTokens = $scope.newProjection.date.split("T");
+            // $scope.newProjection.date = tempDateTokens[0] + " " + tempDateTokens[1];
+           
+            repertoireService.addProjection($scope.newProjection).success(function(data, status) {
+                toastr.success("Projection successfully added");
+                $scope.repertoire.push($scope.newProjection);
+                $scope.changeForms[$scope.repertoire[$scope.repertoire.length - 1].id] = true;
+                $scope.changeProjection = true;
+    
+
+            }).error(function(data, status) {
+                toastr.error("Could not add projection " + data);
+            });
+            
 
             // sakrivanje forme za izmenu nove projekcije
-            $scope.changeForms[$scope.repertoire[$scope.repertoire.length - 1].id] = true;
-            $scope.changeProjection = true;
-
+           
 
         }
 
@@ -240,6 +250,17 @@
                 toastr.success("Projection successfully changed");
             });
            
+        }
+
+        function convertUTCDateToLocalDate(date) {
+            var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+        
+            var offset = date.getTimezoneOffset() / 60;
+            var hours = date.getHours();
+        
+            newDate.setHours(hours - offset);
+        
+            return newDate;   
         }
 
     }

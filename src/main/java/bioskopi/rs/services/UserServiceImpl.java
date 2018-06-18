@@ -51,13 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void activateUser(String username) {
-        RegisteredUser toChange = registeredUserRepository.getByUserName(username);
-        RegisteredUser changed = toChange;
-        if(!toChange.isFirstLogin()) {
-            changed.setFirstLogin(true);
-            userRepository.delete(toChange);
-            userRepository.save(changed);
-        }
+        userRepository.activateUser(username);
     }
 
     @Override

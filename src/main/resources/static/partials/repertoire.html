@@ -1,20 +1,32 @@
-<h1>Repertoire</h1>
-
 <div ng-controller = "repertoireController">
 
     <div ng-repeat="projection in repertoire">
 
-        <!-- <p>    Id: {{projection.id}}</p> -->
-        <p>    Name: {{projection.name}}</p>
+
+        <div class="row row-eq-height">
+
+            <div class="col-md-10" style="margin:20px">
+                <div class="p-3 mb-2 bg-dark text-white">
+
+                    <div class="container">
+
+                        <div class="row" style="text-align: center">
+                            <h2 style="margin:auto;"><b>{{projection.name}}</b></h2>
+                        </div>
+
+                        <div class="row" style="margin-top: 20px">
+                                <div class="col-md-3">
+
+<!-- <p>    Id: {{projection.id}}</p> -->
+        
         <p>    Date: {{projectionDate[projection.id]}}</p>
         <p>    Time: {{projectionTime[projection.id]}}</p>
         <p>    Price: {{projection.price}}</p>
         <p>    Duration: {{projection.duration}} minutes</p>
         <p>    VR: {{projection.viewingRoom.name}}</p>
         
-        <p>    Director: {{projection.director}}</p>
-        <p>    Genre: {{projection.genre}}</p>
-        <img src="{{projection.picture}}">
+       
+        
 
 
         <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
@@ -62,8 +74,20 @@
 
         </form>
 
-        <!-- <p>==============================================================================</p> -->
-
+                            </div> 
+                            <div class="col-md-3">
+                                <p>    Director: {{projection.director}}</p>
+                                <p>    Genre: {{projection.genre}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                    <img src="{{projection.picture}}" style="width: 50%; height: 50%;display:block;
+                                    margin:auto; ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <button ng-show="showAddProj" ng-click="showNewProjectionForm()">Add new projection</button><br><br>
@@ -71,7 +95,7 @@
     <form accept-charset="UTF-8" ng-hide= newProjectionForm ng-submit="addProjection()">
 
         <label>Date: </label>
-        <input type="text" ng-model="newProjection.date"><br>
+        <input type="datetime-local" ng-model="newProjection.date"><br>
 
         <label>Description: </label>
         <input type="text" ng-model="newProjection.description"><br>

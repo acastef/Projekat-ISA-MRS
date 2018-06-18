@@ -6,17 +6,23 @@
     <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
         <canvas width="500" height="500" id="canvasId"></canvas>
     </keruc-seatpicker>
-    <div ng-repeat="seat in seats" style="margin: 20px">
+    <!-- <div ng-repeat="seat in seats" style="margin: 20px">
 
         <div>
 
             <input type="checkbox" ng-model="selectedSeats[seat.id]">
-            <!-- <input style="margin: 5px" type="radio"  ng-checked="selectedSeats[seat.id]" ng-click="seatSelected()"> -->
         </div>
         <div>
             <span ng-style="myStyle[seat.segment]">Segment</span>
         </div>
 
+    </div> -->
+
+    <div>
+        <keruc-seatpicker data-data="seatsData"  data-occupied-colour-bg="#F56979"
+        data-occupied-colour-fg="#FFFF31" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
+            <canvas width="500" height="500" id="canvasId" ></canvas>
+        </keruc-seatpicker>
     </div>
 
     <div>

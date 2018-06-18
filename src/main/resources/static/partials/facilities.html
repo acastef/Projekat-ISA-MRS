@@ -1,25 +1,29 @@
 <!-- <h1>Facilities</h1> -->
 
 <!-- style="background-color: #c2d1f0"  -->
-<div  ng-controller = "facilitiesController" >
+<div  id = "glavni" ng-controller = "facilitiesController" >
     <h2 ng-show="facilities.length ==0">There are no facilities records</h2>
 
     
 
-    <div ng-repeat="fac in facilities" class="container" style="margin: 5px">
+    <div ng-repeat="fac in facilities" class="container" >
 
         <div class="row row-eq-height">
 
-            <div class="col-md-8">
-                <div class="p-3 mb-2 bg-dark text-white">
+            <div class="col-md-10"  style="margin:20px">
+                    <div class="p-3 mb-2 bg-dark text-white">
+                        <div class="container">
 
-                    <div class="container">
-
-                        <div class="row">
+                            <div class="row" style="text-align: center">
+                                <h2 style="margin:auto;"><b>{{projection.name}}</b></h2>
+                            </div>
+    
+                            <div class="row" style="margin-top: 20px">
+                                <div class="col-md-3">
 
                             
 
-                            <div class="col-md-4">
+                           
                                 <!-- <span><p  class="text-white bg-dark">    Id: {{fac.id}}</p></span> -->
                                 <p  class="text-white bg-dark">    Name: {{fac.name}}</p>
                                 <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
@@ -53,34 +57,45 @@
                                 </form>
 
                                 <a  ng-show="showFTickets" class="text-white bg-dark" href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-                                <a  ng-show="showConfgSeats"class="text-white bg-dark"href = "#configureSeats">Configure seats</a>
+                                <a  ng-show="showConfgSeats"class="text-white bg-dark"href = "#viewingRooms/{{fac.id}}">Configure seats</a>
 
                             </div>
 
+                            <div class="col-md-5">
+                                <p  class="text-white bg-dark">    Description: {{fac.description}}</p>                                       
+                            </div>
+                            <div class="col-md-4">
+                                <div ng-show="showFTDiv" class="p-3 mb-2 bg-dark text-white">
 
-                            <span class="border border-primary" style="width: 60%; margin: 5px;">
-                                <div class="col-md-8">
-                                    <p  class="text-white bg-dark">    Description: {{fac.description}}</p>
+                                        <div>
+                                            <div>
+                                                <h1 > Fast tickets</h1><br><br>
+                                            </div>
+                                            <div class="row">
+                                                <div ng-repeat="fastTicket in fastTickets[fac.id]" >
+                    
+                                                    <button class="btn btn-medium btn-primary" style="margin: 5px"
+                                                            ng-click="makeFastReservation(fastTicket, fac.id)"
+                                                    >{{fastTicket.id}}</button>
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+                                    </div>
                                 </div>
-                            </span>
-
+                            </div>
                         </div>
-
-
                     </div>
-
-
                 </div>
-
             </div>
             <!-- drugi -->
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div ng-show="showFTDiv" class="p-3 mb-2 bg-dark text-white">
 
                     <div>
                         <div>
                             <h1 > Fast tickets</h1><br><br>
-                            <!-- <p ng-show="fastTickets[fac.id].length == 0">There are no fast tickets</p><br><br> -->
                         </div>
                         <div class="row">
                             <div ng-repeat="fastTicket in fastTickets[fac.id]" >
@@ -88,15 +103,6 @@
                                 <button class="btn btn-medium btn-primary" style="margin: 5px"
                                         ng-click="makeFastReservation(fastTicket, fac.id)"
                                 >{{fastTicket.id}}</button>
-
-                                <!-- <div class="card" style="width: 5rem; ">
-                                    <img class="card-img-top" src="..." alt="Card image cap">
-                                    <div class="card-block">
-                                        <h4 class="card-title">{{fastTicket.id}}</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                    </div> -->
 
                             </div>
                         </div>
@@ -106,18 +112,9 @@
                 <div style="width: 80%">
                     <ng-map id="map" center="{{ fac.address }}"></ng-map>
                 </div>
-            </div>
+            </div> -->
 
-        </div>
-
-
-
-
-
-        <!-- background:#3366cc !important -->
-
-
-
+    
 
     </div>
 

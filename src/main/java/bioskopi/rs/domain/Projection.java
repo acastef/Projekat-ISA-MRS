@@ -1,5 +1,7 @@
 package bioskopi.rs.domain;
 
+import bioskopi.rs.domain.DTO.ProjectionDTO;
+import bioskopi.rs.domain.util.LocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.util.Lazy;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +31,7 @@ public class Projection implements Serializable {
     private String name;
 
     @Column(nullable = false)
+    //@Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 
     @Column(nullable = false)
@@ -124,6 +129,25 @@ public class Projection implements Serializable {
         this.viewingRoom = viewingRoom;
         this.tickets = tickets;
         this.feedback = feedback;
+    }
+
+    public Projection(ProjectionDTO pDTO)
+    {
+        this.name = pDTO.getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        this.date = LocalDateTime.parse(pDTO.getDate(), formatter);
+        this.price = pDTO.getPrice();
+        this.listOfActors = pDTO.getListOfActors();
+        this.genre = pDTO.getGenre();
+        this.director = pDTO.getDirector();
+        this.duration = pDTO.getDuration();
+        this.picture = pDTO.getPicture();
+        this.description = pDTO.getDescription();
+        this.viewingRoom = pDTO.getViewingRoom();
+        this.tickets = new HashSet<Ticket>();
+        this.facility = pDTO.getFacility();
+        this.feedback = new HashSet<Feedback>();
     }
 
     public LocalDateTime getDate() {

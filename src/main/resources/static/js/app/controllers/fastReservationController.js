@@ -13,6 +13,7 @@
         $scope.facilityId = $routeParams.id;
 
 
+        $scope.userId = 0;
         $scope.changeForms = {};
         $scope.fastTickets = [];
         $scope.projections = {};
@@ -29,6 +30,37 @@
         activate();
 
         function activate(){
+
+            fastReservationService.getLogged().success(function(data, status) {
+                $scope.logged = data;
+                $scope.userType = $scope.logged.authorities;
+                if ($scope.userType == "USER") {
+                   $scope.userId =  $scope.logged.id;
+                } else{
+                    $location.path("/login");
+                }
+               
+            }).error(function(data, status) {
+                if((status == 403) || (status == 400)){
+                    $scope.propsVis = true;
+                    $scope.propsAdminVis = false;
+                    $scope.facilitiesVis = true;
+                    $scope.friendsVis = false;
+                    $scope.profileVis = false;
+                    $scope.reservationsVis = false;
+                    $scope.usersProjectionsVis = false;
+                    $scope.viewingRoomsVis = false;
+                    $scope.resPropsVis = false;
+                    $scope.systemAdminVis = false;
+                    $scope.visitsVis = false;
+                    $scope.LogInVis = true;
+                    $scope.SingUpVis = true;
+                    $scope.LogOutVis = false;
+                }else{
+                    toastr.error("Something went wrong...");
+                }
+                
+            });
 
             fastReservationService.getFastTickets($scope.facilityId).success(function(data,status){
                 $scope.fastTickets = data;
@@ -130,7 +162,7 @@
             ticket.facility =  {};
             ticket.facility.id = $scope.facilityId;
             ticket.owner = {};
-            ticket.owner.id = 1;
+            ticket.owner.id = $scope.userId;
             ticket.discount = parseInt($scope.newDiscount);
             ticket.projection = $scope.currentProjection;
             ticket.seat = $scope.selectedSeat;

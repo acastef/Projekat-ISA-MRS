@@ -21,10 +21,12 @@ app.config(function($routeProvider) {
             css: ['css/navigation.css']
         }).when('/facilities', {
             templateUrl: 'partials/facilities.html',
-            controller: 'facilitiesController'
+            controller: 'facilitiesController',
+            css: ['css/facilities.css']
         }).when('/repertoire/:id', {
             templateUrl: 'partials/repertoire.html',
-            controller: 'repertoireController'
+            controller: 'repertoireController',
+            css: ['css/repertoire.css']
         }).when('/fastTickets/:id', {
             templateUrl: 'partials/fastReservation.html',
             controller: 'fastReservationController'

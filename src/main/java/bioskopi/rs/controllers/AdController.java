@@ -197,11 +197,11 @@ public class AdController {
             if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            Ad temp = adService.findById(ad.getId());
-            String[] tokens = ad.getImage().split("/");
-            temp.setImage(tokens[tokens.length - 1]);
+            //Ad temp = adService.findById(ad.getId());
+            //String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
             //ad.setImage(tokens[tokens.length - 1]);
-            adService.accept(temp);
+            adService.accept(ad);
             return new ResponseEntity<>("Successfully accept ad", HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
@@ -227,11 +227,11 @@ public class AdController {
             if(!AuthorityValidator.checkAuthorities(user, new ArrayList<AuthorityEnum>(){{add(AuthorityEnum.FUN);}})){
                 return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            Ad temp = adService.findById(ad.getId());
-            String[] tokens = ad.getImage().split("/");
-            temp.setImage(tokens[tokens.length - 1]);
+            //Ad temp = adService.findById(ad.getId());
+            //String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
             //ad.setImage(tokens[tokens.length - 1]);
-            adService.reject(temp);
+            adService.reject(ad);
             return new ResponseEntity<>("Successfully reject ad", HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
@@ -322,26 +322,7 @@ public class AdController {
             return new ResponseEntity<>("Failed to send email notification",HttpStatus.NOT_FOUND);
         }
 
-//        try {
-//            Ad temp = adService.acceptOffer(bid);
-//            Bid accepted = new Bid();
-//            for (Bid b :
-//                    temp.getBids()) {
-//                if(b.getState() == BidState.ACCEPT){
-//                    accepted = b;
-//                }
-//            }
-//            mailService.sendNotification("Report for ad: " + temp.getName(),
-//                    "Description:" + temp.getDescription() + "\n" +
-//                             "Accepted bid from: " + accepted.getUser().getUsername() + " for: " +
-//                               accepted.getOffer() + "$");
-//            return new ResponseEntity<>("Offer successfully accepted", HttpStatus.OK);
-//        } catch (ValidationException e){
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        } catch (MailException e){
-//            logger.info("Error message:" + e.getMessage());
-//            return new ResponseEntity<>("Failed to send email notification",HttpStatus.NOT_FOUND);
-//        }
+
     }
 
 

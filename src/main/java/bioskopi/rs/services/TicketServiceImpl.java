@@ -166,6 +166,12 @@ public class TicketServiceImpl implements TicketService{
         return ticketRepository.getTakenSeats(VrId);
     }
 
+    @Override
+    public Object changeOwner(long userId, long projId, long seatId) {
+        ticketRepository.changeTicketOwner(userId, projId, seatId);
+        return "Invitation accepted";
+    }
+
 
     private String generateMonth(LocalDateTime d) {
 

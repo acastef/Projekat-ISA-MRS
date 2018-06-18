@@ -5,14 +5,51 @@
 
     <h1></h1>
     <p> Number of seats: {{numberOfSeats}}</p>
-    <div>
+    <div class="reservation">
         <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
             <canvas width="500" height="500" id="canvasId"></canvas>
-        </keruc-seatpicker>
+        </keruc-seatpicker><br>
+        <button class="resBtn" ng-click="makeReservation()">Reserve</button>
+        <button class="finish" ng-click="redirect('/')">Finish</button>
     </div>
 
-    <button ng-click="makeReservation()">Reserve</button>
+    <p ng-show="noMoreTickets">You can't invite any friend!</p>
+    <div class="invitation" ng-show="inviteVis">
 
+        <button ng-click="inviteFriends()">Invite Friends</button>
+
+        <div ng-show="friendsVis">
+            <div>
+                <p>Invite friends</p>
+                <table border="1">
+                    <tr>
+                        <td>Name</td>
+                        <td>Surname</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="friend in friends">
+                        <td>{{friend.name}}</td>
+                        <td>{{friend.surname}}</td>
+                        <td><button ng-click="selectFriend(friend)">Invite</button></td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <div ng-show="choosen">
+                <p>You are inviting {{choosenFriend.name}} {{choosenFriend.name}}, choose seat</p>
+                <table border="1">
+                    <tr>
+                        <td>Seat name</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="seat in ticketsToOffer">
+                        <td>{{seat.displayName}}</td>
+                        <td><button ng-click=sendInvitation(seat)>Choose</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 
 </div>

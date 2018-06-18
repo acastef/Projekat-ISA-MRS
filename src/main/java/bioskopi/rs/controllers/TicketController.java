@@ -1,7 +1,9 @@
 package bioskopi.rs.controllers;
 
+import bioskopi.rs.domain.DTO.UserDTO;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.services.MailService;
 import bioskopi.rs.services.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -24,6 +28,9 @@ public class TicketController {
 
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private MailService mailService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,16 +78,6 @@ public class TicketController {
         }
     }
 
-//    @RequestMapping(method = RequestMethod.PUT, value = "/deleteTicket/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public void deleteReservation(@PathVariable String id){
-//        try{
-//            ticketService.deleteReservation(Long.parseLong(id));
-//        }catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//    }
-
 
     @RequestMapping(method = RequestMethod.GET, value = "/all/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -110,6 +107,28 @@ public class TicketController {
     {
         return new ResponseEntity<Integer>(ticketService.getPricePerPeriod(Long.parseLong(id), LocalDateTime.parse(d1),
                 LocalDateTime.parse(d2) ), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "/sendInvitation/{projId}+{seatId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> sendInvitation(@RequestBody UserDTO user, @PathVariable String projId, @PathVariable String seatId){
+        try{
+
+            mailService.sendInvitation(user, projId, seatId);
+            return new ResponseEntity<Object>("Successfully invited friend", HttpStatus.OK);
+        }catch (MailException e){
+            return new ResponseEntity<Object>("Failed to send invitation to friend", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Transactional
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/invitation/{userId}+{projId}+{seatId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> acceptInvitation(@PathVariable String userId, @PathVariable String projId,
+                                                    @PathVariable String seatId){
+        return new ResponseEntity<Object>(ticketService.changeOwner(Long.parseLong(userId),
+                Long.parseLong(projId),Long.parseLong(seatId)), HttpStatus.OK);
+
     }
 
 }

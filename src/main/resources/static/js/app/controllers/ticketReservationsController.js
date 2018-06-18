@@ -5,9 +5,9 @@
         .module('utopia')
         .controller('ticketReservationsController', ticketReservationsController);
 
-    ticketReservationsController.$inject = ['$scope', '$location', '$routeParams', 'ticketReservationsService'];
+    ticketReservationsController.$inject = ['$scope', '$location', '$routeParams', 'ticketReservationsService', 'friendsService'];
 
-    function ticketReservationsController($scope, $location, $routeParams, ticketReservationsService) {
+    function ticketReservationsController($scope, $location, $routeParams, ticketReservationsService, friendsService) {
         var vm = this;
         $scope.projectionId = $routeParams.id;
         $scope.projection = {};
@@ -18,7 +18,15 @@
         $scope.seatsData = {};
         $scope.selectedNodes = [];
         $scope.logged = {};
-
+        $scope.friends = [];
+        $scope.inviteVis = false;
+        $scope.friendsVis = false;
+        $scope.choosen = false;
+        $scope.invited = [];
+        $scope.choosenFriend = {};
+        $scope.ticketsToOffer = [];
+        $scope.noMoreTickets = false;
+        $scope.newTickets = [];
 
         activate();
 
@@ -35,6 +43,11 @@
                             $scope.makeSeatLayout();
                             ticketReservationsService.getLogged().success(function(data, status) {
                                 $scope.logged = data;
+                                friendsService.getFriends($scope.logged.id).success(function(data, status) {
+                                    $scope.friends = data;
+                                }).error(function(data, status) {
+                                    console.log("Error while fetching data");
+                                });
                             }).error(function(data, status) {
                                 console.log("Error while fetching data");
                             });
@@ -137,8 +150,7 @@
 
         $scope.makeReservation = function() {
             var i;
-            var selectSeats = [];
-            console.log($scope.selectedNodes.length);
+            $scope.ticketsToOffer = $scope.selectedNodes;
             if ($scope.selectedNodes.length > 0) {
                 for (i = 0; i < $scope.selectedNodes.length; i++) {
                     var rowAt = $scope.selectedNodes[i].uniqueName.substring(0, 1).charCodeAt(0) - 64;
@@ -155,11 +167,83 @@
                         }
                     }
                 }
+                if (($scope.friends.length > 0) && ($scope.selectedNodes.length > 1)) {
+                    $scope.inviteVis = true;
+                }
                 toastr.success("Successfully reserved!");
+                return;
             } else {
                 toastr.error("You didn't reserved any ticket!");
             }
         };
+
+        $scope.inviteFriends = function() {
+            $scope.friendsVis = true;
+        };
+
+        $scope.redirect = function(path) {
+            $location.path(path);
+        }
+
+        $scope.selectFriend = function(friend) {
+            $scope.choosenFriend = friend;
+            $scope.choosen = true;
+        }
+
+        $scope.sendInvitation = function(seat) {
+
+            var rowAt = seat.uniqueName.substring(0, 1).charCodeAt(0) - 64;
+            var columnAt = parseInt(seat.uniqueName.substring(1));
+            var found = false;
+            var choosenSeat = {};
+            var i;
+            for (i = 0; i < $scope.seats.length; i++) {
+                if (!found) {
+
+                    if ($scope.seats[i].seatRow == rowAt && $scope.seats[i].seatColumn == columnAt) {
+                        found = true;
+                        choosenSeat = $scope.seats[i];
+                    }
+                }
+            }
+            found = false;
+            var deleteFriend = {};
+            for (i = 0; i < $scope.friends.length; i++) {
+                if (!found) {
+                    if ($scope.choosenFriend.id == $scope.friends[i].id) {
+                        $scope.friends.splice($scope.choosenFriend, 1);
+                        found = true;
+                    }
+                }
+            }
+            found = false;
+            for (i = 0; i < $scope.ticketsToOffer.length; i++) {
+                if (!found) {
+                    if ($scope.ticketsToOffer[i].uniqueName == seat.uniqueName) {
+                        $scope.ticketsToOffer.splice(i, 1);
+                    }
+                }
+            }
+            toastr.success("Successfully invited " + $scope.choosenFriend.name + "!");
+            $scope.choosen = false;
+            if ($scope.ticketsToOffer.length == 1 || $scope.friends.length == 0) {
+                $scope.inviteVis = false;
+                $scope.friendsVis = false;
+                $scope.noMoreTickets = true;
+            }
+            var projId = $scope.projection.id;
+            var user = $scope.choosenFriend;
+            var seatId = choosenSeat.id;
+            $scope.choosenFriend = {};
+            ticketReservationsService.sendInvitation(user, projId, seatId);
+
+
+
+
+
+            //posalji mail prijatelju
+
+        }
 
 
         $scope.writeTickets = function(seat) {
@@ -178,6 +262,7 @@
                 ticket.projection = $scope.projection;
                 ticket.seat = {};
                 ticket.seat.id = id;
+                $scope.newTickets.push(ticket);
                 ticketReservationsService.addTicket(ticket);
                 return;
 
@@ -189,4 +274,4 @@
 
     }
 
-})();
+})()

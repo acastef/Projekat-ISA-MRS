@@ -9,14 +9,17 @@ public class RegisteredUserDTO extends UserDTO {
 
     private AuthorityEnum authorities;
 
+    private boolean firstLogin;
+
     public RegisteredUserDTO() {
 
     }
 
     public RegisteredUserDTO(long id, String name, String surname, String email, String username, String avatar,
-                             String telephone, String address, String password) {
+                             String telephone, String address, String password, boolean firstLogin) {
         super(id, name, surname, email, username, avatar, telephone, address);
         this.password = password;
+        this.firstLogin = firstLogin;
     }
 
     public RegisteredUserDTO(RegisteredUser user, String password){
@@ -24,6 +27,7 @@ public class RegisteredUserDTO extends UserDTO {
                 user.getTelephone(),user.getAddress());
         this.password = password;
         this.authorities = user.getAuthorities();
+        this.firstLogin = user.isFirstLogin();
     }
 
     public String getPassword() {
@@ -40,5 +44,13 @@ public class RegisteredUserDTO extends UserDTO {
 
     public void setAuthorities(AuthorityEnum authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogIn) {
+        this.firstLogin = firstLogin;
     }
 }

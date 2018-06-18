@@ -77,7 +77,7 @@ public class LoginController {
                     CaTAdmin admin = (CaTAdmin) u;
                     CaTAdminDTO dto = new CaTAdminDTO(admin.getId(),admin.getName(),admin.getSurname(),admin.getEmail(),
                             admin.getUsername(), admin.getAvatar(),admin.getTelephone(),admin.getAddress(),
-                            admin.getFacility().getId(),admin.getAuthorities(),admin.getPassword());
+                            admin.getFacility().getId(),admin.getAuthorities(),admin.getPassword(),admin.isFirstLogin());
 
                     return new ResponseEntity<>(dto,HttpStatus.OK);
                 }else if(u.getAuthorities() == AuthorityEnum.USER){

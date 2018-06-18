@@ -5,13 +5,20 @@ import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.AdRepository;
 import bioskopi.rs.repository.BidRepository;
 import bioskopi.rs.repository.RegisteredUserRepository;
+import org.hibernate.Session;
+import org.hibernate.StaleObjectStateException;
+import org.hibernate.jpa.HibernateEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -38,6 +45,7 @@ public class AdServiceImpl implements AdService {
 
     private final String IMAGE_PATH = Paths.get("img", "ads").toString()
             + File.separator;
+
 
     @Override
     public List<Ad> getAllActive() {
@@ -113,6 +121,10 @@ public class AdServiceImpl implements AdService {
 
     }
 
+
+
+
+
     @Override
     @Transactional
     public void accept(Ad ad) {
@@ -129,12 +141,18 @@ public class AdServiceImpl implements AdService {
             }
             ad.setOwner(temp.get());
             ad.setState(AdState.ACTIVE);
+            String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
+            ad.setImage(tokens[tokens.length - 1]);
             adRepository.save(ad);
-        }catch (OptimisticLockException e){
+        }catch (StaleObjectStateException |OptimisticLockException |  ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Data are stale");
-        } catch (NullPointerException e){
+        }
+        catch (NullPointerException e){
             throw new ValidationException("Corrupted data received");
         }
+
+
 
     }
 
@@ -154,12 +172,16 @@ public class AdServiceImpl implements AdService {
             }
             ad.setOwner(temp.get());
             ad.setState(AdState.INACTIVE);
+            String[] tokens = ad.getImage().split("/");
+            //temp.setImage(tokens[tokens.length - 1]);
+            ad.setImage(tokens[tokens.length - 1]);
             adRepository.save(ad);
-        }catch (OptimisticLockException e){
+        }catch (StaleObjectStateException |OptimisticLockException |  ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Data are stale");
         }catch (NullPointerException e){
             throw new ValidationException("Corrupted data received");
         }
+
     }
 
     @Override
@@ -168,9 +190,10 @@ public class AdServiceImpl implements AdService {
         ad.setState(AdState.INACTIVE);
         try{
             adRepository.save(ad);
-        }catch (OptimisticLockException e){
+        }catch (StaleObjectStateException |OptimisticLockException |  ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Data are stale");
         }
+
     }
 
     @Override
@@ -197,6 +220,9 @@ public class AdServiceImpl implements AdService {
             if(bid.getUser().getId() == temp.getOwner().getId()){
                 throw new ValidationException("You can not add offer to your ad");
             }
+            if(bid.getAd().getVersion() < temp.getVersion()){
+                throw new ValidationException("Data are stale");
+            }
             boolean exist = false;
             for (Bid b :
                     temp.getBids()) {
@@ -212,7 +238,7 @@ public class AdServiceImpl implements AdService {
             return adRepository.save(temp);
         } catch (NullPointerException e){
             throw new ValidationException("Corrupted data received");
-        } catch (OptimisticLockException e){
+        } catch (OptimisticLockException | StaleObjectStateException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Data are stale");
         }
     }
@@ -232,6 +258,9 @@ public class AdServiceImpl implements AdService {
             Ad temp = ad.get();
             if(bid.getDate().isAfter(temp.getDeadline())){
                 throw new ValidationException("Offer date is after deadline");
+            }
+            if(bid.getAd().getVersion() < temp.getVersion()){
+                throw new ValidationException("Data are stale");
             }
             boolean found = false;
             for (Bid b :
@@ -259,7 +288,7 @@ public class AdServiceImpl implements AdService {
             return adRepository.save(temp);
         }catch (NullPointerException e){
             throw new ValidationException("Corrupted data received");
-        }catch (OptimisticLockException e){
+        }catch ( StaleObjectStateException |OptimisticLockException |  ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Data are stale");
         }
     }

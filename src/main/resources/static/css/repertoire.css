@@ -1,0 +1,7 @@
+body {
+    background: url("https://www.biggerbolderbaking.com/wp-content/uploads/2016/02/BBB110-Homemade-Microwave-Popcorn-Thumbnail-FINAL-1024x576.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

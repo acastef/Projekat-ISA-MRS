@@ -314,7 +314,11 @@
                         toastr.success("Successfully accepted ad", "Ok");
                         $scope.ads.splice(index, 1);
                     }).error(function (data, status) {
-                        toastr.error("Action failed. " + data, "Error");
+                        if(status == 500){
+                            toastr.error("Data are stale.", "Error");    
+                        }else{
+                            toastr.error("Action failed. " + data, "Error");
+                        }
                     });
                     break;
                 }
@@ -327,10 +331,15 @@
                 const element = $scope.ads[index];
                 if (element.id == id) {
                     adsService.rejectAds(element).success(function (data) {
-                        toastr.success("Successfully accepted ad", "Ok");
+                        toastr.success("Successfully rejecred ad", "Ok");
                         $scope.ads.splice(index, 1);
                     }).error(function (data, status) {
-                        toastr.error("Action failed. " + data, "Error");
+                        if(status == 500){
+                            toastr.error("Data are stale.", "Error");    
+                        }else{
+                            toastr.error("Action failed. " + data, "Error");
+                        }
+                        
                     });
                     break;
                 }

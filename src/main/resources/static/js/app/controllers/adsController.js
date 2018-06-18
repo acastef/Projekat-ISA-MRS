@@ -180,8 +180,10 @@
                 }).error(function (data, status) {
                     if(status == 403){
                         $location.path("/login");
+                    }else if(status == 500){
+                        toastr.error("Error. Data are stale", "Error");
                     }else{
-                    toastr.error("Error. " + data, "Error");
+                        toastr.error("Error. " + data, "Error");
                     }
                 });
             }
@@ -216,8 +218,10 @@
             }).error(function(data,status){
                 if(status == 403){
                     $location.path("/login");
+                }else if(status == 500){
+                    toastr.error("Error. Data are stale", "Error");
                 }else{
-                toastr.error("Error. " + data, "Error");
+                    toastr.error("Error. " + data, "Error");
                 }
             });
     }

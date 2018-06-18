@@ -1,0 +1,9 @@
+.invitation {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+}
+
+.reservation {
+    width: 600px;
+}

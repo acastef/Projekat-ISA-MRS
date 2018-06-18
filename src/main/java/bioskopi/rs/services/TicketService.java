@@ -98,4 +98,15 @@ public interface TicketService {
      * @return list of seats in VR with given id, that are taken
      */
     List<Long> getTakenSeats(long VrId);
+
+
+    /***
+     *
+     * @param userId - new owner of ticket
+     * @param projId - projection
+     * @param seatId - seat
+     * @return message
+     */
+    Object changeOwner(long userId, long projId, long seatId);
+
 }

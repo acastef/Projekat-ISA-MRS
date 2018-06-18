@@ -18,6 +18,10 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
     void changeTicket(long id);
 
     @Modifying
+    @Query(value = "UPDATE ticket SET owner_id = ?1 WHERE projection_id = ?2 AND seat_id = ?3", nativeQuery = true)
+    void changeTicketOwner(long userId, long projId, long seatId);
+
+    @Modifying
     @Query(value = "UPDATE Ticket SET taken = true WHERE id = ?1")
     void makeFastReservation(long id);
 

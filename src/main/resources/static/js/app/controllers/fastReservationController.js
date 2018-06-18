@@ -34,7 +34,7 @@
             fastReservationService.getLogged().success(function(data, status) {
                 $scope.logged = data;
                 $scope.userType = $scope.logged.authorities;
-                if ($scope.userType == "CAT") {
+                if ($scope.userType == "USER") {
                    $scope.userId =  $scope.logged.id;
                 } else{
                     $location.path("/login");

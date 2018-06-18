@@ -35,6 +35,11 @@
             return $http.get("/login/getLogged");
         }
 
+        service.sendInvitation = function(user, projId, seatId) {
+            console.log("Poslao sam mail");
+            return $http.post("/tickets/sendInvitation/" + projId + "+" + seatId, user)
+        }
+
 
         return service;
     }

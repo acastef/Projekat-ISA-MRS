@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.DTO.UserDTO;
 import bioskopi.rs.domain.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,25 +33,21 @@ public class MailService {
     }
 
     public void sendUserActivation(RegisteredUser regUser) throws MailException{
-//        MimeMessagePreparator messagePreparator = mimeMessage -> {
-//            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-//            messageHelper.setFrom("666.null.null.null@gmail.com");
-//
-//            String text = "Click: http";
-//            messageHelper.setTo(regUser.getEmail());
-//            messageHelper.setSubject("Account activation");
-//            messageHelper.setText(text, true);
-//        };
-//        try{
-//            mailSender.send(messagePreparator);
-//        }catch(MailException e){
-//            e.printStackTrace();
-//        }
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(regUser.getEmail());
         mail.setFrom("666.null.null.null@gmail.com");
         mail.setSubject("Account activation");
         mail.setText("Click: http://localhost:8080/signup/"+regUser.getUsername());
+        mailSender.send(mail);
+    }
+
+    public void sendInvitation(UserDTO user, String projId, String seatId) throws MailException{
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom("666.null.null.null@gmail.com");
+        mail.setSubject("Invitation for projection");
+        mail.setText("To accept, click on link: http://localhost:8080/tickets/invitation/"
+                        + user.getId() + "+" + projId + "+" + seatId);
         mailSender.send(mail);
     }
 

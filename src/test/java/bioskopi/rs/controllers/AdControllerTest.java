@@ -94,7 +94,7 @@ public class AdControllerTest {
         mockMvc.perform(get(URL_PREFIX + "/all/active"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(DB_COUNT1)));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AdControllerTest {
         mockMvc.perform(get(URL_PREFIX + "/all/wait"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(DB_COUNT2)));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test

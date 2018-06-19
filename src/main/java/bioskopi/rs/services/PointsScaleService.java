@@ -1,6 +1,7 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.PointsScale;
+import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.domain.util.ValidationException;
 
 import java.util.List;
@@ -27,4 +28,11 @@ public interface PointsScaleService {
      * @return saved points scale
      */
     PointsScale save(PointsScale scale) throws ValidationException;
+
+    /***
+     *
+     * @param id - facility
+     * @return list of categories for given facility
+     */
+    List<UserCategory> getFromFacility(long id);
 }

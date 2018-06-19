@@ -17,7 +17,7 @@
         };
 
         service.addFriend = function(first, second) {
-            return $http.post("/friends/addFriend", [first, second]);
+            return $http.post("/friends/sendFriendRequest", [first, second]);
         };
 
         service.deleteFriend = function(first, second) {

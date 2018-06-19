@@ -46,4 +46,25 @@ public interface UserService{
      * @return saved user in database
      */
     User save(RegisteredUser registeredUser);
+
+    /***
+     *
+     * @param id of user
+     * @return user
+     */
+    User getById(long id);
+
+    /***
+     *
+     * @param id of user
+     * @return registered user
+     */
+    RegisteredUser getRegById(long id);
+
+    /***
+     *
+     * @param id of user
+     * @param points - new number of user's points
+     */
+    void updatePoints(long id, int points);
 }

@@ -85,6 +85,7 @@ public class TicketServiceImpl implements TicketService{
         }
     }
 
+    @Transactional
     @Override
     public void deleteReservation(long id) {
         try{
@@ -105,6 +106,11 @@ public class TicketServiceImpl implements TicketService{
     public List<Ticket> getTickets(long ownerId) {
         List<Ticket> allTickets = ticketRepository.getAllTickets(ownerId);
         return allTickets;
+    }
+
+    @Override
+    public Ticket getById(long id) {
+        return ticketRepository.getOne(id);
     }
 
 
@@ -166,11 +172,14 @@ public class TicketServiceImpl implements TicketService{
         return ticketRepository.getTakenSeats(VrId);
     }
 
+    @Transactional
     @Override
     public Object changeOwner(long userId, long projId, long seatId) {
         ticketRepository.changeTicketOwner(userId, projId, seatId);
         return "Invitation accepted";
     }
+
+
 
 
     private String generateMonth(LocalDateTime d) {

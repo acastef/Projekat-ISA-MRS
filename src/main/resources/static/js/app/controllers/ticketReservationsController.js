@@ -26,7 +26,10 @@
         $scope.choosenFriend = {};
         $scope.ticketsToOffer = [];
         $scope.noMoreTickets = false;
+        $scope.sortedCategories = [];
         $scope.newTickets = [];
+        $scope.pointScale = [];
+        $scope.user = {};
 
         activate();
 
@@ -34,6 +37,7 @@
             ticketReservationsService.getProjectionById($scope.projectionId)
                 .success(function(data, status) {
                     $scope.projection = data;
+
                     ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status) {
                         $scope.seats = data;
                         $scope.numberOfSeats = data.length;
@@ -45,6 +49,21 @@
                                 $scope.logged = data;
                                 friendsService.getFriends($scope.logged.id).success(function(data, status) {
                                     $scope.friends = data;
+                                    ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
+                                        ticketReservationsService.getPointScale(data.id).success(function(data, status) {
+                                            $scope.pointScale = data;
+                                            $scope.sortedCategories = $scope.sortScale($scope.pointScale);
+                                            ticketReservationsService.getRegistered($scope.logged.id).success(function(data, status) {
+                                                $scope.user = data;
+                                            }).error(function(data, status) {
+                                                console.log("Error while fetching data");
+                                            })
+                                        }).error(function(data, status) {
+                                            console.log("Error while fetching data");
+                                        });
+                                    }).error(function(data, status) {
+                                        console.log("Error while fetching data");
+                                    });
                                 }).error(function(data, status) {
                                     console.log("Error while fetching data");
                                 });
@@ -73,7 +92,7 @@
 
         $scope.nodeSelected = function(node) {
             $scope.userEvent = 'user selected ' + node.displayName;
-            $scope.$appply();
+            $scope.$apply();
 
             //console.log('User selected ' + node.displayName);
         };
@@ -246,12 +265,64 @@
         }
 
 
+        $scope.getScale = function(id) {
+            var pointScale = [];
+            ticketReservationsService.getPointScale(id).success(function(data, status) {
+                $scope.pointScale = data;
+            }).error(function(data, status) {
+                console.log("Error while gettinh data");
+            });
+        }
+
+        $scope.sortScale = function(scale) {
+            var points = [];
+            var checkPoints = scale;
+            while (checkPoints.length > 0) {
+                var i;
+                var toRemove = 0;
+                var min = checkPoints[0];
+                for (i = 0; i < checkPoints.length; i++) {
+                    if (checkPoints[i].points < min.points) {
+                        min = checkPoints[i];
+                        toRemove = i;
+                    }
+                }
+                points.push(min);
+                checkPoints.splice(toRemove, 1);
+            }
+            return points;
+        }
+
+        $scope.searchCategory = function(scale, points) {
+            var i;
+            var found = false;
+            var match = 0;
+            for (i = 0; i < scale.length; i++) {
+                if (!found) {
+                    console.log(scale[i]);
+                    console.log(points);
+                    match = i;
+                    if (points < scale[i].points) {
+                        console.log("Jbeme ti mamu vise u picku smrdljivu");
+                        match--;
+                        found = true;
+                    }
+                }
+            }
+            if (match >= 0) {
+                return scale[match].discount;
+            } else {
+                return 0;
+            }
+        }
+
         $scope.writeTickets = function(seat) {
 
             var id = seat.id;
             var ticket = {};
             ticket.facility = {};
             ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
+                ticket.discount = $scope.searchCategory($scope.sortedCategories, $scope.user.points);
                 ticket.facility.id = data.id;
                 ticket.fastReservation = 0;
                 ticket.seatStatus = 1;
@@ -262,6 +333,7 @@
                 ticket.projection = $scope.projection;
                 ticket.seat = {};
                 ticket.seat.id = id;
+
                 $scope.newTickets.push(ticket);
                 ticketReservationsService.addTicket(ticket);
                 return;

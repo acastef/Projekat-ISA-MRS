@@ -61,6 +61,13 @@ public interface TicketService {
 //     */
 //    LocalDate getEarliest(long facId);
 
+    /***
+     *
+     * @param id of ticket
+     * @return ticket
+     */
+    Ticket getById(long id);
+
     /**
      *
      * @return

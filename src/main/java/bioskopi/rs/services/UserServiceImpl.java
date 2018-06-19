@@ -7,6 +7,7 @@ import bioskopi.rs.repository.RegisteredUserRepository;
 import bioskopi.rs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.saveAndFlush(registeredUser);
     }
 
+    @Transactional
     @Override
     public void activateUser(String username) {
         userRepository.activateUser(username);
@@ -57,5 +59,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(RegisteredUser registeredUser) {
         return userRepository.save(registeredUser);
+    }
+
+    @Override
+    public User getById(long id) {
+        return userRepository.findUserById(id);
+    }
+
+    @Override
+    public RegisteredUser getRegById(long id) {
+        return registeredUserRepository.findUserById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updatePoints(long id, int points){
+        userRepository.updatePoints(id, points);
     }
 }

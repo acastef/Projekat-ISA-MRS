@@ -44,11 +44,10 @@
                     var name = $scope.nonFriends[i].name;
                     friendsService.addFriend($scope.user, $scope.nonFriends[i])
                         .success(function(data, status) {
-                            toastr.success("You and " + name + " are friends now!");
+                            toastr.success("Request sent!");
                         }).error(function(data, status) {
                             toastr.error("Wrong action!");
                         });
-                    $scope.friends.push($scope.nonFriends[i]);
                     $scope.nonFriends.splice(i, 1);
                     return;
                 }

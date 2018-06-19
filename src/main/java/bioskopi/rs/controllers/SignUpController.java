@@ -59,7 +59,7 @@ public class SignUpController {
      * @param username of user who activating account
      * @return message
      */
-    @Transactional
+
     @RequestMapping(method = RequestMethod.GET, value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> activate(@PathVariable String username){
         userService.activateUser(username);

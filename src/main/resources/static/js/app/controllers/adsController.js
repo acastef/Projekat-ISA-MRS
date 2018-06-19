@@ -209,7 +209,7 @@
                     break;
                 }
             }
-            selectedBid.ad = {id: $scope.selected.id};
+            selectedBid.ad = {id: $scope.selected.id, version: $scope.ads[index].version};
             adsService.acceptBid(selectedBid).success(function(data){
                 toastr.success("Offer was successfully accepted","OK");
                 $scope.ads.splice(index,1);

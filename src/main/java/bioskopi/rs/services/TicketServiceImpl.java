@@ -82,7 +82,7 @@ public class TicketServiceImpl implements TicketService{
             ticketRepository.makeFastReservation(id);
             return true;
         }
-        catch (OptimisticLockException e){
+        catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }

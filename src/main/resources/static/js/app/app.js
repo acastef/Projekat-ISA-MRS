@@ -65,7 +65,8 @@ app.config(function($routeProvider) {
             controller: 'viewingRoomsController'
         }).when('/report/:id', {
             templateUrl: 'partials/report.html',
-            controller: 'reportController'
+            controller: 'reportController',
+            css: ['css/report.css']
         }).when('/reservedProps', {
             templateUrl: 'partials/reservedProps.html',
             css: ['css/lineSection.css', 'css/navigation.css']

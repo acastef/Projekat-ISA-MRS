@@ -73,7 +73,7 @@
 
         $scope.nodeSelected = function(node) {
             $scope.userEvent = 'user selected ' + node.displayName;
-            $scope.$appply();
+            $scope.$apply();
 
             //console.log('User selected ' + node.displayName);
         };

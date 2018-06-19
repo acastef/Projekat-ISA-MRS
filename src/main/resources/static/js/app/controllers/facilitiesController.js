@@ -45,6 +45,44 @@
 
             });
 
+            facilitiesService.getLogged().success(function(data, status) {
+                $scope.logged = data;
+                $scope.userType = $scope.logged.authorities;
+                if ($scope.userType == "SYS") {
+                    $scope.showFTDiv = true;
+                    $scope.showConfgSeats = true;
+                    $scope.showFTickets = true;
+                    $scope.showChange = true;
+                    $scope.showReport = true;
+                    $scope.showRepertorire = true;
+                } else if ($scope.userType == "CAT") {       
+                    $scope.showFTDiv = true;
+                    $scope.showConfgSeats = true;
+                    $scope.showFTickets = true;
+                    $scope.showChange = true;
+                    $scope.showReport = true;
+                    $scope.showRepertorire = true;
+                } else if ($scope.userType == "FUN") {
+                   
+                } else if ($scope.userType == "USER") {                               
+                    $scope.showFTDiv = true;
+                    $scope.showRepertorire = true;
+                }
+ 
+            }).error(function(data, status) {
+                if((status == 403) || (status == 400)){
+                    $scope.showFTDiv = false;
+                    $scope.showConfgSeats = false;
+                    $scope.showFTickets = false;
+                    $scope.showChange = false;
+                    $scope.showReport = false;
+                    $scope.showRepertorire = false;
+                }else{
+                    toastr.error("Something went wrong...");
+                }
+ 
+            });
+
 
             facilitiesService.getAll().success(function(data, status) {
                 $scope.facilities = data;

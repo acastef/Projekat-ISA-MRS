@@ -23,14 +23,12 @@
         <p>    Time: {{projectionTime[projection.id]}}</p>
         <p>    Price: {{projection.price}}</p>
         <p>    Duration: {{projection.duration}} minutes</p>
-        <p>    VR: {{projection.viewingRoom.name}}</p>
+        <p>    ViewingRoom: {{projection.viewingRoom.name}}</p>
         
        
         
 
 
-        <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
-            Avaliable seats</a><br><br>
 
         <button  ng-show="showDeleteProj" ng-click="deleteProjection(repertoire, $index)">Delete projection</button><br><br>
 
@@ -77,7 +75,9 @@
                             </div> 
                             <div class="col-md-3">
                                 <p>    Director: {{projection.director}}</p>
-                                <p>    Genre: {{projection.genre}}</p>
+                                <p>    Genre: {{projection.genre}}</p>                                
+                                <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
+                                    Avaliable seats</a><br><br>
                             </div>
                             <div class="col-md-6">
                                     <img src="{{projection.picture}}" style="width: 50%; height: 50%;display:block;

@@ -3,10 +3,7 @@
 
     <label>Select Viewing Room: </label>
     <select ng-model="selectedViewingRoom" ng-options="v.name for v in viewingRooms" ng-change="setViewingRoom()"></select><br>
-    <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
-        <canvas width="500" height="500" id="canvasId"></canvas>
-    </keruc-seatpicker>
-    <!-- <div ng-repeat="seat in seats" style="margin: 20px">
+    <!-- 
 
         <div>
 
@@ -19,8 +16,9 @@
     </div> -->
 
     <div>
-        <keruc-seatpicker data-data="seatsData"  data-occupied-colour-bg="#F56979"
-        data-occupied-colour-fg="#FFFF31" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
+        <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes"
+         data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" 
+         data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
             <canvas width="500" height="500" id="canvasId" ></canvas>
         </keruc-seatpicker>
     </div>

@@ -38,6 +38,10 @@
             return $http.put("/feedback/saveFeedback", feedback);
         }
 
+        service.getLogged = function(){
+            return $http.get("/login/getLogged");
+        }
+
         return service;
     }
 })();

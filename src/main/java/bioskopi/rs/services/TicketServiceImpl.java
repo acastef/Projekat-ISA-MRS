@@ -1,11 +1,8 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.Projection;
-import bioskopi.rs.domain.Seat;
-import bioskopi.rs.domain.Ticket;
+import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.util.ValidationException;
-import bioskopi.rs.repository.ProjectionRepository;
-import bioskopi.rs.repository.TicketRepository;
+import bioskopi.rs.repository.*;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -31,6 +28,9 @@ public class TicketServiceImpl implements TicketService{
 
     @Autowired
     private ProjectionRepository projectionRepository;
+
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
     @Override
     @Transactional
@@ -77,12 +77,21 @@ public class TicketServiceImpl implements TicketService{
 
     @Transactional
     @Override
-    public Boolean makeFastReservation(long id) {
+    public Boolean makeFastReservation(Ticket t) {
         try {
-            ticketRepository.makeFastReservation(id);
+            long id = t.getOwner().getId();
+            RegisteredUser u = registeredUserRepository.findById(id).get();
+            t.setOwner(u);
+
+            Ticket oldT = ticketRepository.findById(t.getId()).get();
+            oldT.setOwner(u);
+
+            oldT.setTaken(true);
+
+            ticketRepository.save(oldT);
             return true;
         }
-        catch (OptimisticLockException e){
+        catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }

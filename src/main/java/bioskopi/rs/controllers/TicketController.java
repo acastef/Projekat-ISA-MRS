@@ -66,12 +66,12 @@ public class TicketController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/makeFastReservation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, value = "/makeFastReservation", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> makeFastReservation(@PathVariable String id)
+    public ResponseEntity<Object> makeFastReservation(@RequestBody Ticket t)
     {
         try{
-            return new ResponseEntity<>(ticketService.makeFastReservation(Long.parseLong(id)),HttpStatus.CREATED);
+            return new ResponseEntity<>(ticketService.makeFastReservation(t),HttpStatus.CREATED);
         }
         catch (javax.validation.ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

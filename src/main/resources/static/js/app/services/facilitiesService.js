@@ -30,8 +30,8 @@
             return $http.get("/facilities/getFastTickets/" + facId);
         }
 
-        service.makeFastReservation = function(fastTicketId) {
-            return $http.put("/tickets/makeFastReservation/" + fastTicketId)
+        service.makeFastReservation = function(fastTicket) {
+            return $http.put("/tickets/makeFastReservation", fastTicket)
         }
 
         service.rateFacility = function(feedback) {

@@ -186,14 +186,18 @@
         }
 
         $scope.makeFastReservation = function(fastTicket, facId) {
-            facilitiesService.makeFastReservation(fastTicket.id).success(function(data, status) {
-                toastr.success("Successfuly reserved ticket!");
+            fastTicket.owner = {};
+            fastTicket.owner.id = $scope.logged.id;
+            fastTicket.facility = {};
+            fastTicket.facility.id = facId;
+            facilitiesService.makeFastReservation(fastTicket).success(function(data, status) {
+                toastr.success("Successful reservation!");
                 var index = $scope.fastTickets[facId].indexOf(fastTicket);
                 if (index != -1)
                     $scope.fastTickets[facId].splice(index, 1);
 
             }).error(function(data, status) {
-                console.log("Impossible to reserve this ticket");
+                console.log("Impossible to make reservation for this ticket");
             });
         }
 

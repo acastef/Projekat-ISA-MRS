@@ -197,7 +197,7 @@
                     $scope.fastTickets[facId].splice(index, 1);
 
             }).error(function(data, status) {
-                console.log("Impossible to make reservation for this ticket");
+                toastr.error("Impossible to make reservation for this ticket");
             });
         }
 

@@ -84,11 +84,12 @@ public class TicketServiceImpl implements TicketService{
             t.setOwner(u);
 
             Ticket oldT = ticketRepository.findById(t.getId()).get();
-            oldT.setOwner(u);
+            //oldT.setOwner(u);
+            t.setProjection(oldT.getProjection());
 
-            oldT.setTaken(true);
+            t.setTaken(true);
 
-            ticketRepository.save(oldT);
+            ticketRepository.save(t);
             return true;
         }
         catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){

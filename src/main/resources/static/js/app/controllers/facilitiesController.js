@@ -67,6 +67,10 @@
                 } else if ($scope.userType == "USER") {                               
                     $scope.showFTDiv = true;
                     $scope.showRepertorire = true;
+                    $scope.showConfgSeats = false;
+                    $scope.showFTickets = false;
+                    $scope.showChange = false;
+                    $scope.showReport = false;
                 }
  
             }).error(function(data, status) {

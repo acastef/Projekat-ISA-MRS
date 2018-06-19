@@ -6,7 +6,9 @@ import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.ProjectionRepository;
 import bioskopi.rs.repository.TicketRepository;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,7 +60,7 @@ public class TicketServiceImpl implements TicketService{
             ticketRepository.save(t);
             return true;
         }
-        catch (OptimisticLockException e){
+        catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }

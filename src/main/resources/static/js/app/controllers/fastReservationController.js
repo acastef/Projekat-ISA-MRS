@@ -34,7 +34,7 @@
             fastReservationService.getLogged().success(function(data, status) {
                 $scope.logged = data;
                 $scope.userType = $scope.logged.authorities;
-                if ($scope.userType == "USER") {
+                if ($scope.userType == "CAT") {
                    $scope.userId =  $scope.logged.id;
                 } else{
                     $location.path("/login");
@@ -78,10 +78,10 @@
             });  
         };
 
-
         $scope.showSeats = function(){
 
-           
+           $scope.hideDiscountForm = true;
+
             $scope.currentViewingRoom = $scope.currentProjection.viewingRoom;
             fastReservationService.getSeats($scope.currentViewingRoom.id)
             .success(function(data,status){
@@ -104,13 +104,17 @@
                                 break;
                             }
                         }
-            
                     }
                }
             
             }).error(function(data,status){
                 toastr.error("Error while getting seats");
             });
+        }
+
+        $scope.isEmpty = function(data)
+        {
+            return angular.equals(data, []); 
         }
 
         $scope.enterDiscount = function(seat)
@@ -135,7 +139,6 @@
             //get ticket id that has selected seat in it and update tickets
             for (let inde = 0; inde <  $scope.currentProjection.tickets.length; inde++) {
                         
-               
                 if ( $scope.currentProjection.tickets[inde].seat.id == $scope.selectedSeat.id)
                 {
                     // update local storage of projection tickets
@@ -146,7 +149,6 @@
                     foundedSeatInProjection = true;
                     break;
                 }
-    
             }
                     
             // save new Ticket to database
@@ -174,7 +176,7 @@
                 $scope.fastTickets.push(ticket);
             
             }).error(function(data,status){
-            toastr.error("Could not transfer ticket");
+                toastr.error("Could not transfer ticket");
             });
           
         }

@@ -29,7 +29,8 @@ app.config(function($routeProvider) {
             css: ['css/repertoire.css']
         }).when('/fastTickets/:id', {
             templateUrl: 'partials/fastReservation.html',
-            controller: 'fastReservationController'
+            controller: 'fastReservationController',
+            css: ['css/fast.css']
         }).when('/ticketReservations/:id', {
             templateUrl: 'partials/ticketReservations.html',
             css: ['css/ticketReservation.css'],

@@ -1,0 +1,9 @@
+
+
+body {
+    background: url("https://media.istockphoto.com/vectors/two-vector-golden-cinema-movie-theatre-concert-performance-party-vector-id927883418") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

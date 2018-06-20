@@ -160,12 +160,6 @@
                     }
                 }
             }
-
-            //izbaci sve iz inicijalne matrice
-
-
-            console.log("Sortirani");
-            console.log(sorted);
             return sorted;
         }
 

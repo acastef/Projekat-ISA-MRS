@@ -5,6 +5,7 @@ import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.*;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,25 +34,31 @@ public class TicketServiceImpl implements TicketService{
     private EntityManager entityManager;
 
 
-
-
     @Override
     @Transactional
     public void add(Ticket ticket)
     {
-
         try{
-            //ticketRepository.save(ticket);
-            Projection p = entityManager.find(Projection.class, ticket.getProjection().getId(), LockModeType.PESSIMISTIC_WRITE);
+            long id = ticket.getProjection().getId();
+            Projection p = findById(id);
             Set<Ticket> tickets = p.getTickets();
             tickets.add(ticket);
             p.setTickets(tickets);
-            entityManager.persist(p);
+            save(p);
         }catch(LockTimeoutException e){
             throw new ValidationException("Seat you chosen is already taken, refresh page!");
         }
     }
 
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    public Projection findById(long id){
+        return projectionRepository.findById(id).get();
+    }
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public Projection save(Projection p){
+        return projectionRepository.save(p);
+    }
 
     @Override
     public String delete(long id) {
@@ -204,9 +211,6 @@ public class TicketServiceImpl implements TicketService{
         ticketRepository.changeTicketOwner(userId, projId, seatId);
         return "Invitation accepted";
     }
-
-
-
 
     private String generateMonth(LocalDateTime d) {
 

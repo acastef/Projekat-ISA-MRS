@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -111,12 +112,20 @@ public class TicketController {
         }
     }
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/all/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
-        return new ResponseEntity<List<Ticket>>(ticketService.getTickets(Long.parseLong(id)), HttpStatus.OK);
+        List<Ticket> all = ticketService.getTickets(Long.parseLong(id));
+        List<Ticket> activeTickets = new ArrayList<Ticket>();
+        for(Ticket t : all){
+            if(t.getProjection().getDate().isAfter(LocalDateTime.now().plusMinutes(30))){
+                activeTickets.add(t);
+            }
+        }
+        return new ResponseEntity<List<Ticket>>(activeTickets, HttpStatus.OK);
     }
+
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/getVisitsByWeeks/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

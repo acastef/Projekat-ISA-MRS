@@ -17,6 +17,13 @@ public interface ProjectionService {
     Projection findById(long id);
 
 
+    /***
+     *
+     * @return all projections
+     */
+    List<Projection> getAll();
+
+
     /**
      *
      * @param projection that needs to be saved

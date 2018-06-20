@@ -21,6 +21,10 @@
             return $http.get("/login/getLogged");
         }
 
+        service.getProjections = function() {
+            return $http.get("/projections/all");
+        }
+
         return service;
     }
 

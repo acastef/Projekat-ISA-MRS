@@ -1,7 +1,7 @@
 INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('fanAdmin', '1', '', '3', '', 'sys@sys', TRUE, '', 'sys', '', '', 'sys');
-INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '2', 'Mihajla Pupina 3', '0', 'default-avatar.jpg', 'peraperic@gmail.com', TRUE, 'Pera', 'pera', 'Peric', '123', 'pera');
-INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '3', 'Dvorska 7', '0', 'default-avatar.jpg', 'nemanjaivetic@gmail.com', TRUE, 'Nemanja', 'nemanja', 'Ivetic', '456', 'nemanja');
-INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '4', 'Igmanska 73', '0', 'default-avatar.jpg', 'igorjovanovic@gmail.com', TRUE, 'Igor', 'a', 'Jovanovic', '789', 'a');
+INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '2', 'Mihajla Pupina 3', '0', 'default-avatar.jpg', 'stefkic.jr@gmail.com', TRUE, 'Pera', 'pera', 'Peric', '123', 'pera');
+INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '3', 'Dvorska 7', '0', 'default-avatar.jpg', 'stefkic.jr@gmail.com', TRUE, 'Nemanja', 'nemanja', 'Ivetic', '456', 'nemanja');
+INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('registered', '4', 'Igmanska 73', '0', 'default-avatar.jpg', 'stefkic.jr@gmail.com', TRUE, 'Igor', 'a', 'Jovanovic', '789', 'a');
 
 INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('fanAdmin', '6', 'Prizrenska 34', '2', 'default-avatar.jpg', 'brankodragicevic', TRUE, 'Branko', 'branko', 'Dragicevic', '741', 'branko');
 INSERT INTO `user` (`type`, `id`, `address`, `authorities`, `avatar`, `email`, `first_login`, `name`, `password`, `surname`, `telephone`, `username`) VALUES ('fanAdmin', '7', 'Tolstojeva19', '2', 'default-avatar.jpg', 'jovanapavlovic@gmail.com', TRUE, 'Jovana', 'j', 'Pavlovic', '586', 'j');
@@ -129,4 +129,16 @@ INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('
 INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('2', '2018-06-18 03:29:17', '40', '0', '1', '3');
 INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('3', '2018-06-18 03:31:16', '81', '0', '2', '2');
 INSERT INTO `bid` (`id`, `date`, `offer`, `state`, `ad_id`, `user_id`) VALUES ('4', '2018-06-18 03:33:24', '85', '0', '2', '4');
+
+INSERT INTO `projection` (`id`, `date`, `description`, `director`, `duration`, `genre`, `name`, `picture`, `price`, `facility_id`, `viewing_room_id`) VALUES ('1', '2018-06-21 13:10:00', 'Opis1', 'Reziser', '90', 'Akcija', 'Akcioni film', 'https://cdn.psychologytoday.com/sites/default/files/styles/image-article_inline_full/public/field_blog_entry_images/2017-06/movie_projector.jpg?itok=zD-doWcz', '100', '1', '1');
+
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('1', '0', '0', '1', '0', '0', '1', '2', '1', '1');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('2', '0', '0', '1', '0', '0', '1', '2', '1', '3');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('3', '0', '0', '1', '0', '0', '1', '2', '1', '4');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('4', '0', '0', '1', '0', '0', '1', '2', '1', '7');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('5', '0', '0', '1', '0', '0', '2', '3', '1', '8');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('6', '0', '0', '1', '0', '0', '2', '3', '1', '9');
+INSERT INTO `ticket` (`id`, `discount`, `fast_reservation`, `seat_status`, `taken`, `version`, `facility_id`, `owner_id`, `projection_id`, `seat_id`) VALUES ('7', '0', '0', '1', '0', '0', '2', '4', '1', '13');
+
+
 

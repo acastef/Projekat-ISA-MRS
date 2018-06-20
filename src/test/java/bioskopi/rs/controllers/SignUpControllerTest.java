@@ -34,43 +34,51 @@ import java.util.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SignUpControllerTest {
 
-//    private static final String URL_PREFIX = "/signup";
-//    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-//            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-//
-//    private MockMvc mockMvc;
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Before
-//    public void setUp() throws Exception{
-//        List<RegisteredUser> registered = new ArrayList<RegisteredUser>();
-//        Person person2 = new Person( 2L, "Filip", "Baturan", "filip.baturan@gmail.com");
-//        registered.add(new RegisteredUser("filipbat", "2807", "filbat", 2L,
-//                new HashSet<PropsReservation>(), person2));
-//        List<RegisteredUser> temp = userRepository.saveAll(registered);
-//
-//    }
-//
-//    @Autowired
-//    private WebApplicationContext webApplicationContext;
-//
-//    @PostConstruct
-//    public void setup() {this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();}
-//
-//    @Test
-//    public void add() throws Exception{
-//        Person person1 = new Person( 1L, "Aleksandar", "Stefanovic", "stefkic.jr@gmail.com");
-//        RegisteredUser reg = new RegisteredUser("acastef", "1611", "stefaca", 1L,
-//                new HashSet<PropsReservation>(), person1);
-//        String json = TestUtil.json(reg);
-//        int index = json.indexOf("}");
-//        json = json.substring(0, index);
-//        mockMvc.perform(post(URL_PREFIX + "/addUser")
-//                .contentType(contentType).content(json))
-//                .andExpect(status().isCreated());
-//
-//    }
+    private static final String URL_PREFIX = "/signup";
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+    private MockMvc mockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Before
+    public void setUp() throws Exception{
+        List<RegisteredUser> registered = new ArrayList<RegisteredUser>();
+        RegisteredUser person2 = new RegisteredUser( 2L, "aaa", "aaa",
+                "nesto@gmail.com", "ccc", "bbb", "bbb",
+                false, "322523432", "adr2");
+        registered.add(person2);
+        List<RegisteredUser> temp = userRepository.saveAll(registered);
+
+    }
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @PostConstruct
+    public void setup() {this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();}
+
+    @Test
+    public void addBad() throws Exception{
+        RegisteredUser person1 = new RegisteredUser( 1L, "Aleksandar", "Stefanovic",
+                "stefkic.jr@gmail.com", "acastef", "aca", "acastef",
+                false, "039202933", "adresa");
+        String json = TestUtil.json(person1);
+        int index = json.indexOf("}");
+        json = json.substring(0, index);
+        mockMvc.perform(post(URL_PREFIX + "/addUser")
+                .contentType(contentType).content(json))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void activate() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/acastef"))
+                .andExpect(status().isOk());
+
+    }
 }
 

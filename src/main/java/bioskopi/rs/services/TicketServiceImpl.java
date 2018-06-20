@@ -42,8 +42,15 @@ public class TicketServiceImpl implements TicketService{
             long id = ticket.getProjection().getId();
             Projection p = findById(id);
             Set<Ticket> tickets = p.getTickets();
+            for(Ticket t : tickets) {
+                if ((t.getProjection().getId() == ticket.getProjection().getId()) &&
+                        (t.getSeat().getId() == ticket.getSeat().getId())) {
+                    throw new ValidationException("Seat you chose is already taken!");
+                }
+            }
             tickets.add(ticket);
             p.setTickets(tickets);
+
             save(p);
         }catch(LockTimeoutException e){
             throw new ValidationException("Seat you chosen is already taken, refresh page!");

@@ -243,6 +243,7 @@
                 if (($scope.friends.length > 0) && ($scope.selectedNodes.length > 1)) {
                     $scope.inviteVis = true;
                 }
+                toastr.success("Successfully reserved!");
                 return;
             } else {
                 toastr.error("You didn't reserved any ticket!");
@@ -386,7 +387,6 @@
 
                 $scope.newTickets.push(ticket);
                 ticketReservationsService.addTicket(ticket);
-                toastr.success("Successfully reserved!");
                 return;
 
             }).error(function(data, status) {

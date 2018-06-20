@@ -38,9 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -76,14 +74,31 @@ public class ProjectionsControllerTest {
     @Before
     public void setUp() throws Exception {
 
+
+
         Cinema cin1 = new Cinema("loc1", "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
         Cinema cin2 = new Cinema("PRESERVATION", "addr2", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
 
-        cin1.getPointsScales().setFacility(cin1);
-        cin2.getPointsScales().setFacility(cin2);
+        PointsScale ps1 = new PointsScale();
+        ps1.setFacility(cin1);
+
+        PointsScale ps2 = new PointsScale();
+        ps2.setFacility(cin2);
+
+        cin1.setPointsScales(ps1);
+        cin2.setPointsScales(ps2);
+
+//        cin1.getViewingRooms().add(viewingRoom);
+//        //cin2.getViewingRooms().add(viewingRoom);
+//
+//        viewingRoom.setFacility(cin1);
+
+
+//        cin1.getPointsScales().setFacility(cin1);
+//        cin2.getPointsScales().setFacility(cin2);
 
         Facility fac = facilityRepository.save(cin1);
         ProjectionsConstants.DB_FAC = fac;
@@ -91,23 +106,20 @@ public class ProjectionsControllerTest {
 
         facilityRepository.save(cin2);
 
+
+
+        //viewingRoomRepository.save(viewingRoom);
+
+
+
         Projection p = new Projection("name1", LocalDateTime.now(), 111, new HashSet<String>(),
                 "genre1", "director1", 11, "picture1", "description1",
                 viewingRoom, new HashSet<Ticket>(), ProjectionsConstants.DB_FAC, new HashSet<Feedback>());
 
-        projectionRepository.save(p);
+        Projection pSaved = projectionRepository.save(p);
+        DB_PROJ_ID = pSaved.getId();
 
-    }
 
-    @Test
-    public void getById() throws Exception {
-        String path = URL_PREFIX + "/getById/" + DB_PROJ_ID;
-        mockMvc.perform(get(path))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.id").value(DB_PROJ_ID))
-                .andExpect(jsonPath("$.name").value(DB_PROJ_NAME));
     }
 
     @Test
@@ -118,7 +130,7 @@ public class ProjectionsControllerTest {
 //                "genre1", "director1", 2, "picture1", "description1",
 //                new ViewingRoom(), new HashSet<Ticket>() );
 
-        p = projectionRepository.getOne(DB_PROJ_ID);
+        p = projectionRepository.findById(DB_PROJ_ID).get();
         p.setPrice(123);
         p.setName("newName");
         p.setGenre("Action");
@@ -171,42 +183,5 @@ public class ProjectionsControllerTest {
 
     }
 
-    @Test
-    @Transactional
-    public void getSeatsStatuses() throws Exception
-    {
 
-//        long idSeat1 = 0;
-//        long idSeat2 = 0;
-//        long idSeat3 = 0;
-//
-//        for (Seat s :
-//                seats) {
-//            if (s.getSeatRow() == "1" && s.getSeatColumn() == "1") {
-//                idSeat1 = s.getId();
-//            }
-//            else if (s.getSeatRow() == "2" && s.getSeatColumn() == "2") {
-//                idSeat2 = s.getId();
-//            }
-//            else if (s.getSeatRow() == "3" && s.getSeatColumn() == "3") {
-//                idSeat3 = s.getId();
-//            }
-//        }
-//
-//        HashMap<Long, Boolean> statuses = new HashMap<Long, Boolean>();
-//        statuses.put(idSeat1, true);
-//        statuses.put(idSeat2, true);
-//        statuses.put(idSeat3, false);
-//
-//
-//
-//
-//        String json = TestUtil.json(p);
-//        ResultActions result =  mockMvc.perform(RestDocumentationRequestBuilders.put(URL_PREFIX + "/getSeatsStatuses/" + DB_PROJ_ID)
-//                .contentType(contentType).content(json))
-//                .andExpect(status().isOk());
-//
-//        String sad = result.toString();
-//        System.out.print(sad);
-    }
 }

@@ -103,19 +103,19 @@ public class TicketServiceImplTest {
         assertThat(newTicket.isFastReservation()).isEqualTo(true);
     }
 
-    @Test
-    @Transactional
-    public void add()
-    {
-        Ticket t = new Ticket(DB_TIC_ID, SeatStatus.FREE, false, user, seat, p, cinema);
-        t = ticketService.add(t);
-
-        Ticket newTicket = ticketRepository.getOne(t.getId());
-        assertThat(newTicket).isNotNull();
-        assertThat(newTicket.getSeat()).isEqualTo(t.getSeat());
-        assertThat(newTicket.getProjection()).isEqualTo(t.getProjection());
-
-    }
+//    @Test
+//    @Transactional
+//    public void add()
+//    {
+//        Ticket t = new Ticket(DB_TIC_ID, SeatStatus.FREE, false, user, seat, p, cinema);
+//        t = ticketService.add(t);
+//
+//        Ticket newTicket = ticketRepository.getOne(t.getId());
+//        assertThat(newTicket).isNotNull();
+//        assertThat(newTicket.getSeat()).isEqualTo(t.getSeat());
+//        assertThat(newTicket.getProjection()).isEqualTo(t.getProjection());
+//
+//    }
 
     @Test
     @Transactional

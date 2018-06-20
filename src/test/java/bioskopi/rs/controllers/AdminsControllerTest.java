@@ -63,6 +63,7 @@ public class AdminsControllerTest {
         FanZoneAdmin fan1 = new FanZoneAdmin(DB_FAN_NM,DB_FAN_SN,DB_FAN_EM,DB_FAN_UN,DB_FAN_PS,DB_FAN_AV,DB_FAN_FL,
                 DB_FAN_TEL,DB_FAN_ADR);
 
+
         DB_FAC = new Cinema("Cin1", "addr1", "cinema",
                 new HashSet<>(), new HashSet<>(), new PointsScale(), new HashSet<>(),  new HashSet<>());
         DB_FAC.getPointsScales().setFacility(DB_FAC);

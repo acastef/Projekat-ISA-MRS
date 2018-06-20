@@ -36,8 +36,15 @@
         }
 
         service.sendInvitation = function(user, projId, seatId) {
-            console.log("Poslao sam mail");
             return $http.post("/tickets/sendInvitation/" + projId + "+" + seatId, user)
+        }
+
+        service.getPointScale = function(id) {
+            return $http.get("/points_scale/facility/" + id);
+        }
+
+        service.getRegistered = function(id) {
+            return $http.get("/login/getReg/" + id)
         }
 
 

@@ -4,6 +4,7 @@ import bioskopi.rs.domain.AuthorityEnum;
 import bioskopi.rs.domain.PointsScale;
 import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.services.PointsScaleServiceImpl;
 import bioskopi.rs.validators.AuthorityValidator;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class PointsScaleController {
     private PointsScaleServiceImpl pointsScaleService;
 
 
+
     /**
      * @return collection of all available points scales in database
      */
@@ -49,6 +51,14 @@ public class PointsScaleController {
     public ResponseEntity<PointsScale> getByName(@PathVariable String id){
         logger.info("Fetching points scale with id {}", id);
         return new ResponseEntity<>(pointsScaleService.getById(Long.parseLong(id)),HttpStatus.OK) ;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/facility/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<UserCategory>> getFromFacility(@PathVariable String id){
+        logger.info("Fetching points scale from facility with id {}", id);
+
+        return new ResponseEntity<List<UserCategory>>(pointsScaleService.getFromFacility(Long.parseLong(id)), HttpStatus.OK);
     }
 
     /**

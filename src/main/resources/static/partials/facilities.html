@@ -1,12 +1,12 @@
 <!-- <h1>Facilities</h1> -->
 
 <!-- style="background-color: #c2d1f0"  -->
-<div  id = "glavni" ng-controller = "facilitiesController" >
+<div id="glavni" ng-controller="facilitiesController">
     <h2 ng-show="facilities.length ==0">There are no facilities records</h2>
 
-    
 
-    <div ng-repeat="fac in facilities" class="container" >
+
+    <div ng-repeat="fac in facilities" class="container">
 
         <div class="row row-eq-height"  style="margin-right:20px; margin-left:20px">
 
@@ -26,19 +26,32 @@
                                 <!-- <p  class="text-white bg-dark">    Name: {{fac.name}}</p> -->
                                 <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
 
+
+
+                                <!-- <span><p  class="text-white bg-dark">    Id: {{fac.id}}</p></span> -->
+                                <p class="text-white bg-dark"> Name: {{fac.name}}</p>
+                                <p class="text-white bg-dark"> Address: {{fac.address}}</p>
+
                                 <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
-                                <a ng-show="showRepertorire" class="text-white bg-dark" 
-                                ng-href = "#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+                                <a ng-show="showRepertorire" class="text-white bg-dark" ng-href="#repertoire/{{fac.id}}">    Repertoire</a><br><br>
 
-                                <a ng-show="showReport" class="text-white bg-dark" ng-href = "#report/{{fac.id}}">        Show report</a><br><br>
+                                <a ng-show="showReport" class="text-white bg-dark" ng-href="#report/{{fac.id}}">        Show report</a><br><br>
 
-                                
-
+                                <button ng-show="showRate" class="btn btn-small btn-primary" ng-click="showChangeRate(fac.id)">Rate facility</button>
+                                <br><br>
+                                <form accept-charset="UTF-8" ng-hide="changeRate[{{fac.id}}]" ng-submit="rateFacility(fac.id, newScore, newScoreDescp)">
+                                    <label>Enter your rate (1-5): </label>
+                                    <input type="text" id="rate"><br>
+                                    <label>Describe your experience: </label>
+                                    <input type="text" id="descp"><br>
+                                    <button type="submit">Send your rate</button>
+                                </form>
+                                <br><br>
                                 <!-- every facility has form in which it can be changed -->
                                 <button ng-show="showChange" class="btn btn-small btn-primary" ng-click="showChangeForm(fac.id)">Change facility</button><br><br>
                                 <!-- <button class="btn btn-small btn-primary" ng-click="showModalForm('lg', fac)">Change facility</button><br><br> -->
 
-                                <form accept-charset="UTF-8" ng-hide= changeForms[{{fac.id}}]  ng-submit="changeFacility($index)">
+                                <form accept-charset="UTF-8" ng-hide=changeForms[{{fac.id}}] ng-submit="changeFacility($index)">
 
                                     <label>Name: </label>
                                     <input type="text" ng-model="fac.name"><br>
@@ -49,18 +62,18 @@
                                     <label>Description: </label>
                                     <input class="form-control" rows="10" type="text" ng-model="fac.description"><br>
 
-                                    <input type = "submit" value = "Change">
+                                    <input type="submit" value="Change">
 
 
                                 </form>
 
-                                <a  ng-show="showFTickets" class="text-white bg-dark" href = "#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-                                <a  ng-show="showConfgSeats"class="text-white bg-dark"href = "#viewingRooms/{{fac.id}}">Configure seats</a>
+                                <a ng-show="showFTickets" class="text-white bg-dark" href="#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
+                                <a ng-show="showConfgSeats" class="text-white bg-dark" href="#viewingRooms/{{fac.id}}">Configure seats</a>
 
                             </div>
 
                             <div class="col-md-5">
-                                <p  class="text-white bg-dark">    Description: {{fac.description}}</p>                                       
+                                <p class="text-white bg-dark"> Description: {{fac.description}}</p>
                             </div>
                             <div class="col-md-4">
                                 <div style="width: 80%">
@@ -132,7 +145,7 @@
                
             </div> -->
 
-    
+
 
     </div>
 

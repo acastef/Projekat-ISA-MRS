@@ -1,9 +1,11 @@
 package bioskopi.rs.services;
 
 import bioskopi.rs.domain.PointsScale;
+import bioskopi.rs.domain.UserCategory;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.PointsScaleRepository;
 import bioskopi.rs.repository.UserCategoryRepository;
+import bioskopi.rs.repository.UserRepository;
 import org.hibernate.PersistentObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class PointsScaleServiceImpl implements PointsScaleService {
     @Autowired
     private PointsScaleRepository pointsScaleRepository;
 
+    @Autowired
+    private UserCategoryRepository userCategoryRepository;
+
     @Override
     public List<PointsScale> getAll() {
         return pointsScaleRepository.findAll();
@@ -43,5 +48,11 @@ public class PointsScaleServiceImpl implements PointsScaleService {
         checkTypes(scale.getUserCategories());
 
         return pointsScaleRepository.saveAndFlush(scale);
+    }
+
+    @Override
+    public List<UserCategory> getFromFacility(long id) {
+        long id1 = userCategoryRepository.selectPointScaleId(id);
+        return userCategoryRepository.categories(id1);
     }
 }

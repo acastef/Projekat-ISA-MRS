@@ -3,9 +3,12 @@ package bioskopi.rs.controllers;
 import bioskopi.rs.domain.DTO.UserDTO;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
+import bioskopi.rs.domain.User;
+import bioskopi.rs.domain.RegisteredUser;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.MailService;
 import bioskopi.rs.services.TicketService;
+import bioskopi.rs.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,10 @@ import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,26 +38,54 @@ public class TicketController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private UserService userService;
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Ticket> addTicket(@RequestBody Ticket t) {
-        return new ResponseEntity<Ticket>(ticketService.add(t), HttpStatus.OK);
+    public ResponseEntity<Object> addTicket(@RequestBody Ticket t) {
+        //try {
+            long id = t.getOwner().getId();
+            User u = userService.getById(id);
+            RegisteredUser reg = userService.getByUsername(u.getUsername());
+            System.out.println("User ima: " + reg.getPoints());
+            int points = reg.getPoints() + 1;
+            userService.updatePoints(id, points);
+            ticketService.add(t);
+            return new ResponseEntity<Object>("Successfully reserved", HttpStatus.OK);
+        //}catch (Exception e){
+        //    return new ResponseEntity<Object>("Failed to reserve", HttpStatus.BAD_REQUEST);
+        //}
     }
+
 
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Ticket> updateTicket(@RequestBody Ticket t) {
+
         //Ticket tick = ticketService.add(t);
         return new ResponseEntity<Ticket>(ticketService.update(t), HttpStatus.OK);
     }
 
 
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deleteTicket(@PathVariable String id) {
-        ticketService.deleteReservation(Long.parseLong(id));
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        try{
+            Long idt = Long.parseLong(id);
+            Ticket t = ticketService.getById(idt);
+            long id1 = t.getOwner().getId();
+            User u = userService.getById(id1);
+            RegisteredUser reg = userService.getByUsername(u.getUsername());
+            int points = reg.getPoints() - 1;
+            userService.updatePoints(id1, points);
+            ticketService.deleteReservation(idt);
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ResponseBody
@@ -79,12 +112,20 @@ public class TicketController {
         }
     }
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/all/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Ticket>> getTickets(@PathVariable String id){
-        return new ResponseEntity<List<Ticket>>(ticketService.getTickets(Long.parseLong(id)), HttpStatus.OK);
+        List<Ticket> all = ticketService.getTickets(Long.parseLong(id));
+        List<Ticket> activeTickets = new ArrayList<Ticket>();
+        for(Ticket t : all){
+            if(t.getProjection().getDate().isAfter(LocalDateTime.now().plusMinutes(30))){
+                activeTickets.add(t);
+            }
+        }
+        return new ResponseEntity<List<Ticket>>(activeTickets, HttpStatus.OK);
     }
+
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/getVisitsByWeeks/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -122,7 +163,6 @@ public class TicketController {
         }
     }
 
-    @Transactional
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/invitation/{userId}+{projId}+{seatId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> acceptInvitation(@PathVariable String userId, @PathVariable String projId,

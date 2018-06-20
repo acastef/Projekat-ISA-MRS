@@ -12,6 +12,7 @@
         $scope.projectionId = $routeParams.id;
         $scope.projection = {};
         $scope.numberOfSeats = 0;
+        $scope.initialSeats = [];
         $scope.seats = [];
         $scope.seatsStatuses = {};
         $scope.seatRow = 0;
@@ -26,7 +27,11 @@
         $scope.choosenFriend = {};
         $scope.ticketsToOffer = [];
         $scope.noMoreTickets = false;
+        $scope.sortedCategories = [];
         $scope.newTickets = [];
+        $scope.pointScale = [];
+        $scope.user = {};
+        $scope.resBtn = true;
 
         activate();
 
@@ -34,8 +39,10 @@
             ticketReservationsService.getProjectionById($scope.projectionId)
                 .success(function(data, status) {
                     $scope.projection = data;
+
                     ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status) {
-                        $scope.seats = data;
+                        $scope.initialSeats = data;
+                        $scope.seats = $scope.sortSeats($scope.initialSeats);
                         $scope.numberOfSeats = data.length;
 
                         ticketReservationsService.getSeatsStatuses($scope.projectionId).success(function(data, status) {
@@ -43,8 +50,24 @@
                             $scope.makeSeatLayout();
                             ticketReservationsService.getLogged().success(function(data, status) {
                                 $scope.logged = data;
+                                console.log(data);
                                 friendsService.getFriends($scope.logged.id).success(function(data, status) {
                                     $scope.friends = data;
+                                    ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
+                                        ticketReservationsService.getPointScale(data.id).success(function(data, status) {
+                                            $scope.pointScale = data;
+                                            $scope.sortedCategories = $scope.sortScale($scope.pointScale);
+                                            ticketReservationsService.getRegistered($scope.logged.id).success(function(data, status) {
+                                                $scope.user = data;
+                                            }).error(function(data, status) {
+                                                console.log("Error while fetching data");
+                                            })
+                                        }).error(function(data, status) {
+                                            console.log("Error while fetching data");
+                                        });
+                                    }).error(function(data, status) {
+                                        console.log("Error while fetching data");
+                                    });
                                 }).error(function(data, status) {
                                     console.log("Error while fetching data");
                                 });
@@ -65,9 +88,9 @@
 
         };
 
-        $scope.seatSelected = function() {
-            console.log("ASDASDASD");
-        };
+        // $scope.seatSelected = function() {
+        //     console.log("ASDASDASD");
+        // };
 
         $scope.userEvent = '--';
 
@@ -91,6 +114,57 @@
 
             //console.log('User attempted to select occupied seat : ' + node.displayName);
         };
+
+        $scope.sortSeats = function(seats) {
+            //sortira se matrica, ali je makeLayout napravljen kao lista, pa ce se podaci trpati u listu
+            var sorted = [];
+            while (seats.length > 0) {
+                var found = [];
+                var minRow = seats[0].seatRow;
+                var i;
+                var j;
+                //najmanji red - oznaka
+                for (i = 1; i < $scope.seats.length; i++) {
+                    if (parseInt($scope.seats[i].seatRow) < rowMin) {
+                        rowMin = parseInt($scope.seats[i].seatRow);
+                    }
+                }
+
+                //izvuci sve iz tog reda
+                for (i = 0; i < seats.length; i++) {
+                    if (seats[i].seatRow == minRow) {
+                        found.push(seats[i]);
+                    }
+                }
+
+                //sortiranje reda
+                while (found.length > 0) {
+                    var pos = 0;
+                    var seatToPut = found[0];
+                    var minColumn = found[0].seatColumn;
+                    for (i = 1; i < found.length; i++) {
+                        if (parseInt(found[i].seatColumn) < parseInt(minColumn)) {
+                            seatToPut = found[i];
+                            minColumn = found[i].seatColumn;
+                            pos = i;
+                        }
+                    }
+                    sorted.push(seatToPut);
+                    found.splice(pos, 1);
+                    var founded = false;
+                    for (j = 0; j < seats.length; j++) {
+                        if (!founded) {
+                            if ((seats[j].seatRow == seatToPut.seatRow) && (seats[j].seatColumn == seatToPut.seatColumn)) {
+                                seats.splice(j, 1)
+                                founded = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return sorted;
+        }
+
 
         $scope.calculateSeatRows = function() {
             var rowMax = 0;
@@ -170,7 +244,7 @@
                 if (($scope.friends.length > 0) && ($scope.selectedNodes.length > 1)) {
                     $scope.inviteVis = true;
                 }
-                toastr.success("Successfully reserved!");
+                $scope.resBtn = false;
                 return;
             } else {
                 toastr.error("You didn't reserved any ticket!");
@@ -246,12 +320,61 @@
         }
 
 
+        $scope.getScale = function(id) {
+            var pointScale = [];
+            ticketReservationsService.getPointScale(id).success(function(data, status) {
+                $scope.pointScale = data;
+            }).error(function(data, status) {
+                console.log("Error while gettinh data");
+            });
+        }
+
+        $scope.sortScale = function(scale) {
+            var points = [];
+            var checkPoints = scale;
+            while (checkPoints.length > 0) {
+                var i;
+                var toRemove = 0;
+                var min = checkPoints[0];
+                for (i = 0; i < checkPoints.length; i++) {
+                    if (checkPoints[i].points < min.points) {
+                        min = checkPoints[i];
+                        toRemove = i;
+                    }
+                }
+                points.push(min);
+                checkPoints.splice(toRemove, 1);
+            }
+            return points;
+        }
+
+        $scope.searchCategory = function(scale, points) {
+            var i;
+            var found = false;
+            var match = 0;
+            for (i = 0; i < scale.length; i++) {
+                if (!found) {
+                    match = i;
+                    if (points < scale[i].points) {
+                        match--;
+                        found = true;
+                    }
+                }
+            }
+            if (match >= 0) {
+                return scale[match].discount;
+            } else {
+                return 0;
+            }
+        }
+
         $scope.writeTickets = function(seat) {
 
             var id = seat.id;
             var ticket = {};
             ticket.facility = {};
             ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
+                ticket.discount = $scope.searchCategory($scope.sortedCategories, $scope.user.points);
                 ticket.facility.id = data.id;
                 ticket.fastReservation = 0;
                 ticket.seatStatus = 1;
@@ -262,8 +385,14 @@
                 ticket.projection = $scope.projection;
                 ticket.seat = {};
                 ticket.seat.id = id;
+
                 $scope.newTickets.push(ticket);
-                ticketReservationsService.addTicket(ticket);
+                ticketReservationsService.addTicket(ticket).success(function(data, status) {
+                    toastr.success("Successfully reserved!");
+                }).error(function(data, status) {
+                    toastr.error("Sorry, this seat is already reserved!");
+                });
+
                 return;
 
             }).error(function(data, status) {
@@ -274,4 +403,4 @@
 
     }
 
-})()
+})();

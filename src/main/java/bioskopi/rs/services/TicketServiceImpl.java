@@ -5,20 +5,18 @@ import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.*;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.OptimisticLockException;
+import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service("tickets")
 public class TicketServiceImpl implements TicketService{
@@ -32,11 +30,42 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     @Override
     @Transactional
-    public Ticket add(Ticket ticket)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public void add(Ticket ticket)
     {
-        return ticketRepository.saveAndFlush(ticket);
+        try{
+            long id = ticket.getProjection().getId();
+            Projection p = findById(id);
+            List<Ticket> tickets = ticketRepository.getListByProjectionId(p.getId());
+            for(Ticket t : tickets) {
+                if ((t.getProjection().getId() == ticket.getProjection().getId()) &&
+                        (t.getSeat().getId() == ticket.getSeat().getId())) {
+                    throw new ValidationException("Seat you chose is already taken!");
+                }
+            }
+            tickets.add(ticket);
+
+            p.setTickets(new HashSet<Ticket>(tickets));
+
+            save(p);
+        }catch(LockTimeoutException e){
+            throw new ValidationException("Seat you chosen is already taken, refresh page!");
+        }
+    }
+
+
+    public Projection findById(long id){
+        return projectionRepository.findById(id).get();
+    }
+
+    public Projection save(Projection p){
+        return projectionRepository.save(p);
     }
 
     @Override
@@ -97,6 +126,7 @@ public class TicketServiceImpl implements TicketService{
         }
     }
 
+    @Transactional
     @Override
     public void deleteReservation(long id) {
         try{
@@ -114,9 +144,19 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
+    public List<Ticket> getListByProjectionId(long id) {
+        return ticketRepository.getListByProjectionId(id);
+    }
+
+    @Override
     public List<Ticket> getTickets(long ownerId) {
         List<Ticket> allTickets = ticketRepository.getAllTickets(ownerId);
         return allTickets;
+    }
+
+    @Override
+    public Ticket getById(long id) {
+        return ticketRepository.getOne(id);
     }
 
 
@@ -178,6 +218,7 @@ public class TicketServiceImpl implements TicketService{
         return ticketRepository.getTakenSeats(VrId);
     }
 
+    @Transactional
     @Override
     public Object changeOwner(long userId, long projId, long seatId) {
         ticketRepository.changeTicketOwner(userId, projId, seatId);

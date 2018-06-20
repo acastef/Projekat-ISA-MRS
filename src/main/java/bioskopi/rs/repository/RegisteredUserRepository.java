@@ -11,5 +11,8 @@ public interface RegisteredUserRepository extends JpaRepository<RegisteredUser,L
     @Query(value = "SELECT * FROM user u WHERE u.username = :username", nativeQuery = true)
     RegisteredUser getByUserName(@Param("username") String username);
 
+    @Query(value = "SELECT * FROM user u WHERE u.id = ?1", nativeQuery = true)
+    RegisteredUser findUserById(long id);
+
 
 }

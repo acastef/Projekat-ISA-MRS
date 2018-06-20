@@ -11,9 +11,11 @@ import bioskopi.rs.repository.ViewingRoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockModeType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +40,14 @@ public class ProjectionServiceImpl implements ProjectionService {
     private TicketRepository ticketRepository;
 
     @Override
+    @Lock(LockModeType.PESSIMISTIC_READ)
     public Projection findById(long id) {
-       return projectionRepository.getOne(id);
+       return projectionRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Projection> getAll() {
+        return projectionRepository.getAll();
     }
 
     @Override
@@ -70,6 +78,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
         return seatStatuses;
     }
+
 
 
     @Override

@@ -19,6 +19,9 @@ public class RegisteredUser extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Column(nullable = true)
+    private int points;
+
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "registeredUser", cascade = CascadeType.ALL)
     private Set<PropsReservation> propsReservations;
@@ -41,6 +44,7 @@ public class RegisteredUser extends User implements Serializable {
         this.propsReservations = new HashSet<PropsReservation>();
         this.tickets = new HashSet<Ticket>();
         this.friends = new ArrayList<Friendship>();
+        this.points = 0;
     }
 
     public RegisteredUser(long id, String name, String surname, String email, String username, String password,
@@ -50,6 +54,7 @@ public class RegisteredUser extends User implements Serializable {
         this.propsReservations = propsReservations;
         this.tickets = tickets;
         this.friends = friends;
+        this.points = 0;
     }
 
     public RegisteredUser(String name, String surname, String email, String username, String password, String avatar,
@@ -59,6 +64,7 @@ public class RegisteredUser extends User implements Serializable {
         this.propsReservations = propsReservations;
         this.tickets = tickets;
         this.friends = friends;
+        this.points = 0;
     }
 
     public Set<PropsReservation> getPropsReservations() {
@@ -84,4 +90,14 @@ public class RegisteredUser extends User implements Serializable {
     public void setFriends(List<Friendship> friends) {
         this.friends = friends;
     }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+
 }

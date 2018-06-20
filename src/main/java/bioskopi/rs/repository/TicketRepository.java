@@ -39,11 +39,17 @@ public interface TicketRepository extends JpaRepository<Ticket,Long> {
     @Query(value = "SELECT * FROM ticket  where projection = ?1", nativeQuery = true)
     Ticket getByProjectionId(long projId);
 
+    @Query(value = "SELECT * FROM ticket  where projection_id = ?1", nativeQuery = true)
+    List<Ticket> getListByProjectionId(long projId);
+
     @Query(value = "SELECT * FROM ticket t where t.facility_id = ?1", nativeQuery = true)
     List<Ticket> getTicketsForFacility(long id);
 
     @Query(value = "SELECT t.seat_id FROM ticket t WHERE t.projection_id IN " +
             "(SELECT p.id FROM projection p WHERE p.viewing_room_id = ?1) ", nativeQuery = true)
     List<Long> getTakenSeats(long VrId);
+
+    @Query(value = "SELECT projection_id FROM ticket WHERE id = ?1", nativeQuery = true)
+    Long getProjectionId(long id);
 
 }

@@ -13,14 +13,14 @@ import java.util.List;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
-    @Query(value = "SELECT f.second_id FROM Friendship f WHERE f.first_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT f.second_id FROM friendship f WHERE f.first_id = ?1", nativeQuery = true)
     List<BigInteger> getAllFriends(long id);
 
-    @Query(value = "SELECT u.id FROM User u WHERE u.id != ?1 and " +
-            "u.id not in (SELECT f.second_id FROM Friendship f WHERE f.first_id = ?1)", nativeQuery = true)
+    @Query(value = "SELECT u.id FROM user u WHERE u.id != ?1 and " +
+            "u.id not in (SELECT f.second_id FROM friendship f WHERE f.first_id = ?1)", nativeQuery = true)
     List<BigInteger> getAllNonFriends(long id);
 
-    @Query(value = "SELECT * FROM Friendship f where f.first_id = ?1 and f.second_id = ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM friendship f where f.first_id = ?1 and f.second_id = ?2", nativeQuery = true)
     Friendship getFriendshipByUsers(long id1, long id2);
 
 

@@ -4,6 +4,7 @@ import bioskopi.rs.domain.DTO.ProjectionDTO;
 import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
+import bioskopi.rs.repository.TicketRepository;
 import bioskopi.rs.services.ProjectionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,28 @@ public class ProjectionsController {
     private static final Logger logger = LoggerFactory.getLogger(ProjectionsController.class);
 
     @Autowired
-    ProjectionService projectionService;
+    private ProjectionService projectionService;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Projection> getById(@PathVariable String id) {
         logger.info("Fetching one projection with id: {}", id);
         return new ResponseEntity<>(projectionService.findById(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Projection>> getAll(){
+        return new ResponseEntity<List<Projection>>(projectionService.getAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getByTicket/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Projection> getByTicketId(@PathVariable String id){
+        Long idP = ticketRepository.getProjectionId(Long.parseLong(id));
+        return new ResponseEntity<Projection>(projectionService.findById(idP), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -10,7 +10,7 @@
     function facilitiesService($http) {
         var service = {};
 
-        service.getAll = function(){
+        service.getAll = function() {
             return $http.get('/facilities/all');
         };
 

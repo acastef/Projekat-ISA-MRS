@@ -17,7 +17,9 @@ public interface TicketService {
      * @param t = Ticket that needs to be added
      * @return added Ticket
      */
-    public Ticket add(Ticket t);
+
+
+    public void add(Ticket t);
 
     /**
      *
@@ -62,11 +64,25 @@ public interface TicketService {
 //     */
 //    LocalDate getEarliest(long facId);
 
+    /***
+     *
+     * @param id of ticket
+     * @return ticket
+     */
+    Ticket getById(long id);
+
     /**
      *
      * @return
      */
     Ticket getByProjectionId(long id);
+
+    /***
+     *
+     * @param id - projection
+     * @return list of tickets
+     */
+    List<Ticket> getListByProjectionId(long id);
 
     /**
      *

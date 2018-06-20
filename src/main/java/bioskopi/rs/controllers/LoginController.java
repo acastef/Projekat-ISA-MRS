@@ -44,6 +44,15 @@ public class LoginController {
         return new ResponseEntity<List<RegisteredUser>> (userService.findAllUsers(), HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getReg/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisteredUser> getReg(@PathVariable String id){
+        try{
+            return new ResponseEntity<RegisteredUser>(userService.getRegById(Long.parseLong(id)), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<RegisteredUser>(new RegisteredUser(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /***
      *
      * @param username of user

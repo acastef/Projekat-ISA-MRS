@@ -3,6 +3,7 @@ package bioskopi.rs.controllers;
 import bioskopi.rs.domain.PropsReservation;
 import bioskopi.rs.domain.RegisteredUser;
 //import bioskopi.rs.domain.Person;
+import bioskopi.rs.domain.User;
 import bioskopi.rs.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,50 +33,61 @@ import java.util.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class LoginControllerTest {
 
-//    private static final String URL_PREFIX = "/login";
-//    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-//            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-//
-//    private MockMvc mockMvc;
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Before
-//    public void setUp() throws Exception{
-//        List<RegisteredUser> registered = new ArrayList<RegisteredUser>();
-//        Person person1 = new Person( 1L, "Aleksandar", "Stefanovic", "stefkic.jr@gmail.com");
-//        registered.add(new RegisteredUser("acastef", "1611", "stefaca", 1L,
-//                new HashSet<PropsReservation>(), person1));
-//        Person person2 = new Person( 2L, "Filip", "Baturan", "filip.baturan@gmail.com");
-//        registered.add(new RegisteredUser("filipbat", "2807", "filbat", 2L,
-//                new HashSet<PropsReservation>(), person2));
-//        List<RegisteredUser> temp = userRepository.saveAll(registered);
-//
-//    }
-//
-//    @Autowired
-//    private WebApplicationContext webApplicationContext;
-//
-//    @PostConstruct
-//    public void setup() {this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();}
-//
-//    @Test
-//    public void getUsers() throws Exception{
-//        mockMvc.perform(get(URL_PREFIX + "/allUsers"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(contentType))
-//                .andExpect(jsonPath("$", hasSize(2)));
-//    }
-//
-//    @Test
-//    public void findUserWithUsername() throws Exception{
-//        mockMvc.perform(get(URL_PREFIX + "/" + "acastef"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(contentType))
-//                .andExpect(jsonPath("$.username").value("acastef"))
-//                .andExpect(jsonPath("$.password").value("1611"))
-//                .andExpect(jsonPath("$.avatar").value("stefaca"));
-//
-//    }
+    private static final String URL_PREFIX = "/login";
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+    private MockMvc mockMvc;
+
+
+    //User(long id, String name, String surname, String email, String username, String password, String avatar,
+     //    boolean firstLogin, String telephone, String address)
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Before
+    public void setUp() throws Exception{
+        List<RegisteredUser> registered = new ArrayList<RegisteredUser>();
+        RegisteredUser person1 = new RegisteredUser( 1L, "Aleksandar", "Stefanovic",
+                "stefkic.jr@gmail.com", "acastef", "aca", "acastef",
+                false, "039202933", "adresa");
+        registered.add(person1);
+        RegisteredUser person2 = new RegisteredUser( 2L, "aaa", "aaa",
+                "nesto@gmail.com", "ccc", "bbb", "bbb",
+                false, "322523432", "adr2");
+        registered.add(person2);
+        List<RegisteredUser> temp = userRepository.saveAll(registered);
+
+    }
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @PostConstruct
+    public void setup() {this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();}
+
+    @Test
+    public void getUsers() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/allUsers"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void getReg() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/getReg/" + "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.username").value("acastef"))
+                .andExpect(jsonPath("$.password").value("aca"))
+                .andExpect(jsonPath("$.avatar").value("acastef"));
+    }
+
+    @Test
+    public void logout() throws Exception{
+        mockMvc.perform(get(URL_PREFIX + "/logout"))
+                .andExpect(status().isOk());
+    }
 }

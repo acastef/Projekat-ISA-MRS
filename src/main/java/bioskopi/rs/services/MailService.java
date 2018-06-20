@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -37,7 +38,7 @@ public class MailService {
         mail.setTo(regUser.getEmail());
         mail.setFrom("666.null.null.null@gmail.com");
         mail.setSubject("Account activation");
-        mail.setText("Click: http://localhost:8080/signup/"+regUser.getUsername());
+        mail.setText("Click: https://bioskopi.herokuapp.com/signup/"+regUser.getUsername());
         mailSender.send(mail);
     }
 
@@ -46,8 +47,18 @@ public class MailService {
         mail.setTo(user.getEmail());
         mail.setFrom("666.null.null.null@gmail.com");
         mail.setSubject("Invitation for projection");
-        mail.setText("To accept, click on link: http://localhost:8080/tickets/invitation/"
+        mail.setText("To accept, click on link: https://bioskopi.herokuapp.com/tickets/invitation/"
                         + user.getId() + "+" + projId + "+" + seatId);
+        mailSender.send(mail);
+    }
+
+    public void sendFriendRequest(List<UserDTO> users){
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(users.get(1).getEmail());
+        mail.setFrom("666.null.null.null@gmail.com");
+        mail.setSubject("Friend request");
+        mail.setText(users.get(0).getName() + " " + users.get(0).getSurname() + " wants to be friend with you. To accept" +
+                "request, click: https://bioskopi.herokuapp.com/friends/addFriend/" + users.get(0).getId() + "+" + users.get(1).getId());
         mailSender.send(mail);
     }
 

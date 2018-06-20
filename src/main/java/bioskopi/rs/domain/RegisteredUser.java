@@ -19,7 +19,7 @@ public class RegisteredUser extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int points;
 
     @JsonManagedReference

@@ -9,7 +9,7 @@
         <keruc-seatpicker data-data="seatsData" data-selected-nodes="selectedNodes" data-on-selected="nodeSelected($node)" data-on-deselected="nodeDeselected($node)" data-on-disallowed-selected="nodeDisallowedSelected($node)" class="ng-isolate-scope">
             <canvas width="500" height="500" id="canvasId"></canvas>
         </keruc-seatpicker><br>
-        <button class="resBtn" ng-click="makeReservation()">Reserve</button>
+        <button ng-show="resBtn" class="resBtn" ng-click="makeReservation()">Reserve</button>
         <button class="finish" ng-click="redirect('/')">Finish</button>
     </div>
 

@@ -23,4 +23,7 @@ public interface ProjectionRepository extends JpaRepository<Projection, Long> {
 
     @Query(value = "SELECT * FROM projection  Where facility_id = ?1 Order By date", nativeQuery = true)
     List<Projection> getEarliest(long id);
+
+    @Query(value = "SELECT * FROM projection", nativeQuery = true)
+    List<Projection> getAll();
 }

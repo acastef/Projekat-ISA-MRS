@@ -31,6 +31,7 @@
         $scope.newTickets = [];
         $scope.pointScale = [];
         $scope.user = {};
+        $scope.resBtn = true;
 
         activate();
 
@@ -243,6 +244,7 @@
                 if (($scope.friends.length > 0) && ($scope.selectedNodes.length > 1)) {
                     $scope.inviteVis = true;
                 }
+                $scope.resBtn = false;
                 return;
             } else {
                 toastr.error("You didn't reserved any ticket!");

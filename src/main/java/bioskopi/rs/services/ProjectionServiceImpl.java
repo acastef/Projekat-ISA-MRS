@@ -46,6 +46,11 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
+    public List<Projection> getAll() {
+        return projectionRepository.getAll();
+    }
+
+    @Override
     @Transactional
     public Projection save(Projection projection){
 
@@ -73,6 +78,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
         return seatStatuses;
     }
+
 
 
     @Override

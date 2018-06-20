@@ -14,6 +14,7 @@
         $scope.selectedViewingRoom = {};
         $scope.seats = [];
         $scope.selectedSeats = {};
+        $scope.idsToChange = [];
       
         $scope.seatRow = 0;
         $scope.seatsData = {};
@@ -34,6 +35,13 @@
         $scope.myStyle["FUN"] = { color: 'red' };
         $scope.myStyle["NORMAL"] = { color: 'orange' };
         $scope.myStyle["CLOSED"] = { color: 'grey' };
+
+        $scope.makrs = {};
+        $scope.makrs["VIP"] = "V";
+        $scope.makrs["FUN"] = "F";
+        $scope.makrs["NORMAL"] = "N";
+        $scope.makrs["CLOSED"] = "C";
+
 
 
  
@@ -67,7 +75,8 @@
             $scope.seatsData =  { "rows": [] };
 
             viewingRoomsService.getSeats($scope.selectedViewingRoom.id).success(function(data, status) {
-                $scope.seats = data;
+                $scope.initialSeats = data;
+                $scope.seats = $scope.sortSeats($scope.initialSeats);
                 $scope.makeSeatLayout();
 
                 $scope.numberOfSeats = data.length;
@@ -91,58 +100,36 @@
 
         $scope.closeSeats = function(seatSegment)
         {
-            var idsToChange = [];
-            $scope.newSeatsData =  { "rows": [] };
+            $scope.idsToChange = [];
 
             for (let i = 0; i < $scope.seatsData["rows"].length; i++) {
-                var newRow = {
-                    "nodes": []
-                };
+            
                 for (let index = 0; index < $scope.seatsData["rows"][i]["nodes"].length; index++) {
-                   
-                    var nodeArray = $scope.seatsData["rows"][i]["nodes"];
-                    if(nodeArray[index].displayName == seatSegment)
-                    {
-                        if ($scope.ids.includes( nodeArray[index].uniqueName ) )
-                            toastr.success("Seat wtih id " + 
-                            nodeArray[index].uniqueName +
-                            " can not be closed because it is already taken");
-                        else
-                        {
-                            idsToChange.push(nodeArray[index].uniqueName);
-                            var name = "CLOSED"
-                            nodeArray[index].displayName = name;
-                        }                       
-                    }
-                    newRow["nodes"].push(nodeArray[index]);                   
-                }
-                $scope.newSeatsData["rows"].push(newRow);
-            }
-      
-            // swap current view with the new one
-            $scope.seatsData = $scope.newSeatsData;
-
-            viewingRoomsService.changeSeats(idsToChange, "CLOSED").success(function(data, status) {
-                toastr.success("avaliable seats closed");              
                 
-            }).error(function(data, status) {
-                toastr.error("Error while changing segmnet");
-            });        
+                    var nodeArray = $scope.seatsData["rows"][i]["nodes"];
+                    if(nodeArray[index].displayName == $scope.makrs[seatSegment])
+                    {
+                        $scope.idsToChange.push(nodeArray[index].uniqueName);
+                    }
+                }
+            }
+            $scope.changeSelected("CLOSED");
+            $scope.redirect('/facilities');
         }
 
 
-
         $scope.changeSelected = function(zoneType) {
-            var idsToChange = [];
+            
+            
             $scope.newSeatsData =  { "rows": [] };
 
             //adding ids of seats that need to be changed in a list (for rest call)
             for (let index = 0; index < $scope.selectedNodes.length; index++) {
                
-                idsToChange.push($scope.selectedNodes[index].uniqueName);
+                $scope.idsToChange.push($scope.selectedNodes[index].uniqueName);
 
                 // modifying seat segment in memory
-                $scope.seats[index].segment = zoneType;
+                //$scope.seats[index].segment = zoneType;
                 
             }
 
@@ -153,23 +140,34 @@
                 for (let index = 0; index < $scope.seatsData["rows"][i]["nodes"].length; index++) {
                    
                     var nodeArray = $scope.seatsData["rows"][i]["nodes"];
-                    if( idsToChange.includes( nodeArray[index].uniqueName))
+                    if( $scope.idsToChange.includes( nodeArray[index].uniqueName))
                     {                        
                         var name = zoneType;
-                        nodeArray[index].displayName = name;
-                        nodeArray[index].selected = 0;                                         
+                        var oldUiqName = nodeArray[index].uniqueName;
+
+                        $scope.seatsData["rows"][i]["nodes"][index].displayName = 
+                        $scope.makrs[zoneType];
+                        //$scope.seatsData["rows"][i]["nodes"][index].selected = 0;
+
+                        var indexof = $scope.selectedNodes.indexOf($scope.seatsData["rows"][i]["nodes"][index]);
+                        $scope.selectedNodes.splice(indexof, 1);
+                       
                     }
-                    newRow["nodes"].push(nodeArray[index]);                   
+                    //newRow["nodes"].push(nodeArray[index]);                   
                 }
-                $scope.newSeatsData["rows"].push(newRow);
+                //$scope.newSeatsData["rows"].push(newRow);
             }
 
-            // swap current view with the new one
-            $scope.seatsData = $scope.newSeatsData;
-
-            viewingRoomsService.changeSeats(idsToChange, zoneType).success(function(data, status) {
+            viewingRoomsService.changeSeats($scope.idsToChange, zoneType).success(function(data, status) {
                 toastr.success("seats changed");
+                for (let i = 0; i < $scope.seatsData["rows"].length; i++) {
+                    for (let index = 0; index < $scope.seatsData["rows"][i]["nodes"].length; index++) {
 
+                        $scope.seatsData["rows"][i]["nodes"][index].selected = 0;
+                    }
+                }
+                
+                
             }).error(function(data, status) {
                 toastr.error("Error while changing segmnet");
             }); 
@@ -233,7 +231,7 @@
                 var j;
                 for (j = 0; j < $scope.seats.length; j++) {
                     if ((i + 1) == parseInt($scope.seats[j].seatRow)) {
-                        var nodeName = $scope.seats[j].segment;    
+                        var nodeName = $scope.makrs[$scope.seats[j].segment];    
                         var nodeId = $scope.seats[j].id;                
                         var node = {
                             "type": 1,
@@ -247,5 +245,60 @@
                 $scope.seatsData["rows"].push(row);
             }       
         };
+
+        $scope.redirect = function(path) {
+            $location.path(path);
+        }
+
+
+        $scope.sortSeats = function(seats) {
+            //sortira se matrica, ali je makeLayout napravljen kao lista, pa ce se podaci trpati u listu
+            var sorted = [];
+            while (seats.length > 0) {
+                var found = [];
+                var minRow = seats[0].seatRow;
+                var i;
+                var j;
+                //najmanji red - oznaka
+                for (i = 1; i < $scope.seats.length; i++) {
+                    if (parseInt($scope.seats[i].seatRow) < rowMin) {
+                        rowMin = parseInt($scope.seats[i].seatRow);
+                    }
+                }
+
+                //izvuci sve iz tog reda
+                for (i = 0; i < seats.length; i++) {
+                    if (seats[i].seatRow == minRow) {
+                        found.push(seats[i]);
+                    }
+                }
+
+                //sortiranje reda
+                while (found.length > 0) {
+                    var pos = 0;
+                    var seatToPut = found[0];
+                    var minColumn = found[0].seatColumn;
+                    for (i = 1; i < found.length; i++) {
+                        if (parseInt(found[i].seatColumn) < parseInt(minColumn)) {
+                            seatToPut = found[i];
+                            minColumn = found[i].seatColumn;
+                            pos = i;
+                        }
+                    }
+                    sorted.push(seatToPut);
+                    found.splice(pos, 1);
+                    var founded = false;
+                    for (j = 0; j < seats.length; j++) {
+                        if (!founded) {
+                            if ((seats[j].seatRow == seatToPut.seatRow) && (seats[j].seatColumn == seatToPut.seatColumn)) {
+                                seats.splice(j, 1)
+                                founded = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return sorted;
+        }
     }
 })();

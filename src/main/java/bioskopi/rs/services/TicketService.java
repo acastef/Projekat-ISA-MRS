@@ -1,5 +1,6 @@
 package bioskopi.rs.services;
 
+import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Seat;
 import bioskopi.rs.domain.Ticket;
 
@@ -108,5 +109,12 @@ public interface TicketService {
      * @return message
      */
     Object changeOwner(long userId, long projId, long seatId);
+
+    /**
+     *
+     * @param facID id of ticket
+     * @return A projection of ticket with given id
+     */
+    HashMap<Long, Projection> getProjForTicket(long facID);
 
 }

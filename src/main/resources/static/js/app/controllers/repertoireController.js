@@ -57,25 +57,25 @@
                $scope.logged = data;
                $scope.userType = $scope.logged.authorities;
                if ($scope.userType == "SYS") {
-                   $scope.showDeleteProj = true;
-                   $scope.showChangeProj = true;
-                   $scope.showReservation = true;
-                   $scope.showAddProj = true;
+                    $scope.showDeleteProj = false;
+                    $scope.showChangeProj = false;
+                    $scope.showReservation = false;
+                    $scope.showAddProj = false;
                } else if ($scope.userType == "CAT") {
                    $scope.showDeleteProj = true;
                    $scope.showChangeProj = true;
                    $scope.showReservation = true;
                    $scope.showAddProj = true;
                } else if ($scope.userType == "FUN") {
-                   $scope.showDeleteProj = true;
-                   $scope.showChangeProj = true;
-                   $scope.showReservation = true;
-                   $scope.showAddProj = true;
+                    $scope.showDeleteProj = false;
+                    $scope.showChangeProj = false;
+                    $scope.showReservation = false;
+                    $scope.showAddProj = false;
                } else if ($scope.userType == "USER") {
-                   $scope.showDeleteProj = true;
-                   $scope.showChangeProj = true;
+                   $scope.showDeleteProj = false;
+                   $scope.showChangeProj = false;
                    $scope.showReservation = true;
-                   $scope.showAddProj = true;
+                   $scope.showAddProj = false;
                }
 
            }).error(function(data, status) {

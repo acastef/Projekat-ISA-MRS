@@ -17,6 +17,8 @@
         $scope.changeForms = {};
         $scope.fastTickets = [];
         $scope.projections = {};
+        $scope.projectionIds = {};
+
         $scope.currentProjection = {};
         $scope.viewingRooms = {};
         $scope.currentViewingRoom = {};
@@ -64,18 +66,30 @@
 
             fastReservationService.getFastTickets($scope.facilityId).success(function(data,status){
                 $scope.fastTickets = data;
+
+                fastReservationService.getProjForTicket($scope.facilityId).success(function(data,status){
+                    $scope.projectionIds = data;
+
+                    fastReservationService.getProjections($scope.facilityId).success(function(data,status){
+                        $scope.projections = data;
+                    }).error(function(data,status){
+                        toastr.error("Error while getting projections");
+                    }); 
+                        
+                    
+                }).error(function(data,status){
+                    toastr.error("Error while getting projections for fast tickets");
+                });
+
+                // for (let i = 0; i < data.length; i++) {
+                //     $scope.fastTickets[i].projection = $scope.getProjForTicket(ticketId);
+                // }
             
             }).error(function(data,status){
                 toastr.error("Error while getting fast tickets");
             });
 
-            fastReservationService.getProjections($scope.facilityId).success(function(data,status){
-                $scope.projections = data;
-                
             
-            }).error(function(data,status){
-                toastr.error("Error while getting projections");
-            });  
         };
 
         $scope.showSeats = function(){
@@ -147,6 +161,9 @@
                     // get id
                     ticketId = $scope.currentProjection.tickets[inde].id;
                     foundedSeatInProjection = true;
+
+                    //add tickets projection to projectoin dictionary
+                    $scope.projectionIds[ticketId] = $scope.currentProjection;
                     break;
                 }
             }
@@ -164,7 +181,7 @@
             ticket.facility =  {};
             ticket.facility.id = $scope.facilityId;
             ticket.owner = {};
-            ticket.owner.id = $scope.userId;
+            ticket.owner.id = 9999;
             ticket.discount = parseInt($scope.newDiscount);
             ticket.projection = $scope.currentProjection;
             ticket.seat = $scope.selectedSeat;

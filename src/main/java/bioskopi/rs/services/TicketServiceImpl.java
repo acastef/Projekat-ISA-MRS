@@ -184,6 +184,21 @@ public class TicketServiceImpl implements TicketService{
         return "Invitation accepted";
     }
 
+    @Override
+    public HashMap<Long, Projection> getProjForTicket(long facId) {
+
+        HashMap<Long, Projection> d = new HashMap<Long, Projection>();
+
+        List<Ticket> tics = ticketRepository.getFastTickets(facId);
+        for (Ticket t: tics) {
+            Projection p = projectionRepository.findById(t.getProjection().getId()).get();
+            d.put(t.getId(), p);
+        }
+
+        return d;
+
+    }
+
 
     private String generateMonth(LocalDateTime d) {
 

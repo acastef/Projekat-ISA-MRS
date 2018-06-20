@@ -38,7 +38,20 @@
         </div>
 
         <div  ng-repeat="ft in fastTickets" style="float: left;">
-                <button style="margin-right: 10px">{{ft.id}}</button>
+                
+                <span class="card text-white bg-primary mb-3 lineSection">
+                        <div style="text-align: center" class="card-header">{{projectionIds[ft.id].name }}</div>
+                        <div style="text-align: center" class="card-body">
+                                <!-- <img class="rounded imgCell" ng-src="{{prop.image}}" alt="Image" /> -->
+                              
+                                <p style="margin:auto">Viewing Room: {{projectionIds[ft.id].viewingRoom.name}}</p>
+                                <p class="card-text">Original price: {{projectionIds[ft.id].price}} din</p>
+                                <p> Discount: {{ft.discount}}%</p>
+                                <!-- <button  class="btn btn-info lineSectionButton">
+                                Make reservation</button> -->
+                        </div>
+                </span>
+                <!-- <button style="margin-right: 10px">{{ft.id}}</button> -->
 
         </div>
     </div>

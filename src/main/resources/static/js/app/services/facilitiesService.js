@@ -42,6 +42,11 @@
             return $http.get("/login/getLogged");
         }
 
+        service.getProjForTicket = function(facId) 
+        {
+            return $http.get("tickets/getProjForTicket/" + facId);
+        }
+
         return service;
     }
 })();

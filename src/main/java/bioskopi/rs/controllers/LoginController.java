@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Set;
 
 
 @Repository
@@ -56,7 +57,8 @@ public class LoginController {
         if (user.isFirstLogin() && user.getPassword().equals(password)) {
             //facilitiesService.getFacilityById()
             session.setAttribute("user", user);
-            return new ResponseEntity<Object>(userService.findByUsername(username), HttpStatus.OK);
+            Object u = userService.findByUsername(username);
+            return new ResponseEntity<Object>(u, HttpStatus.OK);
         }else if(user.getAuthorities().equals(AuthorityEnum.USER) && user.getPassword().equals(password)){
             session.setAttribute("user",user);
             return new ResponseEntity<>("Redirect",HttpStatus.OK);

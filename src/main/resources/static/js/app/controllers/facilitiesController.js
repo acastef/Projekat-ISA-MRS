@@ -21,6 +21,7 @@
         $scope.newScore = 0;
         $scope.newScoreDescp = "";
         $scope.userId = 1;
+        $scope.projectionIds = {};
 
         $scope.showFTDiv = true;
         $scope.showConfgSeats = true;
@@ -49,20 +50,24 @@
                 $scope.logged = data;
                 $scope.userType = $scope.logged.authorities;
                 if ($scope.userType == "SYS") {
-                    $scope.showFTDiv = true;
-                    $scope.showConfgSeats = true;
-                    $scope.showFTickets = true;
-                    $scope.showChange = true;
-                    $scope.showReport = true;
+                    $scope.showFTDiv = false;
+                    $scope.showConfgSeats = false;
+                    $scope.showFTickets = false;
+                    $scope.showChange = false;
+                    $scope.showReport = false;
                     $scope.showRepertorire = true;
                 } else if ($scope.userType == "CAT") {       
-                    $scope.showFTDiv = true;
+                    $scope.showFTDiv = false;
                     $scope.showConfgSeats = true;
                     $scope.showFTickets = true;
                     $scope.showChange = true;
                     $scope.showReport = true;
                     $scope.showRepertorire = true;
                 } else if ($scope.userType == "FUN") {
+                    $scope.showConfgSeats = false;
+                    $scope.showFTickets = false;
+                    $scope.showChange = false;
+                    $scope.showReport = false;
                    
                 } else if ($scope.userType == "USER") {                               
                     $scope.showFTDiv = true;
@@ -97,18 +102,34 @@
                     // getting fast tickets for every facility
                     facilitiesService.getFastTickets($scope.facilities[i].id.toString()).success(function(data, status) {
                         $scope.fastTickets[$scope.facilities[i].id] = data;
-                        //toastr.success(data.length);
+
+
+                        //getting projs for tickets
+                        facilitiesService.getProjForTicket($scope.facilities[i].id.toString())
+                        .success(function(data,status){
+                            //$scope.projectionIds = data;
+
+                            // for (let i = 0; i < data.keys().length; i++) {
+                            //     //var keyIndex = Object.keys(data).indexOf(keytoFind);
+                            //     $scope.projectionIds[data.keys[i]] = data[key];
+                            // }
+
+                            for (var key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    $scope.projectionIds[key] =  data[key];
+                                }
+                            }
+        
+                            
+                        }).error(function(data,status){
+                            toastr.error("Error while getting projections for fast tickets");
+                        });
 
                     }).error(function(data, status) {
                         toastr.error("Error while getting fast tickets");
                     });
-
-
                 }
-
-
             })
-
             //getById();
         };
 

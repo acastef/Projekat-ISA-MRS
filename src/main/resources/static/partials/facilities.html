@@ -8,24 +8,22 @@
 
     <div ng-repeat="fac in facilities" class="container" >
 
-        <div class="row row-eq-height">
+        <div class="row row-eq-height"  style="margin-right:20px; margin-left:20px">
 
-            <div class="col-md-10"  style="margin:20px">
+            <div class="col-md-11"  >
                     <div class="p-3 mb-2 bg-dark text-white">
                         <div class="container">
 
                             <div class="row" style="text-align: center">
-                                <h2 style="margin:auto;"><b>{{projection.name}}</b></h2>
+                                <!-- <h2 style="margin:auto;"><b>{{projection.name}}</b></h2> -->
+                                <h2 style="margin:auto;"><b>{{fac.name}}</b></h2>
                             </div>
     
                             <div class="row" style="margin-top: 20px">
                                 <div class="col-md-3">
 
-                            
-
-                           
                                 <!-- <span><p  class="text-white bg-dark">    Id: {{fac.id}}</p></span> -->
-                                <p  class="text-white bg-dark">    Name: {{fac.name}}</p>
+                                <!-- <p  class="text-white bg-dark">    Name: {{fac.name}}</p> -->
                                 <p  class="text-white bg-dark">    Address: {{fac.address}}</p>
 
                                 <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
@@ -65,30 +63,52 @@
                                 <p  class="text-white bg-dark">    Description: {{fac.description}}</p>                                       
                             </div>
                             <div class="col-md-4">
-                                <div ng-show="showFTDiv" class="p-3 mb-2 bg-dark text-white">
-
-                                        <div>
-                                            <div>
-                                                <h1 > Fast tickets</h1><br><br>
-                                            </div>
-                                            <div class="row">
-                                                <div ng-repeat="fastTicket in fastTickets[fac.id]" >
-                    
-                                                    <button class="btn btn-medium btn-primary" style="margin: 5px"
-                                                            ng-click="makeFastReservation(fastTicket, fac.id)"
-                                                    >{{fastTicket.id}}</button>
-                    
-                                                </div>
-                                            </div>
-                                        </div>
-                    
-                                    </div>
+                                <div style="width: 80%">
+                                    <ng-map id="map" center="{{ fac.address }}"></ng-map>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row row-eq-height" style="margin-right:20px; margin-left:20px;
+         margin-bottom: 50px;">
+
+            <div class="col-md-11"  >
+                <div ng-show="showFTDiv" class="p-3 mb-2 bg-dark text-white">
+
+                    <div>
+                        <div style="text-align: center">
+                            <h1 style="margin: auto"> Fast tickets</h1><br><br>
+                        </div>
+                        <div class="row">
+                            <div ng-repeat="ft in fastTickets[fac.id]" >
+    
+                                <span style="margin: 15px" class="card text-white bg-primary mb-3 lineSection">
+                                    <div style="text-align: center" class="card-header">{{projectionIds[ft.id].name }}</div>
+                                    <div style="text-align: center" class="card-body">
+                                        <!-- <img class="rounded imgCell" ng-src="{{prop.image}}" alt="Image" /> -->
+                                        
+                                        <p style="margin:auto">Viewing Room: {{projectionIds[ft.id].viewingRoom.name}}</p>
+                                        <p class="card-text">Original price: {{projectionIds[ft.id].price}} din</p>
+                                        <p> Discount: {{ft.discount}}%</p>
+                                        <button  ng-click="makeFastReservation(ft, fac.id)" class="btn btn-info lineSectionButton">
+                                        Make reservation</button>
+                                    </div>
+                                </span>
+    
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+            
+        </div>
+
+        
             <!-- drugi -->
             <!-- <div class="col-md-4">
                 <div ng-show="showFTDiv" class="p-3 mb-2 bg-dark text-white">
@@ -109,9 +129,7 @@
                     </div>
 
                 </div>
-                <div style="width: 80%">
-                    <ng-map id="map" center="{{ fac.address }}"></ng-map>
-                </div>
+               
             </div> -->
 
     

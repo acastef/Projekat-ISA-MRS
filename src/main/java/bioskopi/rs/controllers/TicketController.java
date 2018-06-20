@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.DTO.UserDTO;
+import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.services.MailService;
@@ -130,5 +131,14 @@ public class TicketController {
                 Long.parseLong(projId),Long.parseLong(seatId)), HttpStatus.OK);
 
     }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/getProjForTicket/{facId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity< HashMap<Long, Projection>> getProjForTicket(@PathVariable String facId){
+        return new ResponseEntity< HashMap<Long, Projection>>(ticketService.getProjForTicket(Long.parseLong(facId)), HttpStatus.OK);
+
+    }
+
+
 
 }

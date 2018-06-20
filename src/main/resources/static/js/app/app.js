@@ -29,7 +29,8 @@ app.config(function($routeProvider) {
             css: ['css/repertoire.css']
         }).when('/fastTickets/:id', {
             templateUrl: 'partials/fastReservation.html',
-            controller: 'fastReservationController'
+            controller: 'fastReservationController',
+            css: ['css/fast.css']
         }).when('/ticketReservations/:id', {
             templateUrl: 'partials/ticketReservations.html',
             css: ['css/ticketReservation.css'],
@@ -65,7 +66,8 @@ app.config(function($routeProvider) {
             controller: 'viewingRoomsController'
         }).when('/report/:id', {
             templateUrl: 'partials/report.html',
-            controller: 'reportController'
+            controller: 'reportController',
+            css: ['css/report.css']
         }).when('/reservedProps', {
             templateUrl: 'partials/reservedProps.html',
             css: ['css/lineSection.css', 'css/navigation.css']

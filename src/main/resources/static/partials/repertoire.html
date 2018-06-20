@@ -2,7 +2,6 @@
 
     <div ng-repeat="projection in repertoire">
 
-
         <div class="row row-eq-height">
 
             <div class="col-md-10" style="margin:20px">
@@ -16,22 +15,14 @@
 
                         <div class="row" style="margin-top: 20px">
                                 <div class="col-md-3">
-
-<!-- <p>    Id: {{projection.id}}</p> -->
         
         <p>    Date: {{projectionDate[projection.id]}}</p>
         <p>    Time: {{projectionTime[projection.id]}}</p>
         <p>    Price: {{projection.price}}</p>
         <p>    Duration: {{projection.duration}} minutes</p>
-        <p>    VR: {{projection.viewingRoom.name}}</p>
+        <p>    ViewingRoom: {{projection.viewingRoom.name}}</p>
         
        
-        
-
-
-        <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
-            Avaliable seats</a><br><br>
-
         <button  ng-show="showDeleteProj" ng-click="deleteProjection(repertoire, $index)">Delete projection</button><br><br>
 
         <button ng-show="showChangeProj" ng-click="showChangeForm(projection.id)">Change projection</button><br><br>
@@ -53,6 +44,9 @@
     
             <label>Duration: </label>
             <input type="text" ng-model="projection.duration"><br>
+
+            <label>Link to picture:</label>
+            <input type="text" ng-model="projection.picture"><br>
     
             <label>Genre: </label>
             <input type="text" ng-model="projection.genre"><br>
@@ -67,17 +61,16 @@
             <select ng-model="projection.viewingRoom" ng-options="v.name for v in viewingRooms"
                 ng-change="setViewingRoom()" ></select><br>
                 
-        
-    
             <input type = "submit" value = "Change">
-
 
         </form>
 
                             </div> 
                             <div class="col-md-3">
                                 <p>    Director: {{projection.director}}</p>
-                                <p>    Genre: {{projection.genre}}</p>
+                                <p>    Genre: {{projection.genre}}</p>                                
+                                <a ng-show="showReservation" ng-href = "#ticketReservations/{{projection.id}}">
+                                    Avaliable seats</a><br><br>
                             </div>
                             <div class="col-md-6">
                                     <img src="{{projection.picture}}" style="width: 50%; height: 50%;display:block;
@@ -106,6 +99,9 @@
         <label>Duration: </label>
         <input type="text" ng-model="newProjection.duration"><br>
 
+        <label>Link to picture:</label>
+        <input type="text" ng-model="newProjection.picture"><br>
+
         <label>Genre: </label>
         <input type="text" ng-model="newProjection.genre"><br>
 
@@ -114,13 +110,6 @@
 
         <label>Price: </label>
         <input type="text" ng-model="newProjection.price"><br>
-
-        <!--<p>Fac: {{newProjection.facility.name}}</p><br>-->
-
-        <!-- <label>Select Facility: </label>
-        <select ng-model="selectedFacility" ng-options="f.name for f in facilities"
-            ng-change="setFacility(-1, -1)"></select><br> -->
-
 
         <label>Select Viewing Room: </label>
         <select ng-model="selectedVR" ng-options="v.name for v in viewingRooms"

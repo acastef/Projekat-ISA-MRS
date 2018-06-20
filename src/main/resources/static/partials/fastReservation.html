@@ -1,30 +1,31 @@
 
 <div ng-controller = "fastReservationController">
 
-    <div>
+    <div style="text-align: center">
             <div>
-                    <h3>All non-fast reservations</h3><br><br>
+                    <h3 style="color:blueviolet">All non-fast reservations</h3><br><br>
             </div>
 
             <div ng-hide="hideVRForm">
-                <label>Select projection: </label>
+                <h4 style="color:darkblue">Select projection: </h4>
                 <select ng-model="currentProjection" 
                     ng-options="p.name + ' ' + p.viewingRoom.name + ' ' + p.viewingRoom.id for p in projections"
                     ng-change="showSeats()" ></select><br>
 
             </div>
 
-            <table>
-                <tr> <th>Row</th> <th>Collumn</th>  <th></th>  </tr>
-                <tr ng-repeat="seat in seats">
+            <table border="1" class="table table-hover table-dark" ng-show="!isEmpty(seats)" 
+            style=" margin-left: 120px; width: 80%;">
+                <tr class="bg-primary"> <th> Seat Row</th> <th class="bg-info"> Seat Collumn</th>  <th></th>  </tr>
+                <tr class="bg-primary" ng-repeat="seat in seats">
                         <td>{{ seat.seatRow }}</td>
-                        <td>{{ seat.seatColumn }}</td>
-                        <td><button ng-click="enterDiscount(seat)">Add to fast</button>        
+                        <td class="bg-info">{{ seat.seatColumn }}</td>
+                        <td><button ng-click="enterDiscount(seat)">Make fast reservation</button>        
                 </tr>   
             </table>
 
             <form ng-hide="hideDiscountForm" ng-submit="addToFast()">
-                <label>Enter discout for selected ticket (%): </label>
+                <h5 style="color:darkblue">Enter discout for selected ticket (%): </h5>
                 <input type="text" ng-model="newDiscount"><br>
                 <button type="submit">Make new fast reservation</button>
             </form>
@@ -33,7 +34,7 @@
     
     <div>
         <div>
-                <h3>Current fast reservations</h3><br><br>
+                <h3 style="color:darkblue">Current fast reservations</h3><br><br>
         </div>
 
         <div  ng-repeat="ft in fastTickets" style="float: left;">

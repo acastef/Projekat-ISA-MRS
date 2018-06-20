@@ -16,7 +16,7 @@ public interface TicketService {
      * @param t = Ticket that needs to be added
      * @return added Ticket
      */
-    public Ticket add(Ticket t);
+    public void add(Ticket t);
 
     /**
      *

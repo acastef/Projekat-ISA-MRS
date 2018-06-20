@@ -12,6 +12,7 @@
         $scope.projectionId = $routeParams.id;
         $scope.projection = {};
         $scope.numberOfSeats = 0;
+        $scope.initialSeats = [];
         $scope.seats = [];
         $scope.seatsStatuses = {};
         $scope.seatRow = 0;
@@ -39,7 +40,8 @@
                     $scope.projection = data;
 
                     ticketReservationsService.getSeats(data.viewingRoom.id).success(function(data, status) {
-                        $scope.seats = data;
+                        $scope.initialSeats = data;
+                        $scope.seats = $scope.sortSeats($scope.initialSeats);
                         $scope.numberOfSeats = data.length;
 
                         ticketReservationsService.getSeatsStatuses($scope.projectionId).success(function(data, status) {
@@ -110,6 +112,63 @@
 
             //console.log('User attempted to select occupied seat : ' + node.displayName);
         };
+
+        $scope.sortSeats = function(seats) {
+            //sortira se matrica, ali je makeLayout napravljen kao lista, pa ce se podaci trpati u listu
+            var sorted = [];
+            while (seats.length > 0) {
+                var found = [];
+                var minRow = seats[0].seatRow;
+                var i;
+                var j;
+                //najmanji red - oznaka
+                for (i = 1; i < $scope.seats.length; i++) {
+                    if (parseInt($scope.seats[i].seatRow) < rowMin) {
+                        rowMin = parseInt($scope.seats[i].seatRow);
+                    }
+                }
+
+                //izvuci sve iz tog reda
+                for (i = 0; i < seats.length; i++) {
+                    if (seats[i].seatRow == minRow) {
+                        found.push(seats[i]);
+                    }
+                }
+
+                //sortiranje reda
+                while (found.length > 0) {
+                    var pos = 0;
+                    var seatToPut = found[0];
+                    var minColumn = found[0].seatColumn;
+                    for (i = 1; i < found.length; i++) {
+                        if (parseInt(found[i].seatColumn) < parseInt(minColumn)) {
+                            seatToPut = found[i];
+                            minColumn = found[i].seatColumn;
+                            pos = i;
+                        }
+                    }
+                    sorted.push(seatToPut);
+                    found.splice(pos, 1);
+                    var founded = false;
+                    for (j = 0; j < seats.length; j++) {
+                        if (!founded) {
+                            if ((seats[j].seatRow == seatToPut.seatRow) && (seats[j].seatColumn == seatToPut.seatColumn)) {
+                                seats.splice(j, 1)
+                                founded = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //izbaci sve iz inicijalne matrice
+
+
+            console.log("Sortirani");
+            console.log(sorted);
+            return sorted;
+        }
+
 
         $scope.calculateSeatRows = function() {
             var rowMax = 0;
@@ -346,4 +405,4 @@
 
     }
 
-})()
+})();

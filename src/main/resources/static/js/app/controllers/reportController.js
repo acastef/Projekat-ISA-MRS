@@ -47,8 +47,23 @@
 
             reportService.getProjections($scope.id).success(function(data, status) {
                 $scope.projections = data;
+
+                // formating date
+                for (let i = 0; i <$scope.projections.length; i++)
+                {
+                    var dateTokens = $scope.projections[i].date.split("T");
+                    $scope.projections[i].date = dateTokens[0] + " " + dateTokens[1];
+                }
                 reportService.getAverageScore($scope.id).success(function(data, status) {
                     $scope.avgScores = data;
+
+                    //initalizing avg scores on 0 if no feedback is found
+                    for (let i = 0; i <$scope.projections.length; i++)
+                    {
+                        var id = $scope.projections[i].id;
+                        if($scope.avgScores[id] == null)
+                        $scope.avgScores[id] = "No score";                       
+                    }
 
                     reportService.getAverageFacilityScore($scope.id).success(function(data, status) {
                         $scope.facilityScore = data;
@@ -107,20 +122,28 @@
     {
         for (var i = 0; i < Object.keys(data).length; i++) {
             // ubacivanje vrednosti
-           $scope.weeklyVisitsX.push(Object.keys(data)[i]);
-           //$scope.weeklyVisitsX.push(1+i);
+           $scope.weeklyVisitsX.push(Object.keys(data)[i].split("T")[0]);
+
            // ubacivanje stringova na x-osi
            $scope.weeklyVisitsData.push(data[Object.keys(data)[i]]);
         }
+        $scope.weeklyVisitsX.sort(compare);
     }
 
+    function compare(a,b) {
+        if (a < b)
+          return -1;
+        if (a > b)
+          return 1;
+        return 0;
+      }
 
     $scope.makeWeeklyVisitChart = function()
     {
         var chartData = {           
             "type":"bar",  
             "title":{  
-                "text":"WeeklyVisitChart"  
+                "text":"WeeklyVisitChart"
             },  
         
             "scale-x":{  
@@ -171,7 +194,7 @@
         var chartData = {
             "type":"bar",  
             "title":{  
-                "text":"WeeklyVisitChart"  
+                "text":"MonthlyVisitChart"  
             },  
         
             "scale-x":{  
@@ -237,7 +260,10 @@
         reportService.getPricePerPeriod($scope.id, $scope.date1, $scope.date2)
         .success(function(data, status) {
             $scope.totalEarnings = data;
-        })
+        }).error(function(data,status){
+            toastr.error("You must select valid time and date");
+        });
+        
     }
 
 }

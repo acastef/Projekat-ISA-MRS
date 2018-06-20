@@ -82,7 +82,7 @@
                if((status == 403) || (status == 400)){
                    $scope.showDeleteProj = false;
                    $scope.showChangeProj = false;
-                   $scope.showReservation = false;
+                   //$scope.showReservation = false;
                    $scope.showAddProj = false;
                }else{
                    toastr.error("Something went wrong...");

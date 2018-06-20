@@ -6,11 +6,13 @@ import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.util.ValidationException;
 import bioskopi.rs.repository.ProjectionRepository;
 import bioskopi.rs.repository.TicketRepository;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.OptimisticLockException;
+import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -30,12 +32,24 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     private ProjectionRepository projectionRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     @Override
-    @Transactional
-    public Ticket add(Ticket ticket)
+    public void add(Ticket ticket)
     {
-        return ticketRepository.saveAndFlush(ticket);
+        entityManager.getTransaction().begin();
+        try{
+            Projection p = entityManager.find(Projection.class, ticket.getProjection().getId(), LockModeType.PESSIMISTIC_WRITE);
+            p.getTickets().add(ticket);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        }catch(LockTimeoutException e){
+            throw new ValidationException("Seat you chosen is already taken, refresh page!");
+        }
     }
+
 
     @Override
     public String delete(long id) {
@@ -58,7 +72,7 @@ public class TicketServiceImpl implements TicketService{
             ticketRepository.save(t);
             return true;
         }
-        catch (OptimisticLockException e){
+        catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }
@@ -80,7 +94,7 @@ public class TicketServiceImpl implements TicketService{
             ticketRepository.makeFastReservation(id);
             return true;
         }
-        catch (OptimisticLockException e){
+        catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){
             throw new ValidationException("Tickets are stale, please refresh your page");
         }
     }

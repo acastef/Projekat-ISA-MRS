@@ -36,6 +36,7 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public void add(Ticket ticket)
     {
         try{
@@ -58,12 +59,11 @@ public class TicketServiceImpl implements TicketService{
         }
     }
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
+
     public Projection findById(long id){
         return projectionRepository.findById(id).get();
     }
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public Projection save(Projection p){
         return projectionRepository.save(p);
     }

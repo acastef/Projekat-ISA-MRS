@@ -1,6 +1,7 @@
 package bioskopi.rs.controllers;
 
 import bioskopi.rs.domain.DTO.UserDTO;
+import bioskopi.rs.domain.Projection;
 import bioskopi.rs.domain.Ticket;
 import bioskopi.rs.domain.User;
 import bioskopi.rs.domain.RegisteredUser;

@@ -51,6 +51,7 @@
                                 $scope.logged = data;
                                 friendsService.getFriends($scope.logged.id).success(function(data, status) {
                                     $scope.friends = data;
+                                    console.log(data);
                                     ticketReservationsService.getFacById($scope.projection.viewingRoom.id).success(function(data, status) {
                                         ticketReservationsService.getPointScale(data.id).success(function(data, status) {
                                             $scope.pointScale = data;

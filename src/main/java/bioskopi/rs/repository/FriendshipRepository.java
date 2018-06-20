@@ -16,7 +16,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     @Query(value = "SELECT f.second_id FROM friendship f WHERE f.first_id = ?1", nativeQuery = true)
     List<BigInteger> getAllFriends(long id);
 
-    @Query(value = "SELECT u.id FROM User u WHERE u.id != ?1 and " +
+    @Query(value = "SELECT u.id FROM user u WHERE u.id != ?1 and " +
             "u.id not in (SELECT f.second_id FROM friendship f WHERE f.first_id = ?1)", nativeQuery = true)
     List<BigInteger> getAllNonFriends(long id);
 

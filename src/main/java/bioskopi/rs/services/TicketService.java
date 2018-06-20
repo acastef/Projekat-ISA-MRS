@@ -76,6 +76,13 @@ public interface TicketService {
      */
     Ticket getByProjectionId(long id);
 
+    /***
+     *
+     * @param id - projection
+     * @return list of tickets
+     */
+    List<Ticket> getListByProjectionId(long id);
+
     /**
      *
      * @param id

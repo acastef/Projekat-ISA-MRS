@@ -385,8 +385,12 @@
                 ticket.seat.id = id;
 
                 $scope.newTickets.push(ticket);
-                ticketReservationsService.addTicket(ticket);
-                toastr.success("Successfully reserved!");
+                ticketReservationsService.addTicket(ticket).success(function(data, status) {
+                    toastr.success("Successfully reserved!");
+                }).error(function(data, status) {
+                    toastr.error("Sorry, this seat is already reserved!");
+                });
+
                 return;
 
             }).error(function(data, status) {

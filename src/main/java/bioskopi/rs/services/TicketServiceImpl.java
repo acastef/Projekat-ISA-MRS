@@ -41,7 +41,7 @@ public class TicketServiceImpl implements TicketService{
         try{
             long id = ticket.getProjection().getId();
             Projection p = findById(id);
-            Set<Ticket> tickets = p.getTickets();
+            List<Ticket> tickets = ticketRepository.getListByProjectionId(p.getId());
             for(Ticket t : tickets) {
                 if ((t.getProjection().getId() == ticket.getProjection().getId()) &&
                         (t.getSeat().getId() == ticket.getSeat().getId())) {
@@ -49,7 +49,8 @@ public class TicketServiceImpl implements TicketService{
                 }
             }
             tickets.add(ticket);
-            p.setTickets(tickets);
+
+            p.setTickets(new HashSet<Ticket>(tickets));
 
             save(p);
         }catch(LockTimeoutException e){
@@ -140,6 +141,11 @@ public class TicketServiceImpl implements TicketService{
     public Ticket getByProjectionId(long projId)
     {
         return ticketRepository.getByProjectionId(projId);
+    }
+
+    @Override
+    public List<Ticket> getListByProjectionId(long id) {
+        return ticketRepository.getListByProjectionId(id);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Ticket implements Serializable {
     @ManyToOne(optional = false)
     private RegisteredUser owner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Seat seat;
 

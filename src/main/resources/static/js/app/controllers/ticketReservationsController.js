@@ -86,9 +86,9 @@
 
         };
 
-        $scope.seatSelected = function() {
-            console.log("ASDASDASD");
-        };
+        // $scope.seatSelected = function() {
+        //     console.log("ASDASDASD");
+        // };
 
         $scope.userEvent = '--';
 
@@ -358,11 +358,8 @@
             var match = 0;
             for (i = 0; i < scale.length; i++) {
                 if (!found) {
-                    console.log(scale[i]);
-                    console.log(points);
                     match = i;
                     if (points < scale[i].points) {
-                        console.log("Jbeme ti mamu vise u picku smrdljivu");
                         match--;
                         found = true;
                     }

@@ -1,11 +1,8 @@
 package bioskopi.rs.services;
 
-import bioskopi.rs.domain.Projection;
-import bioskopi.rs.domain.Seat;
-import bioskopi.rs.domain.Ticket;
+import bioskopi.rs.domain.*;
 import bioskopi.rs.domain.util.ValidationException;
-import bioskopi.rs.repository.ProjectionRepository;
-import bioskopi.rs.repository.TicketRepository;
+import bioskopi.rs.repository.*;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -18,10 +15,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service("tickets")
 public class TicketServiceImpl implements TicketService{
@@ -32,19 +26,27 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     private ProjectionRepository projectionRepository;
 
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
 
+
+
     @Override
+    @Transactional
     public void add(Ticket ticket)
     {
-        entityManager.getTransaction().begin();
+
         try{
+            //ticketRepository.save(ticket);
             Projection p = entityManager.find(Projection.class, ticket.getProjection().getId(), LockModeType.PESSIMISTIC_WRITE);
-            p.getTickets().add(ticket);
-            entityManager.getTransaction().commit();
-            entityManager.close();
+            Set<Ticket> tickets = p.getTickets();
+            tickets.add(ticket);
+            p.setTickets(tickets);
+            entityManager.persist(p);
         }catch(LockTimeoutException e){
             throw new ValidationException("Seat you chosen is already taken, refresh page!");
         }
@@ -89,9 +91,19 @@ public class TicketServiceImpl implements TicketService{
 
     @Transactional
     @Override
-    public Boolean makeFastReservation(long id) {
+    public Boolean makeFastReservation(Ticket t) {
         try {
-            ticketRepository.makeFastReservation(id);
+            long id = t.getOwner().getId();
+            RegisteredUser u = registeredUserRepository.findById(id).get();
+            t.setOwner(u);
+
+            Ticket oldT = ticketRepository.findById(t.getId()).get();
+            //oldT.setOwner(u);
+            t.setProjection(oldT.getProjection());
+
+            t.setTaken(true);
+
+            ticketRepository.save(t);
             return true;
         }
         catch (StaleObjectStateException |OptimisticLockException | ObjectOptimisticLockingFailureException e){

@@ -220,9 +220,9 @@ public class AdServiceImpl implements AdService {
             if(bid.getUser().getId() == temp.getOwner().getId()){
                 throw new ValidationException("You can not add offer to your ad");
             }
-            if(bid.getAd().getVersion() < temp.getVersion()){
+            /*if(bid.getAd().getVersion() < temp.getVersion()){
                 throw new ValidationException("Data are stale");
-            }
+            }*/
             boolean exist = false;
             for (Bid b :
                     temp.getBids()) {

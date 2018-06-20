@@ -40,7 +40,7 @@ public interface TicketService {
      * @param id of bla bla bla
      * @return bla x4
      */
-    Boolean makeFastReservation(long id);
+    Boolean makeFastReservation(Ticket t);
 
     /***
      *

@@ -16,6 +16,9 @@
 
         $scope.userFeedback = [];
 
+        $scope.projDateString = {};
+        $scope.projTimeString = {};
+
         $scope.projRate = {};
         $scope.showButton = {};
         $scope.showRate = {};
@@ -37,6 +40,10 @@
                 for (let i = 0; i < $scope.projections.length; i++) {
                     //$scope.forms[$scope.repertoire[i].id] = true;
                     $scope.showButton[$scope.projections[i].id] = true;
+                    var dateTokens = $scope.projections[i].date.split("T");
+                    
+                    $scope.projDateString[$scope.projections[i].id] = dateTokens[0] ;
+                    $scope.projTimeString[$scope.projections[i].id] = dateTokens[1]
 
                     if($scope.userFeedback.includes( $scope.projections[i] ))
                         $scope.projRate[$scope.projections[i].id] = "Not rated";

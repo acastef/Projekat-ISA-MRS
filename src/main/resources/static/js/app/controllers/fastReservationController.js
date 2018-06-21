@@ -184,6 +184,7 @@
             ticket.owner.id = 9999;
             ticket.discount = parseInt($scope.newDiscount);
             ticket.projection = $scope.currentProjection;
+            $scope.projectionIds[ticket.id] = $scope.currentProjection;
             ticket.seat = $scope.selectedSeat;
 
 

@@ -1,29 +1,33 @@
 <div ng-controller="usersProjectionsController">
 
-    <table border="1">
+    <h2 ng-show="projections.length == 0">You still did not visit us</h2>
+    <table ng-show="projections.length != 0" border="1" class="table table-hover table-dark"
+    style="margin-top: 20px; margin-left: 120px;  width: 80%;" >
         <tbody>
-        <tr>
+        <tr class="bg-primary">
             <td>Projection name</td>
-            <td>Viewing room</td>
+            <td class="bg-info">Viewing room</td>
             <td>Date</td>
+            <td class="bg-info">Time</td>
             <td>Rate</td>
-            <td>Your rating</td>
+            <td class="bg-info">Your rating</td>
         </tr>
-        <tr ng-repeat="proj in projections">
+        <tr class="bg-primary" ng-repeat="proj in projections">
             <td>{{proj.name}}</td>
-            <td>{{proj.viewingRoom.id}}</td>
-            <td>{{proj.date}}</td>
+            <td class="bg-info">{{proj.viewingRoom.id}}</td>
+            <td>{{projDateString[proj.id]}}</td>
+            <td class="bg-info">{{projTimeString[proj.id]}}</td>
             <td ><button ng-show= "showButton[proj.id]" ng-click="showRateForm(proj)">Rate</button></td>
-            <td ><label  ng-show="showRate[proj.id]"></label>{{projRate[proj.id]}}</td>
+            <td class="bg-info"><label  ng-show="showRate[proj.id]"></label>{{projRate[proj.id]}}</td>
         </tr>
         </tbody>
     </table>
 
 
-    <form ng-hide="hideRateForm" ng-submit="rateProjection()">
-        <label>Enter your rate (1-5): </label>
+    <form style= "margin-left: 50px" ng-hide="hideRateForm" ng-submit="rateProjection()">
+        <label><b>Enter your rate (1-5): </b></label>
         <input type="text" ng-model="newScore"><br>
-        <label>Describe your experience: </label>
+        <label><b>Describe your experience: </b></label>
         <input type="text" ng-model="newScoreDescp"><br>
         <button type="submit">Send your rate</button>
     </form>

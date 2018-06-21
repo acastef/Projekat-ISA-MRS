@@ -18,7 +18,7 @@
 
         $scope.projections = [];
         $scope.avgScores = {};
-        $scope.facilityScore = 0;
+        $scope.facilityScore = "Not rated";
 
         $scope.weeklyVisitsX = [];
         $scope.weeklyVisitsData = [];

@@ -24,6 +24,7 @@
         $scope.LogInVis = true;
         $scope.SingUpVis = true;
         $scope.LogOutVis = true;
+        $scope.userId = 0;
 
         $scope.userType = "";
 
@@ -37,6 +38,7 @@
             ];
             homeService.getLogged().success(function(data, status) {
                 $scope.logged = data;
+                $scope.userId = $scope.logged.id;
                 $scope.userType = $scope.logged.authorities;
                 if ($scope.userType == "SYS") {
                     $scope.propsVis = false;

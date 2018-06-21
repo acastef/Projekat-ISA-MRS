@@ -33,9 +33,13 @@
                                 <p class="text-white bg-dark"> Address: {{fac.address}}</p>
 
                                 <!-- <p>    Number of viewing rooms: {{fac.viewingRooms.length}}</p> -->
-                                <a ng-show="showRepertorire" class="text-white bg-dark" ng-href="#repertoire/{{fac.id}}">    Repertoire</a><br><br>
+                                <a ng-show="showRepertorire" class="text-white bg-dark" ng-href="#repertoire/{{fac.id}}">  Show repertoire</a><br><br>
 
                                 <a ng-show="showReport" class="text-white bg-dark" ng-href="#report/{{fac.id}}">        Show report</a><br><br>
+
+                                <a ng-show="showFTickets" class="text-white bg-dark" href="#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
+                                <a ng-show="showConfgSeats" class="text-white bg-dark" href="#viewingRooms/{{fac.id}}">Configure seats</a>
+
 
                                 <button ng-show="showRate" class="btn btn-small btn-primary" ng-click="showChangeRate(fac.id)">Rate facility</button>
                                 <br><br>
@@ -67,9 +71,7 @@
 
                                 </form>
 
-                                <a ng-show="showFTickets" class="text-white bg-dark" href="#fastTickets/{{fac.id}}">Modify fast reservation tickets</a><br><br>
-                                <a ng-show="showConfgSeats" class="text-white bg-dark" href="#viewingRooms/{{fac.id}}">Configure seats</a>
-
+                                
                             </div>
 
                             <div class="col-md-5">

@@ -66,7 +66,7 @@
                     $scope.showFTDiv = false;
                     $scope.showConfgSeats = true;
                     $scope.showFTickets = true;
-                    $scope.showChange = false;
+                    $scope.showChange = true;
                     $scope.showRate = false;
                     $scope.showReport = true;
                     $scope.showRepertorire = true;

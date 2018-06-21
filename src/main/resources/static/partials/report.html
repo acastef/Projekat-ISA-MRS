@@ -13,7 +13,7 @@
             <tbody>
                 <tr class="bg-primary">
                     <td >Name of projection</td>
-                    <td class="bg-info">Date of projection</td>
+                    <td class="bg-info">Date and time of projection</td>
                     <td>Price</td>
                     <td class="bg-info">Average score</td>
                 </tr>
@@ -80,7 +80,7 @@
             <button ng-show="showEarningsButton" ng-click="getPricePerPeriod()">Show price report</button>
     
             <div ng-show = "Earnings">
-                <p></p>Earnings between {{date1}} and {{date2}}</p>
+                <p></p>Earnings between {{date1 | date :  "dd.MM.yyyy" }} and {{date2| date :  "dd.MM.yyyy" }}</p>
                 <p>{{totalEarnings}}</p>
             </div>
            
